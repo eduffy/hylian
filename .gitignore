@@ -1,0 +1,8 @@
+# vim:syn=sh
+# vim swap files
+.*.sw[a-z]
+
+# waf temp files
+.waf-*
+.lock-*
+build
