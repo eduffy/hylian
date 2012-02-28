@@ -1,0 +1,12 @@
+#!/bin/bash -x
+export CC=$(which clang 2>/dev/null)
+export CXX=$(which clang++ 2>/dev/null)
+if [[ -z ${CC} ]]; then
+  export -n CC
+  export -n CXX
+fi
+
+#./waf --check-c-compiler="clang $CC gcc" --check-cxx-compiler="clangxx $CXX g++" configure $*
+
+./waf configure $*
+#./waf --verbose configure $*
