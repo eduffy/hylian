@@ -128,6 +128,7 @@ void HylianASG::AddFunctionDecl(const clang::FunctionDecl *decl, clang::Decl *pa
       if(decl->hasBody()) {
          clang::Stmt *statement = decl->getBody();
          for(clang::Stmt::const_child_iterator s = statement->child_begin(); s != statement->child_end(); ++s) {
+            HandleStatement(*s);
             std::cout << "\t" << (*s)->getStmtClassName() << std::endl;
          }
       }

@@ -13,6 +13,9 @@ class HylianASG
 public:
    HylianASG();
    ~HylianASG();
+   void HandleStatement(const clang::Stmt *stmt);
+   void HandleExpression(const clang::Expr *expr);
+
 
    // Declarations
    void AddPrettyStackTraceDecl(const clang::PrettyStackTraceDecl *decl, clang::Decl *parent);
