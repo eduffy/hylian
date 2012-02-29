@@ -53,7 +53,7 @@ def configure(conf):
 
   conf.check(header_name='sqlite3.h')
   conf.check(header_name='sqlite3ext.h', mandatory=False)
-  conf.check(lib='sqlite3', uselib_store='sqlite')
+  conf.check(lib='sqlite3', uselib_store='sqlite3')
 
   #print conf.env.table
 
