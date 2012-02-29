@@ -6,11 +6,8 @@
 #include <clang/Basic/TargetInfo.h>
 #include <clang/Frontend/DiagnosticOptions.h>
 #include <clang/Frontend/CompilerInstance.h>
-#include <clang/Frontend/ASTUnit.h>
 #include <clang/Lex/Preprocessor.h>
 #include <clang/Lex/HeaderSearch.h>
-#include <clang/Index/Program.h>
-#include <clang/Index/Indexer.h>
 #include <clang/Parse/ParseAST.h>
 #include "HylianASTConsumer.h"
 
@@ -40,8 +37,6 @@ int main(int argc, char *argv[])
 
    compiler.createFileManager();
    compiler.createSourceManager(compiler.getFileManager());
-//   clang::HeaderSearch headerSearch(compiler.getFileManager());
-
 
    // Set up header file search path.
    // 1. Standard C header files
@@ -73,6 +68,5 @@ int main(int argc, char *argv[])
    compiler.InitializeSourceManager(inputFilenames[0]);
    ParseAST(pp, &compiler.getASTConsumer(), compiler.getASTContext());
    
-
    return EXIT_SUCCESS;
 }
