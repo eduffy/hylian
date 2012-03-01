@@ -37,7 +37,7 @@ def configure(conf):
   check_machine(conf)
   conf.load('tex')
 
-  conf.check_cfg(path='llvm-config', args='--cxxflags --ldflags',
+  conf.check_cfg(path='llvm-config', args='--cxxflags --ldflags --libs',
     package='', uselib_store='LLVM')
   conf.check(lib='clang', uselib_store='clang', uselib='LLVM')
   conf.check(lib='clangIndex', uselib_store='clang', uselib='LLVM')
