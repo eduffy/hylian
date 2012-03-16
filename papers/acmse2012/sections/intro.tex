@@ -1,0 +1,83 @@
+
+
+The software maintenance process, including comprehension, modification,
+and refactoring of complex multi-par\-a\-digm systems, requires 
+extensive and detailed information about the system under study.
+However, software artifacts that provide this information are
+frequently unavailable and for large, open-source applications,
+they are virtually nonexistent.
+Thus, much of the research in software maintenance has focused 
+on the development of inquiry and analysis tools to automate the
+process of generating information to improve comprehension, and to 
+facilitate analysis, modification and testing of the application under 
+study.
+
+However, the {\CPP} language has proven to be particularly problematic 
+for maintenance engineers interested in developing tools to facilitate
+analysis and modification of {\CPP} applications.
+The difficulty in developing tools for {\CPP} is mostly 
+due to the scope and complexity of the language; for example,
+the grammatical representation of {\CPP} has been shown to be  
+larger and more complex than other, commonly used
+languages \cite{Power-Malloy:04}.
+A particularly perplexing problem for {\CPP} maintenance engineers
+ entails the correct recognition of the language constructs
+as specified in the ISO standard, for example class template partial
+specializations and argument-dependent lookup \cite[\S A.8]{C++standard98}.
+Moreover, statement-level information,
+which is required for pointer analysis and program 
+slicing \cite{binkley2006,gallagher2003,Harrold1996MAY,Weiser84},
+relies on the correct recognition of expressions such
+as {\em expression}, {\em postfix-expression},
+and {\em unary-expression} \cite[\S A.4]{C++standard98}.
+
+Nevertheless, the {\CPP} language is frequently used and recently
+has been shown to outperform other, commonly used, languages
+by a large margin \cite{preez2011}.
+Therefore, to support software maintenance and other software
+engineering efforts for the {\CPP} language, it's important to
+develop analysis tools for the language.
+Several research projects have attempted to address the problem
+of providing analysis of {\CPP} language constructs, including
+Elkhound, {\sf SourceNavigator}\texttrademark, {\sf Columbus},
+{\gfourre}, and libclang 
+\cite{elsa2007,sourcenav,columbus2005,kraft05-wcre,kraft06-ist,www-libclang}.
+However, due to the difficulties in parsing the {\CPP} language,
+these projects are unable to provide statement level analysis.
+Therefore, they are unable to regenerate the source code, which
+precludes dynamic analysis, and they cannot provide details
+about statements and expressions, which precludes analysis such
+as pointer alias and slicing.
+
+In this paper, we describe our extension of a system, Hylian,
+which utilizes the {\em gcc} parser to provide statement level
+analysis of {\CPP} programs. The initial phases of Hylian were 
+described in references 
+\cite{duffy05-sera,duffy-wcre07,Duffy-Malloy:2007,Duffy-etal:2008,IJSEKE}.
+In this paper, we describe our construction of an abstract semantic 
+graph (ASG), that is {\em language-complete}, which is a semantic graph
+that includes all aspects defined in the language standard.
+Our focus is an ASG that is language-complete
+for the 2003 revised ISO {\CPP} language standard; our current
+implementation does not include the {\CPP}11 standard, recently
+ratified \cite{isocpp-11}.
+A semantic graph that completely defines {\CPP} must include:
+evaluation and lookup
+of constants, full type resolution for names, determination of
+type equivalency and type promotion, full and partial template
+instantiation, operator overload resolution, function and method
+resolution including argument dependent name lookup, implicit
+method invocation commonly used in class construction and destruction.
+The current implementation of Hylian provides information about
+all of these constructs.
+
+In the next section, we review projects that relate to
+our work, and in Section \ref{sec:overview} we provide an overview 
+of the three phases of Hylian. In Section \ref{sec:method} we 
+provide details about construction of the Hylian ASG, and
+in Section \ref{sec:results} we list statistics that 
+summarize efficiency considerations for ASG construction, including 
+some size results for an ASG for a popular video game. 
+In Section \ref{sec:conclude} we draw conclusions.
+
+

@@ -1,0 +1,55 @@
+
+
+
+
+In this section we provide some interesting results for ASGs that 
+we have built using Hylian.
+Table \ref{tab:asgstats} summarizes these results for three
+programs in our test suite: a {\sf Hello World} program written in
+C and {\CPP}, and {\sf AlephOne}, a rather large
+video game translated into {\CPP} that uses the
+Simple Direct Media Layer (SDL) API, as well as the Lua
+embedded scripting engine.
+There are two sections of data in the table: the top section 
+that summarizes results for the construction of {\sf Parse Trees}, 
+and the bottom section that summarizes results for the construction
+of ASGs. We are comparing parse trees and ASGs in the top and bottom
+sections to show the reduction in the size of ASGs compared to parse
+trees, and the reduction in size when the ASGs for each compilation 
+unit in a program are {\em linked}, or merged,
+into a single ASG for the entire program.
+
+
+To evaluate the results, we first consider the data
+for the three ``Hello World'' programs.
+The first column in the table describes the information in the particular
+row of the table, and the next three columns represent information
+for the ``Hello World'' programs written in C and {\CPP}.
+Our first result shows that both the C and {\CPP}
+versions of ``Hello World'' consist of a single {\sf Compilation Unit},
+as shown by the first row of data in the table for columns two, three
+and four; however, the {\sf No. System Terminals} in the C version has
+2,930 terminals in the parse trees, but the {\CPP} versions have 132,122
+terminals in their parse trees, so that the {\CPP} version has almost
+two orders of magnitude more terminals than the C version. This
+differential is caused by the inclusion of {\sf iostream} and much
+of the {\CPP} library in the {\CPP} version of ``Hello World.''
+Also, the {\sf No. System Terminals} in the {\sf AlephOne} program
+is 30,339,853 (first row, last column of the table), 
+illustrating the large number of system terminals
+needed for a standard video game. The remaining rows at the top
+of the Table \ref{tab:asgstats} reflect similar comparisons.
+
+The bottom section of Table \ref{tab:asgstats} summarizes results
+for the ASGs that Hylian builds. The second and third columns in
+the bottom section compare the ASG for a full parse of a C and
+a {\CPP} ``Hello World'' program. For example, the third row of
+the bottom section of the table shows that there are 984 vertices
+in the C version, and 21,861 vertices in the {\CPP} version, an
+order of magnitude increase. Since there is only one compilation
+unit in each ``Hello World'' program, there are is only one ASG
+and therefore no vertices are linked; thus, the second and fourth
+rows in the bottom section of the table do not list any values
+for {\sf No. Vertices (linked)} or {\sf No. Edges (linked)}.
+
+

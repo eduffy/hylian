@@ -1,0 +1,23 @@
+
+
+In this paper, we describe a system, Hylian, for construction
+of a language-complete
+abstract semantic graph that can be used for statement-level
+analysis, both static and dynamic, of a {\CPP} application.
+We begin by extending the GNU $gcc$ parser to generate parse 
+trees in XML format for each of the compilation units in a {\CPP} 
+application.  We then provide verification that the generated parse 
+trees are structurally equivalent to the code in the original {\CPP} 
+application.
+We use the generated parse trees, together with an augmented version of
+the {\em gcc} test suite,
+to recover a grammar for the {\CPP} dialect that we parse.
+%We use the recovered grammar to generate a schema for
+%further verification of the parse trees and evaluate the coverage 
+%provided by our {\CPP} test suite.
+We then construct the Abstract Semantic Graph, ASG, by extending the 
+parse tree for each compilation unit with semantic 
+information derived from the parse trees and guided by the {\CPP} 
+language standard.
+Finally, we link the ASGs for all of the compilation units into a 
+unified ASG for the entire application under study. 

@@ -1,0 +1,173 @@
+% THIS IS SIGPROC-SP.TEX - VERSION 3.1
+% WORKS WITH V3.2SP OF ACM_PROC_ARTICLE-SP.CLS
+% APRIL 2009
+%
+% It is an example file showing how to use the 'acm_proc_article-sp.cls' V3.2SP
+% LaTeX2e document class file for Conference Proceedings submissions.
+% ----------------------------------------------------------------------------------------------------------------
+% This .tex file (and associated .cls V3.2SP) *DOES NOT* produce:
+%       1) The Permission Statement
+%       2) The Conference (location) Info information
+%       3) The Copyright Line with ACM data
+%       4) Page numbering
+% ---------------------------------------------------------------------------------------------------------------
+% It is an example which *does* use the .bib file (from which the .bbl file
+% is produced).
+% REMEMBER HOWEVER: After having produced the .bbl file,
+% and prior to final submission,
+% you need to 'insert'  your .bbl file into your source .tex file so as to provide
+% ONE 'self-contained' source file.
+%
+% Questions regarding SIGS should be sent to
+% Adrienne Griscti ---> griscti@acm.org
+%
+% Questions/suggestions regarding the guidelines, .tex and .cls files, etc. to
+% Gerald Murray ---> murray@hq.acm.org
+%
+% For tracking purposes - this is V3.1SP - APRIL 2009
+
+
+\documentclass{acm_proc_article-sp}
+
+\usepackage{comment}
+
+% the natbib package allows both number and author-year (Harvard)
+% style referencing;
+%\usepackage{natbib}
+%\usepackage{fancyhdr}
+\usepackage[all]{xy}
+\usepackage{rotating}
+\usepackage{alltt}
+%\usepackage{keywords}
+\usepackage{keyval}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+%\usepackage{ifthen}
+%\usepackage{lstmisc}
+\usepackage{programs}
+\usepackage{afterpage}
+\usepackage{multirow}
+\usepackage{array}
+
+% if you use PostScript figures in your article
+% use the graphics package for simple commands
+ \usepackage{graphics}
+% or use the graphicx package for more complicated commands
+ \usepackage{graphicx}
+% or use the epsfig package if you prefer to use the old commands
+ %\usepackage{epsfig}
+
+% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+
+\def\CPP{C\raise.22ex\hbox{{\footnotesize +}}\raise.22ex\hbox{\footnotesize +}}
+\def\BCPP{C\raise.22ex\hbox{{\footnotesize +}}\raise.22ex\hbox{\footnotesize +}}
+\def\figline{\rule{\textwidth}{0.3mm}}
+\def\shortline{\hrulefill}
+\def\TURN#1{{\rotatebox{90}{~#1}}}
+
+
+
+\begin{document}
+
+\input{macros}
+
+\title{Design and Implementation of a \\
+Language-Complete {\CPP} Semantic Graph
+\permission{Permission to make digital or hard copies of all or part 
+of this work for personal or classroom use is granted without fee 
+provided that copies are not made or distributed for profit or commercial 
+advantage and that copies bear this notice and the full citation on the 
+first page. To copy otherwise, or republish, to post on servers or to 
+redistribute to lists, requires prior specific permission and/or a fee.
+ACMSE'12, March 29–31, 2012, Tuscaloosa, AL, USA.
+Copyright 2012 ACM 978-1-4503-1203-5/12/03...\$10.00.}
+}
+
+\numberofauthors{1} 
+\author{
+\alignauthor
+Edward B. Duffy and Brian A. Malloy \\
+       \affaddr{School of Computing}\\
+       \affaddr{Clemson University}\\
+       \affaddr{Clemson, SC 29634, USA}\\
+       \email{\{eduffy,malloy\}@cs.clemson.edu}
+}
+
+
+\maketitle
+%------------------------------------------------------------------------- 
+% take the % away on next line to produce the final camera-ready version 
+\thispagestyle{empty}
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/intro}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related}
+
+\section{Overview of The System}
+\label{sec:overview}
+\input{sections/overview}
+
+\section{Construction of the ASG}
+\label{sec:method}
+\input{sections/method}
+
+{\protect
+\begin{table}[th]
+\footnotesize
+\centering
+\begin{tabular}{|l|r|r|r|}
+\hline
+ \multicolumn{1}{|}{\bf Graph} &
+ \multicolumn{2}{|c|}{\bf Hello World} & 
+ \multicolumn{1}{c|}{\bf Game}\\
+ & {\bf C} & \textbf{{\CPP}} &  {\bf AlephOne} \\
+\hline
+\textbf{Parse Trees} & & & \\
+No. Compilation Units & 1 & 1 & 176 \\
+No. System Terminal & 2,930 & 132,122 & 30,339,853 \\
+No. User Terminal & 13 & 16 & 3,441,975 \\
+No. Total Terminal & 2,943 & 132,138 & 33,781,828 \\
+No. Non-Terminals & 13,404 & 518,788 & 128,818,128 \\
+%Max Branch Length   & 223 & 374 & 3,671 \\
+%Avg. Branch Length  & 123.47 & 215.33 & 652.71 \\
+\hline
+\textbf{ASG} & &  & \\
+No. Vertices & 984 & 21,861 & 1,914,869 \\
+No. Vertices (linked) & & & 478,642 \\
+No. Edges & 2,098 & 45,444 & 3,632,959 \\
+No. Edges (linked) & & & 1,003,413 \\
+No. Statements & 137 & 2,263 & 1,512,638 \\
+No. Statements (linked) & & & 115,534 \\
+\hline
+\end{tabular}
+\caption {Statistical results For Hylian}
+\label{tab:asgstats}
+%\shortline
+\shortline
+\end{table}
+
+\newpage
+\section{Results}
+\label{sec:results}
+\input{sections/results}
+
+\section{Conluding Remarks}
+\label{sec:conclude}
+\input{sections/conclude}
+
+
+\bibliographystyle{abbrv}
+\bibliography{bib/paper}
+
+\end{document}
+

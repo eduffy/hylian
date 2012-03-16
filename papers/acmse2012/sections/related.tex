@@ -1,0 +1,94 @@
+
+In this section, we review the research that facilitates static or 
+dynamic analysis of {\CPP} language constructs, from high level
+constructs such as classes and class hierarchies, to low level
+constructs, such as statements or expressions.
+Statement and expression analysis requires a parser front-end that
+is language complete for the ISO standard, and can syntactically
+and semantically represent all constructs in the language. 
+%In the case of the {\CPP} language, these constructs include
+%full type resolution for names, determination of
+%type equivalency and type promotion, full and partial template
+%instantiation, operator overload resolution, function and method
+%resolution including argument dependent name lookup, and implicit
+%method invocation commonly used in class construction and destruction.
+
+We only review the work with a focus on analysis of {\CPP}
+programs, and that make this analysis information available to
+a developer, typically in graph form.
+For example, Elkhound is a parser generator that uses the Generalized 
+LR (GLR) parsing algorithm \cite{elsa2007,tomita85,vandenbrand98}.
+The Elkhound parser, Elsa, attempts to accommodate several dialects 
+of {\CPP} including {\em gcc} and Visual {\CPP} \cite{elsa2007}.
+Elsa can accommodate most of the {\CPP} grammar,
+but does not fully accommodate either dialect.
+For example, only 89\% of the test cases in the {\em gcc} test suite, 
+were parsed by Elsa. However, for {\Fluxbox}, a lightweight
+window manager for X, only 32 of the 74 translation units were 
+parsed by Elsa \cite{www-fluxbox}.  Also, the Elsa project has 
+not been recently updated \cite{elsa2007}.
+By contrast, Hylian can parse all test cases in the {\em gcc} test
+suite and we have been able to provide analysis of the {\Fluxbox}
+application \cite{kraft-tse}. 
+To make the analysis information available, Hylian
+builds an abstract semantic graph (ASG) with subgraphs for all
+{\CPP} language constructs, including instantiation of templates.
+
+{\sf SourceNavigator}\texttrademark is an analysis and graphical 
+framework from Red Hat \cite{sourcenav}. SourceNavigator 
+accepts C, {\CPP}, Java, Tcl, FORTRAN, and COBOL, and the 
+accompanying fuzzy parser extracts enough high level information to 
+provide class hierarchies, imprecise call graphs, and include graphs.
+However, since {\sf SourceNavigator} employs a fuzzy parse, it
+does not provide statement level information.
+
+{\sf Columbus} is an integrated reverse engineering framework 
+supporting fact extraction, linking, and analysis for C and {\CPP} 
+programs \cite{columbus2005}. 
+{\sf Columbus} provides output in a variety of formats, including
+{CPPML} (OCaml-like pattern-matching extensions for {\CPP}),
+{GXL} (a schema for storing graphs in XML), {RSF} (a reverse-engineering
+tool that supports source code transformations for {\CPP} applications),
+and {XMI} (an Object Manager Group metadata standard for XML).
+Nevertheless, {\sf Columbus} is unable to fully accept templates,
+as noted in reference \cite{tuanalyzer04}.
+
+
+The {\gfourre} system, like Hylian, uses {\em gcc} as its parser
+front-end. {\gfourre} is designed as a tool chain, and consists 
+of applications and libraries that can be used either individually 
+or as a single unit \cite{kraft05-wcre,kraft06-ist}.
+The implementation of {\gfourre} uses  a GXL-based pipe-filter 
+architecture, including a set of loosely coupled, reusable 
+modules including an {\em ASG module}.
+Advantages of {\gfourre} include an API to provide easy access to
+information about declarations, including classes, functions,
+and variables, as well as information about scopes, types, and
+control statements. 
+However, {\gfourre} is not code-complete, so that 
+the original source code cannot be regenerated from
+the {\em ASG module}. 
+Thus, the {\gfourre} system is limited to static analysis of
+type information and cannot provide information about statements
+or expressions.
+
+An alternative, open source library for parsing {\CPP} language
+constructs includes clang \cite{www-clang}, and its C interface, 
+libclang \cite{www-libclang};
+Thus, clang is the parser front-end used by libclang; 
+the goal of libclang is to facilitate IDE development,
+most notably, Apple's XCode.  The libclang API can
+track variable declarations, provide syntax highlighting, code 
+completion, symbol renaming, and cross-referencing, including 
+references to global variables across compilation units. 
+However, even though information about statements is complete in
+clang, libclang does not present all of this information
+to clients of the API.
+However, like libclang and {\em gcc}, this information is not 
+readily available, so that an interested developer
+must investigate clang internals, whose documentation exists in 
+the form of source code comments and developer mailing lists.
+Thus, the complete information about statements known to clang
+is not accessible to a libclang user, either in graph form, or as
+an easily accessible API.
+
