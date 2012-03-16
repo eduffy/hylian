@@ -39,17 +39,17 @@ def configure(conf):
 
   conf.check_cfg(path='llvm-config', args='--cxxflags --ldflags --libs',
     package='', uselib_store='LLVM')
-  conf.check(lib='clang', uselib_store='clang', uselib='LLVM')
-  conf.check(lib='clangIndex', uselib_store='clang', uselib='LLVM')
-  conf.check(lib='clangFrontend', uselib_store='clang', uselib='LLVM')
-  conf.check(lib='clangSerialization', uselib_store='clang', uselib='LLVM')
-  conf.check(lib='clangLex', uselib_store='clang', uselib='LLVM')
-  conf.check(lib='clangDriver', uselib_store='clang', uselib='LLVM')
-  conf.check(lib='clangParse', uselib_store='clang', uselib='LLVM')
-  conf.check(lib='clangSema', uselib_store='clang', uselib='LLVM')
-  conf.check(lib='clangBasic', uselib_store='clang', uselib='LLVM')
-  conf.check(lib='clangAnalysis', uselib_store='clang', uselib='LLVM')
-  conf.check(lib='clangAST', uselib_store='clang', uselib='LLVM')
+  conf.check(lib='clang', uselib_store='libclang', uselib='LLVM')
+  conf.check(lib='clangIndex', uselib_store='clang', uselib='LLVM libclang')
+  conf.check(lib='clangFrontend', uselib_store='clang', uselib='LLVM libclang')
+  conf.check(lib='clangSerialization', uselib_store='clang', uselib='LLVM libclang')
+  conf.check(lib='clangLex', uselib_store='clang', uselib='LLVM libclang')
+  conf.check(lib='clangDriver', uselib_store='clang', uselib='LLVM libclang')
+  conf.check(lib='clangParse', uselib_store='clang', uselib='LLVM libclang')
+  conf.check(lib='clangSema', uselib_store='clang', uselib='LLVM libclang')
+  conf.check(lib='clangBasic', uselib_store='clang', uselib='LLVM libclang')
+  conf.check(lib='clangAnalysis', uselib_store='clang', uselib='LLVM libclang')
+  conf.check(lib='clangAST', uselib_store='clang', uselib='LLVM libclang')
 
   conf.check(header_name='sqlite3.h')
   conf.check(header_name='sqlite3ext.h', mandatory=False)
@@ -63,7 +63,12 @@ def build(bld):
   bld.program(
      source   = glob('src/*.cpp'),
      target   = 'hylian-c++',
-     use      = 'LLVM clang sqlite3')
+     use      = 'LLVM libclang clang sqlite3')
+
+  bld.program(
+     source   = 'experimental/libclang/main.cpp',
+     target   = 'libclangc-hylian',
+     use      = 'LLVM libclang')
 
   bld.install_files('${PREFIX}/bin', 'hylian-c++')
 
