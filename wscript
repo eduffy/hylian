@@ -37,19 +37,20 @@ def configure(conf):
   check_machine(conf)
   conf.load('tex')
 
-  conf.check_cfg(path='llvm-config', args='--cxxflags --ldflags --libs',
-    package='', uselib_store='LLVM')
-  conf.check(lib='clang', uselib_store='libclang', uselib='LLVM')
-  conf.check(lib='clangIndex', uselib_store='clang', uselib='LLVM libclang')
-  conf.check(lib='clangFrontend', uselib_store='clang', uselib='LLVM libclang')
-  conf.check(lib='clangSerialization', uselib_store='clang', uselib='LLVM libclang')
-  conf.check(lib='clangLex', uselib_store='clang', uselib='LLVM libclang')
-  conf.check(lib='clangDriver', uselib_store='clang', uselib='LLVM libclang')
-  conf.check(lib='clangParse', uselib_store='clang', uselib='LLVM libclang')
-  conf.check(lib='clangSema', uselib_store='clang', uselib='LLVM libclang')
-  conf.check(lib='clangBasic', uselib_store='clang', uselib='LLVM libclang')
-  conf.check(lib='clangAnalysis', uselib_store='clang', uselib='LLVM libclang')
-  conf.check(lib='clangAST', uselib_store='clang', uselib='LLVM libclang')
+  # llvm/libclang/clang checks
+  conf.check_cfg(path='llvm-config', package='', uselib_store='llvm',
+    args='--cxxflags --ldflags --libs')
+  conf.check(lib='clang',              uselib_store='libclang', uselib='llvm')
+  conf.check(lib='clangIndex',         uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangFrontend',      uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangSerialization', uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangLex',           uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangDriver',        uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangParse',         uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangSema',          uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangBasic',         uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangAnalysis',      uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangAST',           uselib_store='clang', uselib='llvm')
 
   conf.check(header_name='sqlite3.h')
   conf.check(header_name='sqlite3ext.h', mandatory=False)
@@ -60,16 +61,12 @@ def configure(conf):
 
 def build(bld):
 
-  bld.program(
-     source   = glob('src/*.cpp'),
-     target   = 'hylian-c++',
-     use      = 'LLVM libclang clang sqlite3')
-
-  bld.program(
-     source   = 'experimental/libclang/main.cpp',
-     target   = 'libclangc-hylian',
-     use      = 'LLVM libclang')
-
+  bld.program(source=glob('src/*.cpp'),
+     target='hylian-c++', use='llvm libclang clang sqlite3')
   bld.install_files('${PREFIX}/bin', 'hylian-c++')
+
+  bld.program(source='experimental/libclang/main.cpp',
+     target='libclangc-test', use='llvm libclang')
+
 
 
