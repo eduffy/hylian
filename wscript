@@ -70,5 +70,6 @@ def build(bld):
   bld.program(source='experimental/libclang/main.cpp',
      target='libclangc-test', use='llvm libclang', install_path=None)
 
-
+  bld.install_files('${PREFIX}/share/hylian', 'schemas/gxl-1.0.dtd')
+  bld.install_files('${PREFIX}/share/hylian', glob('schemas/*.gxl'))
 
