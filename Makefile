@@ -5,6 +5,9 @@ all:
 dist:
 	@./waf dist
 
+install:
+	@./waf install
+
 clean:
 	@./waf clean
 

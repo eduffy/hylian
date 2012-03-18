@@ -66,10 +66,9 @@ def build(bld):
 
   bld.program(source=glob('src/*.cpp'),
      target='hylian-c++', use='llvm libclang clang sqlite3')
-  bld.install_files('${PREFIX}/bin', 'hylian-c++')
 
   bld.program(source='experimental/libclang/main.cpp',
-     target='libclangc-test', use='llvm libclang')
+     target='libclangc-test', use='llvm libclang', install_path=None)
 
 
 
