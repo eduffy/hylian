@@ -28,6 +28,16 @@ def check_machine(conf):
   conf.env.DEFINES.append('GCC_MACHINE="%s"' % machine)
   conf.msg('Checking c++ machine', machine)
 
+def check_ld_library_path(conf):
+  conf.start_msg('Checking $LD_LIBRARY_PATH')
+  libdir = exec_cmd('llvm-config --libdir')
+  llp = os.environ.get('LD_LIBRARY_PATH','').split(':')
+  if libdir in llp:
+     conf.end_msg('yes')
+  else:
+     conf.end_msg('nope')
+     conf.fatal("Add the directory `%s' to your $LD_LIBRARY_PATH variable" % libdir)
+
 def configure(conf):
   conf.env.DEFINES = [ ]
   conf.msg('Setting prefix to', os.path.expanduser(conf.options.prefix))
@@ -40,6 +50,7 @@ def configure(conf):
   # llvm/libclang/clang checks
   conf.check_cfg(path='llvm-config', package='', uselib_store='llvm',
     args='--cxxflags --ldflags --libs')
+  check_ld_library_path(conf)
   conf.check(lib='clang',              uselib_store='libclang', uselib='llvm')
   conf.check(lib='clangIndex',         uselib_store='clang', uselib='llvm')
   conf.check(lib='clangFrontend',      uselib_store='clang', uselib='llvm')
