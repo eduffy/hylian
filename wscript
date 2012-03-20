@@ -70,6 +70,9 @@ def build(bld):
   bld.program(source='experimental/libclang/main.cpp',
      target='libclangc-test', use='llvm libclang', install_path=None)
 
+  bld.program(source=glob('experimental/callgraph/*.cpp'),
+     target='callgraph', use='llvm libclang clang', install_path=None)
+
   bld.install_files('${PREFIX}/share/hylian', 'schemas/gxl-1.0.dtd')
   bld.install_files('${PREFIX}/share/hylian', glob('schemas/*.gxl'))
 
