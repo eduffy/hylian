@@ -70,9 +70,6 @@ def configure(conf):
   conf.check(header_name='expat.h')
   conf.check(lib='expat', uselib_store='expat')
 
-  #print conf.env.table
-
-
 def build(bld):
 
   bld.program(source=glob('src/*.cpp'),
