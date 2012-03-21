@@ -1,22 +1,47 @@
 
+#include <string>
 #include <iostream>
+using  std::cout; using  std::endl;
 #include "HylianASTConsumer.h"
 
 // The following Visitor gives all namespace declarations.
 void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
 {
-   for(clang::DeclGroupRef::iterator i = declGroup.begin(); i != declGroup.end(); ++i)
+   for(clang::DeclGroupRef::iterator i = declGroup.begin(); 
+                                     i != declGroup.end(); 
+                                     ++i)
    {
       const clang::Decl *decl = clang::dyn_cast<clang::Decl>(*i);
       switch(decl->getKind()) {
-         case clang::Decl::Namespace:
-            break;
+
+         case clang::Decl::Namespace: {
+           const clang::NamespaceDecl *ns = 
+             clang::dyn_cast<const clang::NamespaceDecl>(decl);
+           const std::string name = ns->getQualifiedNameAsString();
+           if ( name != "std" ) {
+             cout << decl->getDeclKindName() 
+                  << ": "
+                  << ns->getQualifiedNameAsString() 
+                  << endl;
+           }
+           break;
+         }
 
          case clang::Decl::Function:
-            break;
-
          case clang::Decl::CXXMethod:
+         case clang::Decl::CXXConstructor:
+         case clang::Decl::CXXDestructor:
+         case clang::Decl::CXXConversion:
+         case clang::Decl::FunctionTemplate: {
+            const clang::FunctionDecl *fun = 
+              clang::dyn_cast<const clang::FunctionDecl>(decl);
+            cout << decl->getDeclKindName()
+                 << fun->getResultType().getAsString()
+                 << " "
+                 << fun->getQualifiedNameAsString()
+                 << std::endl;
             break;
+         }
 
          case clang::Decl::Var:
             break;
@@ -26,9 +51,6 @@ void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
 //         case clang::Decl::AnyFunction:
          case clang::Decl::AccessSpec:
          case clang::Decl::CXXRecord:
-         case clang::Decl::CXXConstructor:
-         case clang::Decl::CXXDestructor:
-         case clang::Decl::CXXConversion:
          case clang::Decl::LinkageSpec:
          case clang::Decl::UsingDirective:
          case clang::Decl::NamespaceAlias:
@@ -58,7 +80,6 @@ void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
          case clang::Decl::Block:
 //         case clang::Decl::Template:
 //         case clang::Decl::RedeclarableTemplate:
-         case clang::Decl::FunctionTemplate:
          case clang::Decl::TemplateTypeParm:
          case clang::Decl::ClassTemplate:
          case clang::Decl::FriendTemplate:
@@ -70,7 +91,8 @@ void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
          case clang::Decl::ClassScopeFunctionSpecialization:
 
          {
-            std::cerr << "Unknown declaration of type `" << decl->getDeclKindName()
+            std::cerr << "Unknown declaration of type `" 
+                      << decl->getDeclKindName()
                       << "' (" << decl->getKind() << ")." << std::endl;
          }
 

@@ -14,9 +14,10 @@ int main(int argc, char *argv[])
 {
    llvm::cl::SetVersionPrinter(NULL);
 
-   // Using LLVM's command parser throws a lot of backend/architecture options that
-   // we won't use.  But that'll help maintain command-line compatability, so we
-   // can be a drop-in replacement for g++ and clang++.
+   // Using LLVM's command parser throws a lot of backend/architecture 
+   // options that we won't use.  But the command line parser will help
+   // help maintain command-line compatability, so we can build a drop-in 
+   // replacement for g++ and clang++.
    llvm::cl::list<std::string> inputFilenames(llvm::cl::Positional, llvm::cl::desc("<C++ files>"));
    llvm::cl::ParseCommandLineOptions(argc, argv, "hylian-c++");
    
