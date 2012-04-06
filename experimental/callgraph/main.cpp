@@ -8,7 +8,7 @@
 #include <clang/Lex/Preprocessor.h>
 #include <clang/Lex/HeaderSearch.h>
 #include <clang/Parse/ParseAST.h>
-#include "HylianASTConsumer.h"
+#include "callgraph.h"
 
 int main(int argc, char *argv[])
 {
