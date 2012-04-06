@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 using  std::cout; using  std::endl;
-#include "HylianASTConsumer.h"
+#include "callgraph.h"
 
 // The following Visitor gives all namespace declarations.
 void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
