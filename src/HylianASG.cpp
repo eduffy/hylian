@@ -1,10 +1,56 @@
 
 #include <iostream>
+#include <string>
 #include "HylianASG.h"
+
+static const char *SQLITE_ERRORS_READABLE[] = {
+   "Successful result",
+/* beginning-of-error-codes */
+   "SQL error or missing database",
+   "Internal logic error in SQLite",
+   "Access permission denied",
+   "Callback routine requested an abort",
+   "The database file is locked",
+   "A table in the database is locked",
+   "A malloc() failed",
+   "Attempt to write a readonly database",
+   "Operation terminated by sqlite3_interrupt()",
+   "Some kind of disk I/O error occurred",
+   "The database disk image is malformed",
+   "Unknown opcode in sqlite3_file_control()",
+   "Insertion failed because database is full",
+   "Unable to open the database file",
+   "Database lock protocol error",
+   "Database is empty",
+   "The database schema changed",
+   "String or BLOB exceeds size limit",
+   "Abort due to constraint violation",
+   "Data type mismatch",
+   "Library used incorrectly",
+   "Uses OS features not supported on host",
+   "Authorization denied",
+   "Auxiliary database format error",
+   "2nd parameter to sqlite3_bind out of range",
+   "File opened that is not a database file",
+   /* 100 */ "sqlite3_step() has another row ready",
+   /* 101 */ "sqlite3_step() has finished executing"
+};
+
 
 HylianASG::HylianASG()
 {
-   int result = sqlite3_open("temp.db", &db);
+   int result;
+   sqlite3_stmt *stmt;
+   const char *tail;
+
+   unlink("temp.db");
+   result = sqlite3_open("temp.db", &db);
+   assert(result == SQLITE_OK);
+
+   std::string comm = "CREATE TABLE StringLiteral(ID INTEGER PRIMARY KEY, Value TEXT)";
+   result = sqlite3_prepare_v2(db, comm.c_str(), comm.size(), &stmt, &tail);
+   assert(result == SQLITE_OK);
+   result = sqlite3_step(stmt);
    assert(result == SQLITE_OK);
 }
 
@@ -13,6 +59,31 @@ HylianASG::~HylianASG()
 
 }
 
+void HylianASG::ExecSQL(std::string &sql)
+{
+   int result;
+   sqlite3_stmt *stmt;
+   const char *tail;
+
+   result = sqlite3_prepare_v2(db, sql.c_str(), sql.size(), &stmt, &tail);
+   if(result != SQLITE_OK) {
+      std::cerr << SQLITE_ERRORS_READABLE[result] << std::endl;
+      abort();
+   }
+   result = sqlite3_step(stmt);
+   if(result != SQLITE_OK) {
+      std::cerr << SQLITE_ERRORS_READABLE[result] << std::endl;
+      abort();
+   }
+}
+
+void HylianASG::CheckSQLResult(int result)
+{
+   if(result != SQLITE_OK) {
+      std::cerr << SQLITE_ERRORS_READABLE[result] << std::endl;
+      abort();
+   }
+}
 
 void HylianASG::HandleStatement(const clang::Stmt *stmt)
 {

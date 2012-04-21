@@ -312,5 +312,35 @@ void HylianASG::AddAtomicExpr(const clang::AtomicExpr *expr, clang::Decl *parent
 
 void HylianASG::AddStringLiteral(const clang::StringLiteral *expr, clang::Decl *parent)
 {
+   int           result;
+   sqlite3_stmt *stmt;
+   const char   *tail;
+   std::string   sql = "SELECT ID FROM StringLiteral WHERE Value=\"" + expr->getString().str() + "\"";
+   int           index = -1;
+
    std::cout << "\"" << expr->getString().str() << "\"" << std::endl;
+   std::cout << sql << std::endl;
+   result = sqlite3_prepare_v2(db, sql.c_str(), sql.size(), &stmt, &tail);
+   std::cout << "result: " << result << std::endl;
+   CheckSQLResult(result);
+   result = sqlite3_step(stmt);
+   std::cout << "result: " << result << std::endl;
+   if(result == SQLITE_DONE) {
+      /* No result.  Add it to the database */
+      sql = "INSERT INTO StringLiteral (Value) VALUES (\"" + expr->getString().str() + "\")";
+      std::cout << sql << std::endl;
+      result = sqlite3_prepare_v2(db, sql.c_str(), sql.size(), &stmt, &tail);
+      std::cout << "result: " << result << std::endl;
+      CheckSQLResult(result);
+      result = sqlite3_step(stmt);
+      std::cout << "result: " << result << std::endl;
+      index = sqlite3_last_insert_rowid(db);
+   }
+   else if(result == SQLITE_ROW) {
+      index = sqlite3_column_int(stmt, 0);
+   }
+   else {
+      CheckSQLResult(result);
+   }
+   std::cout << "INDEX: " << index;
 }

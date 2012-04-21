@@ -13,6 +13,10 @@ class HylianASG
 public:
    HylianASG();
    ~HylianASG();
+
+   void ExecSQL(std::string &sql);
+   void CheckSQLResult(int result);
+
    void HandleStatement(const clang::Stmt *stmt);
    void HandleExpression(const clang::Expr *expr);
    void LookupValueDecl(const clang::ValueDecl *decl);
