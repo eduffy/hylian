@@ -15,6 +15,7 @@ public:
    ~HylianASG();
    void HandleStatement(const clang::Stmt *stmt);
    void HandleExpression(const clang::Expr *expr);
+   void LookupValueDecl(const clang::ValueDecl *decl);
 
 
    // Declarations
@@ -92,6 +93,7 @@ public:
    void AddSEHTryStmt(const clang::SEHTryStmt *stmt, clang::Decl *parent);
 
    // Expressions
+   void HandleCXXOperatorCallExpr(const clang::CXXOperatorCallExpr *expr, std::string name);
    void AddCXXOperatorCallExpr(const clang::CXXOperatorCallExpr *expr, clang::Decl *parent);
    void AddCXXMemberCallExpr(const clang::CXXMemberCallExpr *expr, clang::Decl *parent);
    void AddCXXNamedCastExpr(const clang::CXXNamedCastExpr *expr, clang::Decl *parent);
@@ -160,6 +162,7 @@ public:
    void AddBlockDeclRefExpr(const clang::BlockDeclRefExpr *expr, clang::Decl *parent);
    void AddAsTypeExpr(const clang::AsTypeExpr *expr, clang::Decl *parent);
    void AddAtomicExpr(const clang::AtomicExpr *expr, clang::Decl *parent);
+   void AddStringLiteral(const clang::StringLiteral *expr, clang::Decl *parent);
 
 private:
    sqlite3 *db;
