@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include "HylianASG.h"
 
 void HylianASG::AddCXXCatchStmt(const clang::CXXCatchStmt *stmt, clang::Decl *parent)
@@ -75,6 +76,8 @@ void HylianASG::AddBreakStmt(const clang::BreakStmt *stmt, clang::Decl *parent)
 
 void HylianASG::AddReturnStmt(const clang::ReturnStmt *stmt, clang::Decl *parent)
 {
+   std::cout << "new Return Statement" << std::endl;
+   HandleExpression(stmt->getRetValue());
 }
 
 void HylianASG::AddAsmStmt(const clang::AsmStmt *stmt, clang::Decl *parent)
