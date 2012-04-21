@@ -1,4 +1,6 @@
 
+#include <unistd.h>
+#include <iostream>
 #include <llvm/Config/config.h>
 #include <llvm/Support/CrashRecoveryContext.h>
 #include <clang/Basic/Version.h>
@@ -10,6 +12,20 @@
 #include <clang/Parse/ParseAST.h>
 #include "HylianASTConsumer.h"
 
+std::string replaceExtension(std::string const& fn)
+{
+   std::string result(fn);
+
+   if(result.find_last_of("/") != std::string::npos) {
+      result.erase(0, 1 + result.find_last_of("/"));
+   }
+   if(result.substr(result.find_last_of(".")) == ".cpp") {
+      result.erase(result.find_last_of("."));
+   }
+   result.append(".db");
+   return result;
+}
+
 int main(int argc, char *argv[])
 {
    llvm::cl::SetVersionPrinter(NULL);
@@ -17,9 +33,30 @@ int main(int argc, char *argv[])
    // Using LLVM's command parser throws a lot of backend/architecture options that
    // we won't use.  But that'll help maintain command-line compatability, so we
    // can be a drop-in replacement for g++ and clang++.
+   llvm::cl::opt<std::string>  outputFilename("o", llvm::cl::desc("Output filename"), llvm::cl::value_desc(".db file"));
+   llvm::cl::opt<bool>         compileOnly("c", llvm::cl::desc("Compile only"), llvm::cl::value_desc(""));
    llvm::cl::list<std::string> inputFilenames(llvm::cl::Positional, llvm::cl::desc("<C++ files>"));
    llvm::cl::ParseCommandLineOptions(argc, argv, "hylian-c++");
    
+   if(outputFilename == "") {
+      if(inputFilenames.size() == 1) {
+         outputFilename = replaceExtension(inputFilenames[0]);
+      }
+      else {
+         outputFilename = "a.db";
+      }
+   }
+
+   if(access(outputFilename.c_str(), F_OK) == 0) {
+      unlink(outputFilename.c_str());
+   }
+   HylianASTConsumer *hylian = new HylianASTConsumer(outputFilename);
+
+   std::cout << "output: " << outputFilename << std::endl;
+   std::cout << "input: " << inputFilenames[0] << std::endl;
+   std::cout << "compiel only: " << compileOnly << std::endl;
+
+//abort();
    llvm::DisablePrettyStackTrace = false;
    llvm::CrashRecoveryContext::Enable();
 
@@ -61,7 +98,7 @@ int main(int argc, char *argv[])
    pp.getBuiltinInfo().InitializeBuiltins(pp.getIdentifierTable(), pp.getLangOptions());
 
    compiler.createASTContext();
-   compiler.setASTConsumer(new HylianASTConsumer());
+   compiler.setASTConsumer(hylian);
    compiler.createSema(clang::TU_Complete, NULL);
 
    compiler.InitializeSourceManager(inputFilenames[0]);

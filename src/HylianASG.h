@@ -11,7 +11,7 @@
 class HylianASG
 {
 public:
-   HylianASG();
+   HylianASG(std::string const& fn);
    ~HylianASG();
 
    void ExecSQL(std::string &sql);

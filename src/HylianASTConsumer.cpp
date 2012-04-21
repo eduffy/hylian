@@ -2,6 +2,11 @@
 #include <iostream>
 #include "HylianASTConsumer.h"
 
+HylianASTConsumer::HylianASTConsumer(std::string const& fn)
+   : asg(fn)
+{
+}
+
 void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
 {
    for(clang::DeclGroupRef::iterator i = declGroup.begin(); i != declGroup.end(); ++i)

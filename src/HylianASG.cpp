@@ -37,14 +37,13 @@ static const char *SQLITE_ERRORS_READABLE[] = {
 };
 
 
-HylianASG::HylianASG()
+HylianASG::HylianASG(std::string const& fn)
 {
    int result;
    sqlite3_stmt *stmt;
    const char *tail;
 
-   unlink("temp.db");
-   result = sqlite3_open("temp.db", &db);
+   result = sqlite3_open(fn.c_str(), &db);
    assert(result == SQLITE_OK);
 
    std::string comm = "CREATE TABLE StringLiteral(ID INTEGER PRIMARY KEY, Value TEXT)";
