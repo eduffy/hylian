@@ -1,33 +1,67 @@
 
+#include <iostream>
 #include "HylianASG.h"
+
+void HylianASG::HandleCXXOperatorCallExpr(const clang::CXXOperatorCallExpr *expr, std::string name)
+{
+   std::cout << "- - " << name << " - -" << std::endl;
+   clang::CallExpr::const_arg_iterator p;
+   int i = 1;
+   for(p = expr->arg_begin(); p != expr->arg_end(); ++p, ++i) {
+      std::cout << " * * " << i << std::endl;
+      HandleExpression(*p);
+   }
+}
 
 void HylianASG::AddCXXOperatorCallExpr(const clang::CXXOperatorCallExpr *expr, clang::Decl *parent)
 {
+
+   switch(expr->getOperator()) {
+#undef OVERLOADED_OPERATOR
+#undef OVERLOADED_OPERATOR_MULTI
+
+#define OVERLOADED_OPERATOR(Name,Spelling,Token,Unary,Binary,MemberOnly) case clang::OO_ ## Name: { \
+   HandleCXXOperatorCallExpr(expr, #Name); \
+   break; }
+#define OVERLOADED_OPERATOR_MULTI(Name,Spelling,Unary,Binary,MemberOnly) case clang::OO_ ## Name: { \
+   std::cout << #Spelling << "\t" << Unary << "\t" << Binary << std::endl; \
+   break; }
+
+#include "clang/Basic/OperatorKinds.def"
+#undef OVERLOADED_OPERATOR
+#undef OVERLOADED_OPERATOR_MULTI
+
+      case clang::OO_None:
+      case clang::NUM_OVERLOADED_OPERATORS:
+        break;
+   }
+
 }
 
 void HylianASG::AddCXXMemberCallExpr(const clang::CXXMemberCallExpr *expr, clang::Decl *parent)
 {
+
 }
 
-void HylianASG::AddCXXNamedCastExpr(const clang::CXXNamedCastExpr *expr, clang::Decl *parent)
-{
-}
+// void HylianASG::AddCXXNamedCastExpr(const clang::CXXNamedCastExpr *expr, clang::Decl *parent)
+// {
+// }
 
-void HylianASG::AddCXXStaticCastExpr(const clang::CXXStaticCastExpr *expr, clang::Decl *parent)
-{
-}
+// void HylianASG::AddCXXStaticCastExpr(const clang::CXXStaticCastExpr *expr, clang::Decl *parent)
+// {
+// }
 
-void HylianASG::AddCXXDynamicCastExpr(const clang::CXXDynamicCastExpr *expr, clang::Decl *parent)
-{
-}
+// void HylianASG::AddCXXDynamicCastExpr(const clang::CXXDynamicCastExpr *expr, clang::Decl *parent)
+// {
+// }
 
-void HylianASG::AddCXXReinterpretCastExpr(const clang::CXXReinterpretCastExpr *expr, clang::Decl *parent)
-{
-}
+// void HylianASG::AddCXXReinterpretCastExpr(const clang::CXXReinterpretCastExpr *expr, clang::Decl *parent)
+// {
+// }
 
-void HylianASG::AddCXXConstCastExpr(const clang::CXXConstCastExpr *expr, clang::Decl *parent)
-{
-}
+// void HylianASG::AddCXXConstCastExpr(const clang::CXXConstCastExpr *expr, clang::Decl *parent)
+// {
+// }
 
 void HylianASG::AddCXXBoolLiteralExpr(const clang::CXXBoolLiteralExpr *expr, clang::Decl *parent)
 {
@@ -159,6 +193,7 @@ void HylianASG::AddOpaqueValueExpr(const clang::OpaqueValueExpr *expr, clang::De
 
 void HylianASG::AddDeclRefExpr(const clang::DeclRefExpr *expr, clang::Decl *parent)
 {
+   LookupValueDecl(expr->getDecl());
 }
 
 void HylianASG::AddPredefinedExpr(const clang::PredefinedExpr *expr, clang::Decl *parent)
@@ -195,19 +230,21 @@ void HylianASG::AddCompoundLiteralExpr(const clang::CompoundLiteralExpr *expr, c
 
 void HylianASG::AddCastExpr(const clang::CastExpr *expr, clang::Decl *parent)
 {
+   std::cout << "any cast:";
+   HandleExpression(expr->getSubExpr());
 }
 
-void HylianASG::AddImplicitCastExpr(const clang::ImplicitCastExpr *expr, clang::Decl *parent)
-{
-}
+// void HylianASG::AddImplicitCastExpr(const clang::ImplicitCastExpr *expr, clang::Decl *parent)
+// {
+// }
 
-void HylianASG::AddExplicitCastExpr(const clang::ExplicitCastExpr *expr, clang::Decl *parent)
-{
-}
+// void HylianASG::AddExplicitCastExpr(const clang::ExplicitCastExpr *expr, clang::Decl *parent)
+// {
+// }
 
-void HylianASG::AddCStyleCastExpr(const clang::CStyleCastExpr *expr, clang::Decl *parent)
-{
-}
+// void HylianASG::AddCStyleCastExpr(const clang::CStyleCastExpr *expr, clang::Decl *parent)
+// {
+// }
 
 void HylianASG::AddAddrLabelExpr(const clang::AddrLabelExpr *expr, clang::Decl *parent)
 {
@@ -273,3 +310,7 @@ void HylianASG::AddAtomicExpr(const clang::AtomicExpr *expr, clang::Decl *parent
 {
 }
 
+void HylianASG::AddStringLiteral(const clang::StringLiteral *expr, clang::Decl *parent)
+{
+   std::cout << "\"" << expr->getString().str() << "\"" << std::endl;
+}
