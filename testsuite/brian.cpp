@@ -2,6 +2,10 @@
 #include <cstdlib>
 #include <iostream>
 
+namespace NamespaceA{
+  void functionInNamespaceA() {}
+}
+
 class A{
 public:
   void functionByBrian();
