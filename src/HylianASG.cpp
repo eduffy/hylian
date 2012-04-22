@@ -51,6 +51,12 @@ HylianASG::HylianASG(std::string const& fn)
    assert(result == SQLITE_OK);
    result = sqlite3_step(stmt);
    assert(result == SQLITE_OK);
+
+   comm = "CREATE TABLE IntegerLiteral(ID INTEGER PRIMARY KEY, Value BIGINT)";
+   result = sqlite3_prepare_v2(db, comm.c_str(), comm.size(), &stmt, &tail);
+   assert(result == SQLITE_OK);
+   result = sqlite3_step(stmt);
+   assert(result == SQLITE_OK);
 }
 
 HylianASG::~HylianASG()
@@ -373,6 +379,9 @@ void HylianASG::HandleExpression(const clang::Expr *expr)
    }
    else if(const clang::StringLiteral *p = clang::dyn_cast<const clang::StringLiteral>(expr)) {
       AddStringLiteral(p, NULL);
+   }
+   else if(const clang::IntegerLiteral *p = clang::dyn_cast<const clang::IntegerLiteral>(expr)) {
+      AddIntegerLiteral(p, NULL);
    }
 }
 
