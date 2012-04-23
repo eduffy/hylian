@@ -2,7 +2,7 @@
 # encoding: ISO8859-1
 
 from glob import glob
-import os
+import os, sys
 from subprocess import Popen
 from subprocess import PIPE
 
@@ -29,14 +29,17 @@ def check_machine(conf):
   conf.msg('Checking c++ machine', machine)
 
 def check_ld_library_path(conf):
-  conf.start_msg('Checking $LD_LIBRARY_PATH')
+  libvar = 'LD_LIBRARY_PATH'
+  if sys.platform == 'darwin':
+    libvar = 'DYLD_LIBRARY_PATH'
+  conf.start_msg('Checking $%s' % libvar)
   libdir = exec_cmd('llvm-config --libdir')
-  llp = os.environ.get('LD_LIBRARY_PATH','').split(':')
+  llp = os.environ.get(libvar,'').split(':')
   if libdir in llp:
      conf.end_msg('yes')
   else:
-     conf.end_msg('nope')
-     conf.fatal("Add the directory `%s' to your $LD_LIBRARY_PATH variable" % libdir)
+     conf.end_msg('no')
+     conf.fatal("Add the directory `%s' to your $%s variable" % (libdir, libvar))
 
 def configure(conf):
   conf.env.DEFINES = [ ]

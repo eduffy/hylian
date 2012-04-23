@@ -167,6 +167,7 @@ public:
    void AddAsTypeExpr(const clang::AsTypeExpr *expr, clang::Decl *parent);
    void AddAtomicExpr(const clang::AtomicExpr *expr, clang::Decl *parent);
    void AddStringLiteral(const clang::StringLiteral *expr, clang::Decl *parent);
+   void AddIntegerLiteral(const clang::IntegerLiteral *expr, clang::Decl *parent);
 
 private:
    sqlite3 *db;
