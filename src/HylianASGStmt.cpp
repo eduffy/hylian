@@ -56,6 +56,10 @@ void HylianASG::AddDoStmt(const clang::DoStmt *stmt, clang::Decl *parent)
 
 void HylianASG::AddForStmt(const clang::ForStmt *stmt, clang::Decl *parent)
 {
+   HandleStatement(stmt->getInit());
+   HandleExpression(stmt->getCond());
+   HandleExpression(stmt->getInc());
+   HandleStatement(stmt->getBody());
 }
 
 void HylianASG::AddGotoStmt(const clang::GotoStmt *stmt, clang::Decl *parent)
