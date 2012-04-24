@@ -24,6 +24,14 @@ void HylianASG::AddNullStmt(const clang::NullStmt *stmt, clang::Decl *parent)
 
 void HylianASG::AddCompoundStmt(const clang::CompoundStmt *stmt, clang::Decl *parent)
 {
+   int i = 1;
+   for(clang::CompoundStmt::const_body_iterator s = stmt->body_begin();
+      s != stmt->body_end();
+      ++s, ++i)
+   {
+      HandleStatement(*s);
+      std::cout << "\t" << i << ".| " << (*s)->getStmtClassName() << std::endl;
+   }
 }
 
 void HylianASG::AddCaseStmt(const clang::CaseStmt *stmt, clang::Decl *parent)

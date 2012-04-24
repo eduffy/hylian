@@ -222,6 +222,7 @@ void HylianASG::AddPredefinedExpr(const clang::PredefinedExpr *expr, clang::Decl
 
 void HylianASG::AddParenExpr(const clang::ParenExpr *expr, clang::Decl *parent)
 {
+   HandleExpression(expr->getSubExpr());
 }
 
 void HylianASG::AddOffsetOfExpr(const clang::OffsetOfExpr *expr, clang::Decl *parent)
