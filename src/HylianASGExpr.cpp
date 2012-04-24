@@ -234,6 +234,8 @@ void HylianASG::AddUnaryExprOrTypeTraitExpr(const clang::UnaryExprOrTypeTraitExp
 
 void HylianASG::AddArraySubscriptExpr(const clang::ArraySubscriptExpr *expr, clang::Decl *parent)
 {
+   HandleExpression(expr->getBase());
+   HandleExpression(expr->getIdx());
 }
 
 void HylianASG::AddCallExpr(const clang::CallExpr *expr, clang::Decl *parent)
