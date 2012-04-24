@@ -52,11 +52,6 @@ int main(int argc, char *argv[])
    }
    HylianASTConsumer *hylian = new HylianASTConsumer(outputFilename);
 
-   std::cout << "output: " << outputFilename << std::endl;
-   std::cout << "input: " << inputFilenames[0] << std::endl;
-   std::cout << "compiel only: " << compileOnly << std::endl;
-
-//abort();
    llvm::DisablePrettyStackTrace = false;
    llvm::CrashRecoveryContext::Enable();
 

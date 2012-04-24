@@ -383,6 +383,12 @@ void HylianASG::HandleExpression(const clang::Expr *expr)
    else if(const clang::IntegerLiteral *p = clang::dyn_cast<const clang::IntegerLiteral>(expr)) {
       AddIntegerLiteral(p, NULL);
    }
+   else if(const clang::UnaryOperator *p = clang::dyn_cast<const clang::UnaryOperator>(expr)) {
+      AddUnaryOperator(p, NULL);
+   }
+   else if(const clang::BinaryOperator *p = clang::dyn_cast<const clang::BinaryOperator>(expr)) {
+      AddBinaryOperator(p, NULL);
+   }
 }
 
 void HylianASG::LookupValueDecl(const clang::ValueDecl *decl)

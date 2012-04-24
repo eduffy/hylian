@@ -1,6 +1,26 @@
 
 #include <iostream>
+#include <sstream>
 #include "HylianASG.h"
+
+std::string escapeString(std::string const& str)
+{
+   std::stringstream strm;
+   std::string::const_iterator c;
+   for(c = str.begin(); c != str.end(); c++) {
+    /*  if(*c == '"')
+         strm << "\\\"";
+      else */ if(*c == '\n')
+         strm << "\\n";
+      else if(*c == '\\')
+         strm << "\\\\";
+      else
+         strm << *c;
+   }
+//   strm << std::ends;
+   return strm.str();
+}
+
 
 void HylianASG::HandleCXXOperatorCallExpr(const clang::CXXOperatorCallExpr *expr, std::string name)
 {
@@ -218,6 +238,12 @@ void HylianASG::AddArraySubscriptExpr(const clang::ArraySubscriptExpr *expr, cla
 
 void HylianASG::AddCallExpr(const clang::CallExpr *expr, clang::Decl *parent)
 {
+   clang::CallExpr::const_arg_iterator p;
+   int i = 1;
+   for(p = expr->arg_begin(); p != expr->arg_end(); ++p, ++i) {
+      std::cout << " * * " << i << std::endl;
+      HandleExpression(*p);
+   }
 }
 
 void HylianASG::AddMemberExpr(const clang::MemberExpr *expr, clang::Decl *parent)
@@ -315,15 +341,18 @@ void HylianASG::AddStringLiteral(const clang::StringLiteral *expr, clang::Decl *
    int           result;
    sqlite3_stmt *stmt;
    const char   *tail;
-   std::string   sql = "SELECT ID FROM StringLiteral WHERE Value=\"" + expr->getString().str() + "\"";
+   std::string   sql = "SELECT ID FROM StringLiteral WHERE Value='" + escapeString(expr->getString().str()) + "'";
    int           index = -1;
 
+   std::cout << "sql = " << sql << std::endl;
    result = sqlite3_prepare_v2(db, sql.c_str(), sql.size(), &stmt, &tail);
+std::cout << "result = " << result << std::endl;
    CheckSQLResult(result);
    result = sqlite3_step(stmt);
    if(result == SQLITE_DONE) {
       /* No result.  Add it to the database */
-      sql = "INSERT INTO StringLiteral (Value) VALUES (\"" + expr->getString().str() + "\")";
+      sql = "INSERT INTO StringLiteral (Value) VALUES ('" + escapeString(expr->getString().str()) + "')";
+      std::cout << "sql = " << sql << std::endl;
       result = sqlite3_prepare_v2(db, sql.c_str(), sql.size(), &stmt, &tail);
       CheckSQLResult(result);
       result = sqlite3_step(stmt);
@@ -368,4 +397,15 @@ std::cout << "sql = " << sql << std::endl;
       CheckSQLResult(result);
    }
    std::cout << "INDEX: " << index;
+}
+
+void HylianASG::AddUnaryOperator(const clang::UnaryOperator *expr, clang::Decl *parent)
+{
+   HandleExpression(expr->getSubExpr());
+}
+
+void HylianASG::AddBinaryOperator(const clang::BinaryOperator *expr, clang::Decl *parent)
+{
+   HandleExpression(expr->getLHS());
+   HandleExpression(expr->getRHS());
 }
