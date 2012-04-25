@@ -107,6 +107,8 @@ void HylianASG::AddDeclaratorDecl(const clang::DeclaratorDecl *decl, clang::Decl
 
 void HylianASG::AddVarDecl(const clang::VarDecl *decl, clang::Decl *parent)
 {
+std::cout << "VARIABLE decl" << std::endl;
+   HandleExpression(decl->getInit());
 }
 
 void HylianASG::AddImplicitParamDecl(const clang::ImplicitParamDecl *decl, clang::Decl *parent)

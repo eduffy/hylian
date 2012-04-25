@@ -16,6 +16,11 @@ void HylianASG::AddCXXForRangeStmt(const clang::CXXForRangeStmt *stmt, clang::De
 
 void HylianASG::AddDeclStmt(const clang::DeclStmt *stmt, clang::Decl *parent)
 {
+   clang::DeclStmt::const_decl_iterator decl;
+   for(decl = stmt->decl_begin(); decl != stmt->decl_end(); ++decl) {
+      std::cout << "$$decl = " << (*decl)->getDeclKindName() << std::endl;
+      HandleDeclaration(*decl);
+   }
 }
 
 void HylianASG::AddNullStmt(const clang::NullStmt *stmt, clang::Decl *parent)

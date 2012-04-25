@@ -17,6 +17,7 @@ public:
    void ExecSQL(std::string &sql);
    void CheckSQLResult(int result);
 
+   void HandleDeclaration(const clang::Decl *decl);
    void HandleStatement(const clang::Stmt *stmt);
    void HandleExpression(const clang::Expr *expr);
    void LookupValueDecl(const clang::ValueDecl *decl);

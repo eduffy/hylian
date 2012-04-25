@@ -301,6 +301,12 @@ void HylianASG::AddVAArgExpr(const clang::VAArgExpr *expr, clang::Decl *parent)
 
 void HylianASG::AddInitListExpr(const clang::InitListExpr *expr, clang::Decl *parent)
 {
+std::cout << "INITLIST" << std::endl;
+   HandleExpression(expr->getInit(0));
+   clang::InitListExpr::const_iterator e;
+   for(e = expr->begin(); e != expr->end(); ++e) {
+      HandleStatement(*e);
+   }
 }
 
 void HylianASG::AddDesignatedInitExpr(const clang::DesignatedInitExpr *expr, clang::Decl *parent)
@@ -415,3 +421,4 @@ void HylianASG::AddCompoundAssignOperator(const clang::CompoundAssignOperator *e
    HandleExpression(expr->getLHS());
    HandleExpression(expr->getRHS());
 }
+

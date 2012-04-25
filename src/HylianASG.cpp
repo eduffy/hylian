@@ -90,6 +90,19 @@ void HylianASG::CheckSQLResult(int result)
    }
 }
 
+void HylianASG::HandleDeclaration(const clang::Decl *decl)
+{
+   if(decl == NULL) {
+      std::cout << "decl is NULL" << std::endl;
+      return;
+   }
+
+   if(const clang::VarDecl *p = clang::dyn_cast<const clang::VarDecl>(decl)) {
+      AddVarDecl(p, NULL);
+   }
+
+}
+
 void HylianASG::HandleStatement(const clang::Stmt *stmt)
 {
    if(stmt == NULL) {
@@ -401,6 +414,9 @@ void HylianASG::HandleExpression(const clang::Expr *expr)
    }
    else if(const clang::CompoundAssignOperator *p = clang::dyn_cast<const clang::CompoundAssignOperator>(expr)) {
       AddCompoundAssignOperator(p, NULL);
+   }
+   else if(const clang::InitListExpr *p = clang::dyn_cast<const clang::InitListExpr>(expr)) {
+      AddInitListExpr(p, NULL);
    }
 }
 
