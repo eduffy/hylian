@@ -49,7 +49,7 @@ void HylianASG::AddLabelStmt(const clang::LabelStmt *stmt, clang::Decl *parent)
 void HylianASG::AddIfStmt(const clang::IfStmt *stmt, clang::Decl *parent)
 {
    HandleExpression(stmt->getCond());
-   //HandleStatement(stmt->getThen());
+   HandleStatement(stmt->getThen());
    HandleStatement(stmt->getElse());
 }
 

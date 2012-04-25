@@ -176,6 +176,11 @@ void HylianASG::HandleStatement(const clang::Stmt *stmt)
 
 void HylianASG::HandleExpression(const clang::Expr *expr)
 {
+   if(expr == NULL) {
+      std::cout << "expr is NULL" << std::endl;
+      return;
+   }
+
    std::cout << "entering expression " << expr->getStmtClassName() << std::endl;
 
    if(const clang::CXXOperatorCallExpr *p = clang::dyn_cast<const clang::CXXOperatorCallExpr>(expr)) {
