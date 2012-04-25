@@ -65,6 +65,8 @@ void HylianASG::AddWhileStmt(const clang::WhileStmt *stmt, clang::Decl *parent)
 
 void HylianASG::AddDoStmt(const clang::DoStmt *stmt, clang::Decl *parent)
 {
+   HandleStatement(stmt->getBody());
+   HandleExpression(stmt->getCond());
 }
 
 void HylianASG::AddForStmt(const clang::ForStmt *stmt, clang::Decl *parent)
@@ -93,7 +95,6 @@ void HylianASG::AddBreakStmt(const clang::BreakStmt *stmt, clang::Decl *parent)
 
 void HylianASG::AddReturnStmt(const clang::ReturnStmt *stmt, clang::Decl *parent)
 {
-   std::cout << "new Return Statement" << std::endl;
    HandleExpression(stmt->getRetValue());
 }
 
