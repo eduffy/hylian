@@ -92,6 +92,11 @@ void HylianASG::CheckSQLResult(int result)
 
 void HylianASG::HandleStatement(const clang::Stmt *stmt)
 {
+   if(stmt == NULL) {
+      std::cout << "stmt is NULL" << std::endl;
+      return;
+   }
+
    if(const clang::CXXCatchStmt *p = clang::dyn_cast<const clang::CXXCatchStmt>(stmt)) {
       AddCXXCatchStmt(p, NULL);
    }
