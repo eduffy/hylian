@@ -59,6 +59,8 @@ void HylianASG::AddSwitchStmt(const clang::SwitchStmt *stmt, clang::Decl *parent
 
 void HylianASG::AddWhileStmt(const clang::WhileStmt *stmt, clang::Decl *parent)
 {
+   HandleExpression(stmt->getCond());
+   HandleStatement(stmt->getBody());
 }
 
 void HylianASG::AddDoStmt(const clang::DoStmt *stmt, clang::Decl *parent)
