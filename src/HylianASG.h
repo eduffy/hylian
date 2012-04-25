@@ -170,6 +170,7 @@ public:
    void AddIntegerLiteral(const clang::IntegerLiteral *expr, clang::Decl *parent);
    void AddUnaryOperator(const clang::UnaryOperator *expr, clang::Decl *parent);
    void AddBinaryOperator(const clang::BinaryOperator *expr, clang::Decl *parent);
+   void AddCompoundAssignOperator(const clang::CompoundAssignOperator *expr, clang::Decl *parent);
 
 private:
    sqlite3 *db;

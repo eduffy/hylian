@@ -409,3 +409,9 @@ void HylianASG::AddBinaryOperator(const clang::BinaryOperator *expr, clang::Decl
    HandleExpression(expr->getLHS());
    HandleExpression(expr->getRHS());
 }
+
+void HylianASG::AddCompoundAssignOperator(const clang::CompoundAssignOperator *expr, clang::Decl *parent)
+{
+   HandleExpression(expr->getLHS());
+   HandleExpression(expr->getRHS());
+}

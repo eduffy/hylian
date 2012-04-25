@@ -399,6 +399,9 @@ void HylianASG::HandleExpression(const clang::Expr *expr)
    else if(const clang::BinaryOperator *p = clang::dyn_cast<const clang::BinaryOperator>(expr)) {
       AddBinaryOperator(p, NULL);
    }
+   else if(const clang::CompoundAssignOperator *p = clang::dyn_cast<const clang::CompoundAssignOperator>(expr)) {
+      AddCompoundAssignOperator(p, NULL);
+   }
 }
 
 void HylianASG::LookupValueDecl(const clang::ValueDecl *decl)
