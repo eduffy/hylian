@@ -7,6 +7,7 @@
 #include <clang/Basic/TargetInfo.h>
 #include <clang/Frontend/DiagnosticOptions.h>
 #include <clang/Frontend/CompilerInstance.h>
+#include <clang/Frontend/TextDiagnosticPrinter.h>
 #include <clang/Lex/Preprocessor.h>
 #include <clang/Lex/HeaderSearch.h>
 #include <clang/Parse/ParseAST.h>
@@ -61,10 +62,15 @@ int main(int argc, char *argv[])
    }, **argsEnd = &args[sizeof(args) / sizeof(void *)];
 
    clang::CompilerInstance compiler;
+   clang::TextDiagnosticPrinter *DiagClient =
+      new clang::TextDiagnosticPrinter(llvm::errs(), clang::DiagnosticOptions());
+   llvm::IntrusiveRefCntPtr<clang::DiagnosticIDs> DiagID(new clang::DiagnosticIDs());
+   clang::DiagnosticsEngine Diags(DiagID, DiagClient);
 
-   compiler.createDiagnostics(argc, argv);
-   clang::CompilerInvocation::CreateFromArgs(compiler.getInvocation(), args, argsEnd, compiler.getDiagnostics());
-   compiler.setTarget(clang::TargetInfo::CreateTargetInfo(compiler.getDiagnostics(), compiler.getTargetOpts()));
+
+   compiler.createDiagnostics(argsEnd - args, args);
+   clang::CompilerInvocation::CreateFromArgs(compiler.getInvocation(), args, argsEnd, Diags);
+   compiler.setTarget(clang::TargetInfo::CreateTargetInfo(Diags, compiler.getTargetOpts()));
 
    compiler.createFileManager();
    compiler.createSourceManager(compiler.getFileManager());
