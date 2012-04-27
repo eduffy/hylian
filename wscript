@@ -84,7 +84,8 @@ def build(bld):
      target='callgraph', use='llvm libclang clang', install_path=None)
 
   for gxl in glob('schemas/*.gxl'):
+    bgxl = os.path.basename(gxl)
     bld(rule='cp ${SRC} ${TGT}', source=gxl,
-        target=os.path.join('share/hylian', gxl), install_path=None)
-    bld.install_files('${PREFIX}/share/hylian', os.path.join('build/share/hylian',gxl))
+        target=os.path.join('share/hylian', bgxl), install_path=None)
+    bld.install_files('${PREFIX}/share/hylian', os.path.join('build/share/hylian',bgxl))
 
