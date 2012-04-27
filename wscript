@@ -13,7 +13,6 @@ def exec_cmd(cmd):
   return Popen(cmd.split(), stdout=PIPE).communicate()[0].strip()
 
 def options(ctx):
-  #ctx.load('clangxx', tooldir='waftools')
   ctx.load('compiler_c')
   ctx.load('compiler_cxx')
   ctx.load('tex')
@@ -76,7 +75,7 @@ def configure(conf):
 def build(bld):
 
   bld.program(source=glob('src/*.cpp'),
-     target='hylian-c++', use='llvm libclang clang sqlite3')
+     target='bin/hylian-c++', use='llvm libclang clang sqlite3')
 
   bld.program(source='experimental/libclang/main.cpp',
      target='libclangc-test', use='llvm libclang', install_path=None)
@@ -84,6 +83,8 @@ def build(bld):
   bld.program(source=glob('experimental/callgraph/*.cpp'),
      target='callgraph', use='llvm libclang clang', install_path=None)
 
-  bld.install_files('${PREFIX}/share/hylian', 'schemas/gxl-1.0.dtd')
-  bld.install_files('${PREFIX}/share/hylian', glob('schemas/*.gxl'))
+  for gxl in glob('schemas/*.gxl'):
+    bld(rule='cp ${SRC} ${TGT}', source=gxl,
+        target=os.path.join('share/hylian', gxl), install_path=None)
+    bld.install_files('${PREFIX}/share/hylian', os.path.join('build/share/hylian',gxl))
 
