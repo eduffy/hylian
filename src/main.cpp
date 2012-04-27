@@ -3,6 +3,7 @@
 #include <iostream>
 #include <llvm/Config/config.h>
 #include <llvm/Support/CrashRecoveryContext.h>
+#include <llvm/Support/Path.h>
 #include <clang/Basic/Version.h>
 #include <clang/Basic/TargetInfo.h>
 #include <clang/Frontend/DiagnosticOptions.h>
@@ -12,6 +13,21 @@
 #include <clang/Lex/HeaderSearch.h>
 #include <clang/Parse/ParseAST.h>
 #include "HylianASTConsumer.h"
+
+std::string sharepath;
+
+void getSharePath(const char *argv0)
+{
+   char exepath[PATH_MAX];
+   realpath(argv0, exepath);
+
+   llvm::sys::Path path(exepath);
+   llvm::sys::Path sp(llvm::sys::path::parent_path(
+      llvm::sys::path::parent_path(exepath)));
+   sp.appendComponent("share");
+   sp.appendComponent("hylian");
+   sharepath = sp.str();
+}
 
 std::string replaceExtension(std::string const& fn)
 {
@@ -30,6 +46,7 @@ std::string replaceExtension(std::string const& fn)
 int main(int argc, char *argv[])
 {
    llvm::cl::SetVersionPrinter(NULL);
+   getSharePath(argv[0]);
 
    // Using LLVM's command parser throws a lot of backend/architecture options that
    // we won't use.  But that'll help maintain command-line compatability, so we
