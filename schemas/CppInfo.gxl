@@ -1,0 +1,1751 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE gxl SYSTEM "gxl-1.0.dtd">
+<!--
+   Copyright (C) 2005, 2006
+   Clemson University.
+   All rights reserved.
+
+   Nicholas A. Kraft,
+      Department of Computer Science, Clemson University
+
+   Brian A. Malloy,
+      Department of Computer Science, Clemson University
+
+   James F. Power,
+      Department of Computer Science, National University of Ireland, Maynooth
+
+  http://g4re.sourceforge.net
+
+  This schema is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+ 
+  This schema is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  Last Modified: Sunday, 25-Feb-2007 23:54:29 EST
+-->
+<gxl xmlns:xlink="http://www.w3.org/1999/xlink">
+   <graph id="CppInfo-Schema" edgeids="true" hypergraph="false" edgemode="directed">
+      <type xlink:href="gxl-1.0.gxl#gxl-1.0"/>
+
+      <!-- GRAPH -->
+      <node id="CppInfo">
+         <type xlink:href="gxl-1.0.gxl#GraphClass"/>
+         <attr name="name"><string>CppInfo</string></attr>
+      </node>
+
+      <!-- BASIC TYPES                                                       -->
+      <node id="Bool"><type xlink:href="gxl-1.0.gxl#Bool"/></node>
+      <node id="Int"><type xlink:href="gxl-1.0.gxl#Int"/></node>
+      <node id="String"><type xlink:href="gxl-1.0.gxl#String"/></node>
+
+      <!-- TUPLES                                                            -->
+      <node id="InheritanceSpecifier"><type xlink:href="gxl-1.0.gxl#Tup"/></node>
+      <edge id="hc0" from="InheritanceSpecifier" to="AccessSpecifier"><type xlink:href="gxl-1.0.gxl#hasComponent"/></edge>
+      <edge id="hc1" from="InheritanceSpecifier" to="Bool"><type xlink:href="gxl-1.0.gxl#hasComponent"/></edge>
+
+      <!-- ENUMERATIONS                                                      -->
+      <node id="AccessSpecifier"><type xlink:href="gxl-1.0.gxl#Enum"/></node>
+      <node id="ClassKey"><type xlink:href="gxl-1.0.gxl#Enum"/></node>
+
+      <!-- ENUMERATORS                                                       -->
+      <node id="AS_PRIVATE"><type xlink:href="gxl-1.0.gxl#EnumVal"/><attr name="value"><string>private</string></attr></node>
+      <node id="AS_PROTECTED"><type xlink:href="gxl-1.0.gxl#EnumVal"/><attr name="value"><string>protected</string></attr></node>
+      <node id="AS_PUBLIC"><type xlink:href="gxl-1.0.gxl#EnumVal"/><attr name="value"><string>public</string></attr></node>
+      <node id="AS_UNKNOWN"><type xlink:href="gxl-1.0.gxl#EnumVal"/><attr name="value"><string></string></attr></node>
+      <node id="CK_CLASS"><type xlink:href="gxl-1.0.gxl#EnumVal"/><attr name="value"><string>class</string></attr></node>
+      <node id="CK_UNION"><type xlink:href="gxl-1.0.gxl#EnumVal"/><attr name="value"><string>union</string></attr></node>
+      <edge id="cv0" from="AccessSpecifier" to="AS_PRIVATE"><type xlink:href="gxl-1.0.gxl#containsValue"/></edge>
+      <edge id="cv1" from="AccessSpecifier" to="AS_PROTECTED"><type xlink:href="gxl-1.0.gxl#containsValue"/></edge>
+      <edge id="cv2" from="AccessSpecifier" to="AS_PUBLIC"><type xlink:href="gxl-1.0.gxl#containsValue"/></edge>
+      <edge id="cv3" from="AccessSpecifier" to="AS_UNKNOWN"><type xlink:href="gxl-1.0.gxl#containsValue"/></edge>
+      <edge id="cv4" from="ClassKey" to="CK_CLASS"><type xlink:href="gxl-1.0.gxl#containsValue"/></edge>
+      <edge id="cv5" from="ClassKey" to="CK_UNION"><type xlink:href="gxl-1.0.gxl#containsValue"/></edge>
+
+      <!--                                                                   -->
+      <!-- ATTRIBUTES                                                        -->
+      <!--                                                                   -->
+      <node id="dimension"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>dimension</string></attr></node>
+      <node id="inheritanceSpecifier"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>inheritanceSpecifier</string></attr></node>
+      <node id="isConst"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isConst</string></attr></node>
+      <node id="isConstructor"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isConstructor</string></attr></node>
+      <node id="isConversion"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isConversion</string></attr></node>
+      <node id="isDestructor"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isDestructor</string></attr></node>
+      <node id="isExtern"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isExtern</string></attr></node>
+      <node id="isMutable"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isMutable</string></attr></node>
+      <node id="isOperator"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isOperator</string></attr></node>
+      <node id="isPure"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isPure</string></attr></node>
+      <node id="isRegister"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isRegister</string></attr></node>
+      <node id="isStatic"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isStatic</string></attr></node>
+      <node id="isVirtual"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isVirtual</string></attr></node>
+      <node id="isVolatile"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>isVolatile</string></attr></node>
+      <node id="key"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>key</string></attr></node>
+      <node id="number"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>number</string></attr></node>
+      <node id="string"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>string</string></attr></node>
+      <node id="value"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>value</string></attr></node>
+      <node id="visibility"><type xlink:href="gxl-1.0.gxl#AttributeClass"/><attr name="name"><string>visibility</string></attr></node>
+      <edge id="hd0"  from="dimension" to="Int"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd1"  from="inheritanceSpecifier" to="InheritanceSpecifier"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd2"  from="isConst" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd3"  from="isConstructor" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd4"  from="isConversion" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd5"  from="isDestructor" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd6"  from="isExtern" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd7"  from="isMutable" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd8"  from="isOperator" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd9"  from="isPure" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd10" from="isRegister" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd11" from="isStatic" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd12" from="isVirtual" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd13" from="isVolatile" to="Bool"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd14" from="key" to="ClassKey"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd15" from="number" to="Int"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd16" from="string" to="String"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd17" from="value" to="String"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+      <edge id="hd18" from="visibility" to="AccessSpecifier"><type xlink:href="gxl-1.0.gxl#hasDomain"/></edge>
+
+      <!--                                                                   -->
+      <!-- ABSTRACT NODES                                                    -->
+      <!--                                                                   -->
+
+      <!-- A001  NODE CLASS: BinaryOperator                                  -->
+      <node id="BinaryOperator">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>BinaryOperator</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i0" from="BinaryOperator" to="Expression"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A002  NODE CLASS: Body                                            -->
+      <node id="Body">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Body</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i1" from="Body" to="OwnedScope"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A003  NODE CLASS: Class                                           -->
+      <node id="Class">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Class</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i2" from="Class" to="Scope"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i3" from="Class" to="NamedType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="a0" from="Class" to="key"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+
+      <!-- A004  NODE CLASS: ConditionalStatement                            -->
+      <node id="ConditionalStatement">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ConditionalStatement</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i4" from="ConditionalStatement" to="ControlStatement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A005  NODE CLASS: ControlStatement                                -->
+      <node id="ControlStatement">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ControlStatement</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i5" from="ControlStatement" to="Statement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A006  NODE CLASS: Declaration                                     -->
+      <node id="Declaration">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Declaration</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i6" from="Declaration" to="Element"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="a1" from="Declaration" to="visibility"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+
+      <!-- A007  NODE CLASS: Element                                         -->
+      <node id="Element">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Element</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i7" from="Element" to="Node"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A008  NODE CLASS: ExceptionStatement                              -->
+      <node id="ExceptionStatement">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ExceptionStatement</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i8" from="ExceptionStatement" to="ControlStatement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A009  NODE CLASS: Expression                                      -->
+      <node id="Expression">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Expression</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i9" from="Expression" to="Element"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A010  NODE CLASS: Function                                        -->
+      <node id="Function">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Function</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i10" from="Function" to="NamedDeclaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="a2"  from="Function" to="isConstructor"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a3"  from="Function" to="isConversion"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a4"  from="Function" to="isDestructor"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a5"  from="Function" to="isOperator"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a6"  from="Function" to="isExtern"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a7"  from="Function" to="isPure"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a8"  from="Function" to="isStatic"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a9"  from="Function" to="isVirtual"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+
+      <!-- A011  NODE CLASS: FunctionType                                    -->
+      <node id="FunctionType">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>FunctionType</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i11" from="FunctionType" to="Type"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="a10" from="FunctionType" to="isConstructor"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a11" from="FunctionType" to="isConversion"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a12" from="FunctionType" to="isDestructor"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a13" from="FunctionType" to="isOperator"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+
+      <!-- A012  NODE CLASS: IndirectType                                    -->
+      <node id="IndirectType">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>IndirectType</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i12" from="IndirectType" to="Type"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A013  NODE CLASS: List                                            -->
+      <node id="List">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>List</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i13" from="List" to="OwnedScope"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A014  NODE CLASS: LoopStatement                                   -->
+      <node id="LoopStatement">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>LoopStatement</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i14" from="LoopStatement" to="ConditionalStatement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A015  NODE CLASS: NamedDeclaration                                -->
+      <node id="NamedDeclaration">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>NamedDeclaration</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i15" from="NamedDeclaration" to="Declaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A016  NODE CLASS: NamedType                                       -->
+      <node id="NamedType">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>NamedType</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i16" from="NamedType" to="NamedDeclaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i17" from="NamedType" to="Type"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A017  NODE CLASS: Node                                            -->
+      <node id="Node">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Node</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+
+      <!-- A018  NODE CLASS: OwnedScope                                      -->
+      <node id="OwnedScope">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>OwnedScope</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i18" from="OwnedScope" to="Scope"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A019  NODE CLASS: Parameter                                       -->
+      <node id="Parameter">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Parameter</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i19" from="Parameter" to="NamedDeclaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A020  NODE CLASS: ParameterList                                   -->
+      <node id="ParameterList">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ParameterList</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i20" from="ParameterList" to="List"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A021  NODE CLASS: Scope                                           -->
+      <node id="Scope">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Scope</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i21" from="Scope" to="Declaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A022  NODE CLASS: SelectionStatement                              -->
+      <node id="SelectionStatement">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>SelectionStatement</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i22" from="SelectionStatement" to="ConditionalStatement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A023  NODE CLASS: Statement                                       -->
+      <node id="Statement">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Statement</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i23" from="Statement" to="Element"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A024  NODE CLASS: Template                                        -->
+      <node id="Template">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Template</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i24" from="Template" to="Scope"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A025  NODE CLASS: TemplateInstantiation                           -->
+      <node id="TemplateInstantiation">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>TemplateInstantiation</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i25" from="TemplateInstantiation" to="Declaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A026  NODE CLASS: TemplateParameter                               -->
+      <node id="TemplateParameter">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>TemplateParameter</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i26" from="TemplateParameter" to="NamedDeclaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A027  NODE CLASS: TemplateSpecialization                          -->
+      <node id="TemplateSpecialization">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>TemplateSpecialization</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i27" from="TemplateSpecialization" to="Declaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- A028  NODE CLASS: Type                                            -->
+      <node id="Type">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Type</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+      </node>
+      <edge id="i28" from="Type" to="Declaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="a14" from="Type" to="isConst"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a15" from="Type" to="isVolatile"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+
+      <!--                                                                   -->
+      <!-- CONCRETE NODES                                                    -->
+      <!--                                                                   -->
+
+      <!-- C001  NODE CLASS: ArrayType                                       -->
+      <node id="ArrayType">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ArrayType</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i29" from="ArrayType" to="IndirectType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="a16" from="ArrayType" to="dimension"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+
+      <!-- C002  NODE CLASS: BasicType                                       -->
+      <node id="BasicType">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>BasicType</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i30" from="BasicType" to="NamedType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C003  NODE CLASS: Catch                                           -->
+      <node id="Catch">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Catch</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i31" from="Catch" to="ExceptionStatement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C004  NODE CLASS: ClassNonTemplate                                -->
+      <node id="ClassNonTemplate">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ClassNonTemplate</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i32" from="ClassNonTemplate" to="Class"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C005  NODE CLASS: ClassTemplate                                   -->
+      <node id="ClassTemplate">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ClassTemplate</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i33" from="ClassTemplate" to="Class"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i34" from="ClassTemplate" to="Template"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C006  NODE CLASS: ClassTemplateInstantiation                      -->
+      <node id="ClassTemplateInstantiation">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ClassTemplateInstantiation</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i35" from="ClassTemplateInstantiation" to="Class"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i36" from="ClassTemplateInstantiation" to="TemplateInstantiation"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C007  NODE CLASS: ClassTemplateSpecialization                     -->
+      <node id="ClassTemplateSpecialization">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ClassTemplateSpecialization</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i37" from="ClassTemplateSpecialization" to="Class"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i38" from="ClassTemplateSpecialization" to="TemplateSpecialization"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C008  NODE CLASS: Condition                                       -->
+      <node id="Condition">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Condition</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i39" from="Condition" to="OwnedScope"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C009  NODE CLASS: ControlStatementBody                            -->
+      <node id="ControlStatementBody">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ControlStatementBody</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i40" from="ControlStatementBody" to="Body"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C010  NODE CLASS: DoWhile                                         -->
+      <node id="DoWhile">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>DoWhile</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i41" from="DoWhile" to="LoopStatement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C011  NODE CLASS: Enumeration                                     -->
+      <node id="Enumeration">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Enumeration</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i42" from="Enumeration" to="NamedType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C012  NODE CLASS: Enumerator                                      -->
+      <node id="Enumerator">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Enumerator</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i43" from="Enumerator" to="NamedDeclaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C013  NODE CLASS: For                                             -->
+      <node id="For">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>For</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i44" from="For" to="LoopStatement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C014  NODE CLASS: FreeFunctionType                                -->
+      <node id="FreeFunctionType">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>FreeFunctionType</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i45" from="FreeFunctionType" to="FunctionType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C015  NODE CLASS: FunctionBody                                    -->
+      <node id="FunctionBody">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>FunctionBody</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i46" from="FunctionBody" to="Body"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C016  NODE CLASS: FunctionCall                                    -->
+      <node id="FunctionCall">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>FunctionCall</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i47" from="FunctionCall" to="BinaryOperator"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C017  NODE CLASS: FunctionNonTemplate                             -->
+      <node id="FunctionNonTemplate">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>FunctionNonTemplate</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i48" from="FunctionNonTemplate" to="Function"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C018  NODE CLASS: FunctionParameter                               -->
+      <node id="FunctionParameter">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>FunctionParameter</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i49" from="FunctionParameter" to="Parameter"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C019  NODE CLASS: FunctionParameterList                           -->
+      <node id="FunctionParameterList">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>FunctionParameterList</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i50" from="FunctionParameterList" to="ParameterList"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C020  NODE CLASS: FunctionTemplate                                -->
+      <node id="FunctionTemplate">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>FunctionTemplate</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i51" from="FunctionTemplate" to="Function"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i52" from="FunctionTemplate" to="Template"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C021  NODE CLASS: FunctionTemplateInstantiation                   -->
+      <node id="FunctionTemplateInstantiation">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>FunctionTemplateInstantiation</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i53" from="FunctionTemplateInstantiation" to="Function"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i54" from="FunctionTemplateInstantiation" to="TemplateInstantiation"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C022  NODE CLASS: FunctionTemplateSpecialization                  -->
+      <node id="FunctionTemplateSpecialization">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>FunctionTemplateSpecialization</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i55" from="FunctionTemplateSpecialization" to="Function"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i56" from="FunctionTemplateSpecialization" to="TemplateSpecialization"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C023  NODE CLASS: Identifier                                      -->
+      <node id="Identifier">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Identifier</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i57" from="Identifier" to="Node"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="a17" from="Identifier" to="string"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+
+      <!-- C024  NODE CLASS: If                                              -->
+      <node id="If">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>If</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i58" from="If" to="SelectionStatement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C025  NODE CLASS: Literal                                         -->
+      <node id="Literal">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Literal</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i59" from="Literal" to="Expression"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="a18" from="Literal" to="value"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+
+      <!-- C026  NODE CLASS: MemberFunctionType                              -->
+      <node id="MemberFunctionType">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>MemberFunctionType</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i60" from="MemberFunctionType" to="FunctionType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C027  NODE CLASS: Namespace                                       -->
+      <node id="Namespace">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Namespace</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i61" from="Namespace" to="NamedDeclaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i62" from="Namespace" to="Scope"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C028  NODE CLASS: NamespaceAlias                                  -->
+      <node id="NamespaceAlias">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>NamespaceAlias</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i63" from="NamespaceAlias" to="NamedDeclaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C029  NODE CLASS: ParameterTemplateParameter                      -->
+      <node id="ParameterTemplateParameter">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ParameterTemplateParameter</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i64" from="ParameterTemplateParameter" to="Parameter"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i65" from="ParameterTemplateParameter" to="TemplateParameter"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C030  NODE CLASS: PointerType                                     -->
+      <node id="PointerType">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>PointerType</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i66" from="PointerType" to="IndirectType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C031  NODE CLASS: ReferenceType                                   -->
+      <node id="ReferenceType">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>ReferenceType</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i67" from="ReferenceType" to="IndirectType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C032  NODE CLASS: SourceLocation                                  -->
+      <node id="SourceLocation">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>SourceLocation</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i68" from="SourceLocation" to="Node"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C033  NODE CLASS: SourcePosition                                  -->
+      <node id="SourcePosition">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>SourcePosition</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i69" from="SourcePosition" to="Node"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="a19" from="SourcePosition" to="number"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+
+      <!-- C034  NODE CLASS: Switch                                          -->
+      <node id="Switch">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Switch</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i70" from="Switch" to="SelectionStatement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C035  NODE CLASS: TemplateParameterList                           -->
+      <node id="TemplateParameterList">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>TemplateParameterList</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i71" from="TemplateParameterList" to="ParameterList"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C036  NODE CLASS: TemplateTemplateParameter                       -->
+      <node id="TemplateTemplateParameter">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>TemplateTemplateParameter</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i72" from="TemplateTemplateParameter" to="NamedType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i73" from="TemplateTemplateParameter" to="Template"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i74" from="TemplateTemplateParameter" to="TemplateParameter"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C037  NODE CLASS: Try                                             -->
+      <node id="Try">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Try</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i75" from="Try" to="ExceptionStatement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C038  NODE CLASS: TypeTemplateParameter                           -->
+      <node id="TypeTemplateParameter">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>TypeTemplateParameter</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i76" from="TypeTemplateParameter" to="NamedType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="i77" from="TypeTemplateParameter" to="TemplateParameter"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C039  NODE CLASS: Typedef                                         -->
+      <node id="Typedef">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Typedef</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i78" from="Typedef" to="NamedType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C040  NODE CLASS: Typename                                        -->
+      <node id="Typename">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Typename</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i79" from="Typename" to="NamedType"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- C041  NODE CLASS: Variable                                        -->
+      <node id="Variable">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>Variable</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i80" from="Variable" to="NamedDeclaration"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="a20" from="Variable" to="isExtern"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a21" from="Variable" to="isMutable"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a22" from="Variable" to="isRegister"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+      <edge id="a23" from="Variable" to="isStatic"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+
+      <!-- C042  NODE CLASS: While                                           -->
+      <node id="While">
+         <type xlink:href="gxl-1.0.gxl#NodeClass"/>
+         <attr name="name"><string>While</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+      </node>
+      <edge id="i81" from="While" to="LoopStatement"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!--                                                                   -->
+      <!-- ABSTRACT AGGREGATIONS                                             -->
+      <!--                                                                   -->
+
+      <!-- AA001  AGGREGATION CLASS: Contains                                -->
+      <node id="Contains">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Contains</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f0" from="Contains" to="Element">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t0" from="Contains" to="Element">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+
+      <!--                                                                   -->
+      <!-- CONCRETE AGGREGATIONS                                             -->
+      <!--                                                                   -->
+
+      <!-- CA001  AGGREGATION CLASS: Bases                                   -->
+      <node id="Bases">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Bases</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f1" from="Bases" to="Class">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t1" from="Bases" to="Class">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i82" from="Bases" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+      <edge id="a24" from="Bases" to="inheritanceSpecifier"><type xlink:href="gxl-1.0.gxl#hasAttribute"/></edge>
+
+      <!-- CA002  AGGREGATION CLASS: Classes                                      -->
+      <node id="Classes">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Classes</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f2" from="Classes" to="Scope">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t2" from="Classes" to="Class">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i83" from="Classes" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA003  AGGREGATION CLASS: ControlStatements                                      -->
+      <node id="ControlStatements">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>ControlStatements</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f3" from="ControlStatements" to="Body">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t3" from="ControlStatements" to="ControlStatement">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i84" from="ControlStatements" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA004  AGGREGATION CLASS: Enumerations                                      -->
+      <node id="Enumerations">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Enumerations</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f4" from="Enumerations" to="Scope">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t4" from="Enumerations" to="Enumeration">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i85" from="Enumerations" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA005  AGGREGATION CLASS: Enumerators                                      -->
+      <node id="Enumerators">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Enumerators</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f5" from="Enumerators" to="Scope">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t5" from="Enumerators" to="Enumerator">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i86" from="Enumerators" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA006  AGGREGATION CLASS: Expressions                                      -->
+      <node id="Expressions">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Expressions</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f6" from="Expressions" to="Scope">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t6" from="Expressions" to="Expression">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i87" from="Expressions" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA007  AGGREGATION CLASS: Functions                                      -->
+      <node id="Functions">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Functions</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f7" from="Functions" to="Scope">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t7" from="Functions" to="Function">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i88" from="Functions" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA008  AGGREGATION CLASS: Instantiations                                      -->
+      <node id="Instantiations">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Instantiations</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f8" from="Instantiations" to="Template">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t8" from="Instantiations" to="TemplateInstantiation">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i89" from="Instantiations" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA009  AGGREGATION CLASS: NamespaceAliases                                      -->
+      <node id="NamespaceAliases">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>NamespaceAliases</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f9" from="NamespaceAliases" to="Scope">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t9" from="NamespaceAliases" to="NamespaceAlias">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i90" from="NamespaceAliases" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA010  AGGREGATION CLASS: NestedClasses                                      -->
+      <node id="NestedClasses">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>NestedClasses</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f10" from="NestedClasses" to="Class">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t10" from="NestedClasses" to="Class">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i91" from="NestedClasses" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA011  AGGREGATION CLASS: NestedNamespaces                                      -->
+      <node id="NestedNamespaces">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>NestedNamespaces</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f11" from="NestedNamespaces" to="Namespace">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t11" from="NestedNamespaces" to="Namespace">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i92" from="NestedNamespaces" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA012  AGGREGATION CLASS: ParameterTypes                                      -->
+      <node id="ParameterTypes">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>ParameterTypes</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f12" from="ParameterTypes" to="FunctionType">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t12" from="ParameterTypes" to="Type">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i93" from="ParameterTypes" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA013  AGGREGATION CLASS: Parameters                                      -->
+      <node id="Parameters">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Parameters</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f13" from="Parameters" to="FunctionParameterList">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t13" from="Parameters" to="FunctionParameter">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i94" from="Parameters" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA014  AGGREGATION CLASS: Specializations                                      -->
+      <node id="Specializations">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Specializations</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f14" from="Specializations" to="Template">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t14" from="Specializations" to="TemplateSpecialization">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i95" from="Specializations" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA015  AGGREGATION CLASS: TemplateInstantiationParameters                                      -->
+      <node id="TemplateInstantiationParameters">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>TemplateInstantiationParameters</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f15" from="TemplateInstantiationParameters" to="TemplateInstantiation">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t15" from="TemplateInstantiationParameters" to="Type">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i96" from="TemplateInstantiationParameters" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA016  AGGREGATION CLASS: TemplateParameters                                      -->
+      <node id="TemplateParameters">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>TemplateParameters</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f16" from="TemplateParameters" to="TemplateParameterList">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t16" from="TemplateParameters" to="TemplateParameter">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i97" from="TemplateParameters" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA017  AGGREGATION CLASS: Typedefs                                      -->
+      <node id="Typedefs">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Typedefs</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f17" from="Typedefs" to="Scope">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t17" from="Typedefs" to="Typedef">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i98" from="Typedefs" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA018  AGGREGATION CLASS: Values                                      -->
+      <node id="Values">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Values</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f18" from="Values" to="Enumeration">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t18" from="Values" to="Literal">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i99" from="Values" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CA019  AGGREGATION CLASS: Variables                                      -->
+      <node id="Variables">
+         <type xlink:href="gxl-1.0.gxl#AggregationClass"/>
+         <attr name="name"><string>Variables</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+         <attr name="aggregate"><enum>from</enum></attr>
+      </node>
+      <edge id="f19" from="Variables" to="Scope">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t19" from="Variables" to="Variable">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>true</bool></attr>
+      </edge>
+      <edge id="i100" from="Variables" to="Contains"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!--                                                                   -->
+      <!-- ABSTRACT EDGES                                                    -->
+      <!--                                                                   -->
+
+      <!-- AE001  EDGE CLASS: Relationship                                   -->
+      <node id="Relationship">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>Relationship</string></attr>
+         <attr name="isabstract"><bool>true</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f20" from="Relationship" to="Node">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t20" from="Relationship" to="Node">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+
+      <!--                                                                   -->
+      <!-- CONCRETE EDGES                                                    -->
+      <!--                                                                   -->
+
+      <!-- CE001  EDGE CLASS: HasAliased                                             -->
+      <node id="HasAliased">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasAliased</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f21" from="HasAliased" to="NamespaceAlias">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t21" from="HasAliased" to="Namespace">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i101" from="HasAliased" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE002  EDGE CLASS: HasAliasedType                                             -->
+      <node id="HasAliasedType">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasAliasedType</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f22" from="HasAliasedType" to="Typedef">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t22" from="HasAliasedType" to="Type">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i102" from="HasAliasedType" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE003  EDGE CLASS: HasBaseType                                             -->
+      <node id="HasBaseType">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasBaseType</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f23" from="HasBaseType" to="IndirectType">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t23" from="HasBaseType" to="Type">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i103" from="HasBaseType" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE004  EDGE CLASS: HasBody                                             -->
+      <node id="HasBody">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasBody</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f24" from="HasBody" to="Element">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>1</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t24" from="HasBody" to="Body">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i104" from="HasBody" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE005  EDGE CLASS: HasClass                                             -->
+      <node id="HasClass">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasClass</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f25" from="HasClass" to="MemberFunctionType">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t25" from="HasClass" to="Class">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>1</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i105" from="HasClass" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE006  EDGE CLASS: HasColumn                                             -->
+      <node id="HasColumn">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasColumn</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f26" from="HasColumn" to="SourceLocation">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t26" from="HasColumn" to="SourcePosition">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>1</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i106" from="HasColumn" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE007  EDGE CLASS: HasCondition                                             -->
+      <node id="HasCondition">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasCondition</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f27" from="HasCondition" to="ConditionalStatement">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>1</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t27" from="HasCondition" to="Condition">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>1</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i107" from="HasCondition" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE008  EDGE CLASS: HasElse                                             -->
+      <node id="HasElse">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasElse</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f28" from="HasElse" to="If">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>1</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t28" from="HasElse" to="ControlStatementBody">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>1</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i108" from="HasElse" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE009  EDGE CLASS: HasExpression                                             -->
+      <node id="HasExpression">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasExpression</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f29" from="HasExpression" to="Condition">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>1</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t29" from="HasExpression" to="Expression">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i109" from="HasExpression" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE010  EDGE CLASS: HasFilename                                             -->
+      <node id="HasFilename">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasFilename</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f30" from="HasFilename" to="SourceLocation">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t30" from="HasFilename" to="Identifier">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i110" from="HasFilename" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE011  EDGE CLASS: HasInitializer                                             -->
+      <node id="HasInitializer">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasInitializer</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f31" from="HasInitializer" to="For">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>1</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t31" from="HasInitializer" to="Condition">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i111" from="HasInitializer" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE012  EDGE CLASS: HasLhs                                             -->
+      <node id="HasLhs">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasLhs</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f32" from="HasLhs" to="BinaryOperator">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t32" from="HasLhs" to="Element">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i112" from="HasLhs" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE013  EDGE CLASS: HasLine                                             -->
+      <node id="HasLine">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasLine</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f33" from="HasLine" to="SourceLocation">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t33" from="HasLine" to="SourcePosition">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i113" from="HasLine" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE014  EDGE CLASS: HasName                                             -->
+      <node id="HasName">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasName</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f34" from="HasName" to="NamedDeclaration">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t34" from="HasName" to="Identifier">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i114" from="HasName" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE015  EDGE CLASS: HasOwner                                             -->
+      <node id="HasOwner">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasOwner</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f35" from="HasOwner" to="OwnedScope">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t35" from="HasOwner" to="Element">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i115" from="HasOwner" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE016  EDGE CLASS: HasParameterList                                             -->
+      <node id="HasParameterList">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasParameterList</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f36" from="HasParameterList" to="Function">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>1</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t36" from="HasParameterList" to="FunctionParameterList">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i116" from="HasParameterList" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE017  EDGE CLASS: HasReturnType                                             -->
+      <node id="HasReturnType">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasReturnType</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f37" from="HasReturnType" to="FunctionType">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t37" from="HasReturnType" to="Type">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i117" from="HasReturnType" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE018  EDGE CLASS: HasRhs                                             -->
+      <node id="HasRhs">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasRhs</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f38" from="HasRhs" to="BinaryOperator">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t38" from="HasRhs" to="Expression">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i118" from="HasRhs" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE019  EDGE CLASS: HasScope                                             -->
+      <node id="HasScope">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasScope</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f39" from="HasScope" to="Element">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t39" from="HasScope" to="Scope">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i119" from="HasScope" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE020  EDGE CLASS: HasSourceLocation                                             -->
+      <node id="HasSourceLocation">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasSourceLocation</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f40" from="HasSourceLocation" to="Element">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>1</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t40" from="HasSourceLocation" to="SourceLocation">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i120" from="HasSourceLocation" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE021  EDGE CLASS: HasTemplateParameterList                                             -->
+      <node id="HasTemplateParameterList">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasTemplateParameterList</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f41" from="HasTemplateParameterList" to="Template">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>1</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t41" from="HasTemplateParameterList" to="TemplateParameterList">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i121" from="HasTemplateParameterList" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE022  EDGE CLASS: HasType                                             -->
+      <node id="HasType">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasType</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f42" from="HasType" to="Element">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t42" from="HasType" to="Type">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i122" from="HasType" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE023  EDGE CLASS: HasUnqualified                                             -->
+      <node id="HasUnqualified">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasUnqualified</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f43" from="HasUnqualified" to="Type">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t43" from="HasUnqualified" to="Type">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i123" from="HasUnqualified" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE024  EDGE CLASS: HasValue                                             -->
+      <node id="HasValue">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasValue</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f44" from="HasValue" to="Enumerator">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>1</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t44" from="HasValue" to="Literal">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i124" from="HasValue" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CE025  EDGE CLASS: HasVariable                                             -->
+      <node id="HasVariable">
+         <type xlink:href="gxl-1.0.gxl#EdgeClass"/>
+         <attr name="name"><string>HasVariable</string></attr>
+         <attr name="isabstract"><bool>false</bool></attr>
+         <attr name="isdirected"><bool>true</bool></attr>
+      </node>
+      <edge id="f45" from="HasVariable" to="Condition">
+         <type xlink:href="gxl-1.0.gxl#from"/>
+         <attr name="limits"><tup><int>0</int><int>-1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="t45" from="HasVariable" to="Variable">
+         <type xlink:href="gxl-1.0.gxl#to"/>
+         <attr name="limits"><tup><int>0</int><int>1</int></tup></attr>
+         <attr name="isordered"><bool>false</bool></attr>
+      </edge>
+      <edge id="i125" from="HasVariable" to="Relationship"><type xlink:href="gxl-1.0.gxl#isA"/></edge>
+
+      <!-- CONTAINS                                                                   -->
+      <edge id="c0"   from="CppInfo" to="BinaryOperator"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c1"   from="CppInfo" to="Body"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c2"   from="CppInfo" to="Class"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c3"   from="CppInfo" to="ConditionalStatement"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c4"   from="CppInfo" to="ControlStatement"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c5"   from="CppInfo" to="Declaration"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c6"   from="CppInfo" to="Element"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c7"   from="CppInfo" to="ExceptionStatement"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c8"   from="CppInfo" to="Expression"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c9"   from="CppInfo" to="Function"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c10"  from="CppInfo" to="FunctionType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c11"  from="CppInfo" to="IndirectType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c12"  from="CppInfo" to="List"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c13"  from="CppInfo" to="LoopStatement"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c14"  from="CppInfo" to="NamedDeclaration"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c15"  from="CppInfo" to="NamedType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c16"  from="CppInfo" to="Node"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c17"  from="CppInfo" to="OwnedScope"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c18"  from="CppInfo" to="Parameter"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c19"  from="CppInfo" to="ParameterList"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c20"  from="CppInfo" to="Scope"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c21"  from="CppInfo" to="SelectionStatement"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c22"  from="CppInfo" to="Statement"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c23"  from="CppInfo" to="Template"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c24"  from="CppInfo" to="TemplateInstantiation"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c25"  from="CppInfo" to="TemplateParameter"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c26"  from="CppInfo" to="TemplateSpecialization"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c27"  from="CppInfo" to="Type"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      
+      <edge id="c28"  from="CppInfo" to="ArrayType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c29"  from="CppInfo" to="BasicType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c30"  from="CppInfo" to="Catch"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c31"  from="CppInfo" to="ClassNonTemplate"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c32"  from="CppInfo" to="ClassTemplate"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c33"  from="CppInfo" to="ClassTemplateInstantiation"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c34"  from="CppInfo" to="ClassTemplateSpecialization"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c35"  from="CppInfo" to="Condition"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c36"  from="CppInfo" to="ControlStatementBody"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c37"  from="CppInfo" to="DoWhile"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c38"  from="CppInfo" to="Enumeration"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c39"  from="CppInfo" to="Enumerator"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c40"  from="CppInfo" to="For"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c41"  from="CppInfo" to="FreeFunctionType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c42"  from="CppInfo" to="FunctionBody"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c43"  from="CppInfo" to="FunctionCall"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c44"  from="CppInfo" to="FunctionNonTemplate"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c45"  from="CppInfo" to="FunctionParameter"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c46"  from="CppInfo" to="FunctionParameterList"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c47"  from="CppInfo" to="FunctionTemplate"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c48"  from="CppInfo" to="FunctionTemplateInstantiation"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c49"  from="CppInfo" to="FunctionTemplateSpecialization"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c50"  from="CppInfo" to="Identifier"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c51"  from="CppInfo" to="If"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c52"  from="CppInfo" to="Literal"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c53"  from="CppInfo" to="MemberFunctionType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c54"  from="CppInfo" to="Namespace"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c55"  from="CppInfo" to="NamespaceAlias"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c56"  from="CppInfo" to="ParameterTemplateParameter"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c57"  from="CppInfo" to="PointerType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c58"  from="CppInfo" to="ReferenceType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c59"  from="CppInfo" to="SourceLocation"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c60"  from="CppInfo" to="SourcePosition"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c61"  from="CppInfo" to="Switch"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c62"  from="CppInfo" to="TemplateParameterList"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c63"  from="CppInfo" to="TemplateTemplateParameter"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c64"  from="CppInfo" to="Try"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c65"  from="CppInfo" to="TypeTemplateParameter"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c66"  from="CppInfo" to="Typedef"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c67"  from="CppInfo" to="Typename"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c68"  from="CppInfo" to="Variable"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c69"  from="CppInfo" to="While"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+
+      <edge id="c70"  from="CppInfo" to="Contains"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c71"  from="CppInfo" to="Bases"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c72"  from="CppInfo" to="Classes"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c73"  from="CppInfo" to="ControlStatements"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c74"  from="CppInfo" to="Enumerations"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c75"  from="CppInfo" to="Enumerators"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c76"  from="CppInfo" to="Expressions"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c77"  from="CppInfo" to="Functions"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c78"  from="CppInfo" to="Instantiations"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c79"  from="CppInfo" to="NamespaceAliases"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c80"  from="CppInfo" to="NestedClasses"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c81"  from="CppInfo" to="NestedNamespaces"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c82"  from="CppInfo" to="ParameterTypes"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c83"  from="CppInfo" to="Parameters"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c84"  from="CppInfo" to="Specializations"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c85"  from="CppInfo" to="TemplateInstantiationParameters"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c86"  from="CppInfo" to="TemplateParameters"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c87"  from="CppInfo" to="Typedefs"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c88"  from="CppInfo" to="Values"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c89"  from="CppInfo" to="Variables"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+
+      <edge id="c90"  from="CppInfo" to="Relationship"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c91"  from="CppInfo" to="HasAliased"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c92"  from="CppInfo" to="HasAliasedType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c93"  from="CppInfo" to="HasBaseType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c94"  from="CppInfo" to="HasBody"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c95"  from="CppInfo" to="HasClass"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c96"  from="CppInfo" to="HasColumn"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c97"  from="CppInfo" to="HasCondition"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c98"  from="CppInfo" to="HasElse"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c99"  from="CppInfo" to="HasExpression"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c100" from="CppInfo" to="HasFilename"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c101" from="CppInfo" to="HasInitializer"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c102" from="CppInfo" to="HasLhs"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c103" from="CppInfo" to="HasLine"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c104" from="CppInfo" to="HasName"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c105" from="CppInfo" to="HasOwner"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c106" from="CppInfo" to="HasParameterList"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c107" from="CppInfo" to="HasReturnType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c108" from="CppInfo" to="HasRhs"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c109" from="CppInfo" to="HasScope"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c110" from="CppInfo" to="HasSourceLocation"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c111" from="CppInfo" to="HasTemplateParameterList"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c112" from="CppInfo" to="HasType"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c113" from="CppInfo" to="HasUnqualified"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c114" from="CppInfo" to="HasValue"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+      <edge id="c115" from="CppInfo" to="HasVariable"><type xlink:href="gxl-1.0.gxl#contains"/></edge>
+
+   </graph>
+</gxl>
+
