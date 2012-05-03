@@ -16,10 +16,12 @@ void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
          const clang::FunctionDecl *fun = 
                  clang::dyn_cast<const clang::FunctionDecl>(decl);
          cout << decl->getDeclKindName()
+              << ": "
               << fun->getResultType().getAsString()
               << " "
               << fun->getQualifiedNameAsString()
               << std::endl;
+
       }
    }
 }
