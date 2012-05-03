@@ -23,6 +23,10 @@ void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
               << std::endl;
 
       }
+      else {
+        cout << "Something strange: " << decl->getDeclKindName()
+             << endl;
+      }
    }
 }
 
