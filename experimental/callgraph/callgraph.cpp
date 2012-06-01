@@ -21,7 +21,14 @@ void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
               << " "
               << fun->getQualifiedNameAsString()
               << std::endl;
-
+         clang::FunctionDecl::param_const_iterator it;
+         for (it = fun->param_begin();
+              it != fun->param_end();
+              ++it) {
+           cout << '\t' << (*it)->getType().getAsString()
+//                << '\t' << (*it)->getIdentifier()->getName().str()
+                << endl;
+         }
       }
       else {
         cout << "Something strange: " << decl->getDeclKindName()
