@@ -17,22 +17,24 @@ void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
                  clang::dyn_cast<const clang::FunctionDecl>(decl);
          cout << decl->getDeclKindName()
               << ": "
-              << fun->getResultType().getAsString()
-              << " "
+              << "Returns " << fun->getResultType().getAsString()
+              << ", Name: "
               << fun->getQualifiedNameAsString()
               << std::endl;
          clang::FunctionDecl::param_const_iterator it;
+         cout << "\tParameters: ";
          for (it = fun->param_begin();
               it != fun->param_end();
               ++it) {
-           cout << '\t' << (*it)->getType().getAsString()
-//                << '\t' << (*it)->getIdentifier()->getName().str()
-                << endl;
+           cout << (*it)->getType().getAsString() << " "
+                << (*it)->getIdentifier()->getName().str()
+                << ",\t";
          }
+         cout << endl;
       }
       else {
-        cout << "Something strange: " << decl->getDeclKindName()
-             << endl;
+        // Usually a Namespace, CXXRecord, Typedef, LinkageSpec, or Enum...
+        //cout << "Not a fn: " << decl->getDeclKindName() << endl;
       }
    }
 }
