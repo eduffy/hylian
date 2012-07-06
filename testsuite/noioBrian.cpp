@@ -1,3 +1,6 @@
+void globalFunction() {}
+typedef int f;
+
 namespace NamespaceA{
   void functionInNamespaceA() {}
 }
