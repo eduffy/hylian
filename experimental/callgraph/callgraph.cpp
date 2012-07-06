@@ -46,7 +46,7 @@ void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
            }
            // The next function seems to be implemented incorrectly;
            // i.e., clang marks it false, but doesn't mark it true?
-           if ( !method->hasInlineBody() ) 
+           if ( method->hasInlineBody() ) 
            {
              cout << "FUNCTION " << function->getQualifiedNameAsString()
                   << " IS not INLINED!\n";
@@ -61,7 +61,8 @@ void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
       }
       else {
         // Usually a Namespace, CXXRecord, Typedef, LinkageSpec, or Enum...
-        //cout << "Not a fn: " << decl->getDeclKindName() << endl;
+        cout << "Construct in global namespace, other than a fn: " 
+             << decl->getDeclKindName() << endl;
       }
    }
 }
