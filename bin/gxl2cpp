@@ -1,0 +1,104 @@
+#!/usr/bin/env python
+
+import os, sys
+import xml.dom.minidom
+
+class GxlNode(object):
+   def __init__(self, node):
+      self.id = node.getAttribute('id')
+      self.type = node.getElementsByTagName('type')[0].getAttribute('xlink:href').split('#')[1]
+      self.attrs = { }
+      for el in node.getElementsByTagName('attr'):
+         print el.getAttribute('name'),el.firstChild
+         if el.firstChild.nodeName == 'string':
+            if el.firstChild.firstChild is None:
+               self.attrs[el.getAttribute('name')] = ''
+            else:
+               self.attrs[el.getAttribute('name')] = el.firstChild.firstChild.nodeValue
+   def __repr__(self):
+      return '%s[%s]: %s' % (self.id, self.type, str(self.attrs))
+
+class GxlEdge(object):
+   def __init__(self, edge):
+      self.id = edge.getAttribute('id')
+      self.type = edge.getElementsByTagName('type')[0].getAttribute('xlink:href').split('#')[1]
+      self.toNode   = edge.getAttribute('to')
+      self.fromNode = edge.getAttribute('from')
+   def __repr__(self):
+      return '%s[%s] %s -> %s' % (self.id, self.type, self.fromNode, self.toNode)
+
+def primativeType(nodes, gxlType, cppType):
+   n = getNodesByType(gxlType, nodes)
+   if n:
+      print '  typedef %s %s;' % (cppType, gxlType)
+   
+#getNodeById    = lambda id,nodes = filter(lambda n: n.getAttribute('id') == id, nodes)[0]
+getNodesByType = lambda typeName,nodes: filter(lambda n: n.getElementsByTagName('type')[0]
+                                                          .getAttribute('xlink:href')
+                                                          .endswith(typeName), nodes)
+
+
+f = open(sys.argv[1])
+doc = xml.dom.minidom.parse(f)
+print doc
+for graph in doc.getElementsByTagName('graph'):
+   nodes = graph.getElementsByTagName('node')
+   edges = graph.getElementsByTagName('edge')
+
+   graphType = getNodesByType('GraphClass', nodes)[0]
+   print 'namespace %s {' % graphType.getAttribute('id')
+   primativeType(nodes, 'Bool',   'bool')
+   primativeType(nodes, 'Int',    'int')
+   primativeType(nodes, 'String', 'std::string')
+
+   for enum in getNodesByType('Enum', nodes):
+      enumName = enum.getAttribute('id')
+      print '  enum %s {' % enumName
+      for e in edges:
+         if e.getAttribute('from') == enumName:
+            edgeType = e.getElementsByTagName('type')[0].getAttribute('xlink:href')
+            if edgeType.endswith('containsValue'):
+               print '    %s,' % e.getAttribute('to')
+      print '  }'
+   print '}'
+1/0
+graphs = { }
+currentGraph = None
+for event,node in doc:
+   if event == 'START_ELEMENT':
+      if node.nodeName == 'graph':
+        currentGraph = node.getAttribute('id')
+        graphs[currentGraph] = { }
+
+      elif node.nodeName == 'node':
+         doc.expandNode(node)
+         n = GxlNode(node)
+         graphs[currentGraph][n.id] = n
+
+      elif node.nodeName == 'edge':
+         doc.expandNode(node)
+         e = GxlEdge(node)
+         graphs[currentGraph][e.id] = e
+
+for ns,body in graphs.iteritems():
+   for xid,x in body.iteritems():
+      if x.type == 'GraphClass':
+         print 'namespace %s {' % x.attrs.get('name','???')
+   for xid,x in body.iteritems():
+      if x.type == 'Bool':
+         print '  typedef %s bool;' % xid
+      elif x.type == 'Int':
+         print '  typedef %s int;' % xid
+      elif x.type == 'String':
+         print '  typedef %s std::string;' % xid
+   for xid,x in body.iteritems():
+      if x.type == 'Enum':
+         print '  enum %s {' % xid
+         for yid,y in body.iteritems():
+            if isinstance(y, GxlEdge) and y.type == 'containsValue' and y.fromNode == x.id:
+               print '    %s,' % y.toNode
+         print '  };'
+   print '}'
+
+print graphs['CppInfo-Schema']['AS_PRIVATE']
+print graphs
