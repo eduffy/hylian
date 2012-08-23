@@ -1,4 +1,4 @@
-void globalFunction() {}
+void globalFunction(int x, float y) {}
 typedef int f;
 
 namespace NamespaceA{
@@ -23,6 +23,7 @@ private:
   int floatingPoint;
 };
 int A::getInt() const { return integer; };
+
 void A::useNamespace() const {
   NamespaceA::functionInNamespaceA();
 }

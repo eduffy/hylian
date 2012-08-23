@@ -17,6 +17,7 @@ void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
          const clang::FunctionDecl *function = 
                clang::dyn_cast<const clang::FunctionDecl>(decl);
          std::string caller;
+         cout << "Function: ";
          caller += function->getResultType().getAsString();
          caller += " "+function->getQualifiedNameAsString();
          caller+= "(";
@@ -60,9 +61,9 @@ void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
          cout << caller << endl;
       }
       else {
-        // Usually a Namespace, CXXRecord, Typedef, LinkageSpec, or Enum...
-        cout << "Construct in global namespace, other than a fn: " 
-             << decl->getDeclKindName() << endl;
+        // A Namespace, CXXRecord, Typedef, LinkageSpec, Enum, or ...
+        //cout << "Construct in global namespace, other than a fn: " 
+             //<< decl->getDeclKindName() << endl;
       }
    }
 }
