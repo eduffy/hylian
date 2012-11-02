@@ -22,12 +22,9 @@ private:
   int integer;
   int floatingPoint;
 };
+
 int A::getInt() const { return integer; };
-
-void A::useNamespace() const {
-  NamespaceA::functionInNamespaceA();
-}
-
+void A::useNamespace() const { NamespaceA::functionInNamespaceA(); }
 int getX() { return 1138; }
 
 int main(int argc, char *argv[]) {
