@@ -50,7 +50,6 @@ def configure(conf):
   conf.load('compiler_cxx')
   check_version(conf)
   check_machine(conf)
-  conf.load('tex')
 
   # llvm/libclang/clang checks
   conf.check_cfg(path='llvm-config', package='', uselib_store='llvm',
