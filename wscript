@@ -13,9 +13,20 @@ def exec_cmd(cmd):
   return Popen(cmd.split(), stdout=PIPE).communicate()[0].strip()
 
 def options(ctx):
+  ctx.add_option('--with-lemon', action='store', default=None, dest='lemondir',
+    help='path to lemon graph library')
+
   ctx.load('compiler_c')
   ctx.load('compiler_cxx')
   ctx.load('tex')
+
+def add_package(pkgdir):
+  if pkgdir is not None:
+    pkgdir = '%s/lib/pkgconfig' % pkgdir
+    if 'PKG_CONFIG_PATH' in os.environ:
+      os.environ['PKG_CONFIG_PATH'] = '%s:%s' % (pkgdir, os.environ['PKG_CONFIG_PATH'])
+    else:
+      os.environ['PKG_CONFIG_PATH'] = pkgdir
 
 def check_version(conf):
   version = exec_cmd('gcc -dumpversion')
@@ -43,6 +54,7 @@ def check_ld_library_path(conf):
 def configure(conf):
   conf.env.DEFINES = [ ]
   conf.msg('Setting prefix to', os.path.expanduser(conf.options.prefix))
+  conf.check_cfg(atleast_pkgconfig_version="0.1")
   conf.load('compiler_c')
   conf.load('compiler_cxx')
   check_version(conf)
@@ -72,6 +84,9 @@ def configure(conf):
 
   conf.check(header_name='expat.h')
   conf.check(lib='expat', uselib_store='expat')
+
+  add_package(conf.options.lemondir)
+  conf.check_cfg(package='lemon', args='--cflags --libs')
 
 def build(bld):
 
