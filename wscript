@@ -55,7 +55,11 @@ def configure(conf):
   conf.env.DEFINES = [ ]
   conf.msg('Setting prefix to', os.path.expanduser(conf.options.prefix))
   conf.check_cfg(atleast_pkgconfig_version="0.1")
+  conf.find_program('clang')
+  conf.env.append_value('CC', 'clang')
   conf.load('compiler_c')
+  conf.find_program('clang++')
+  conf.env.append_value('CXX', 'clang++')
   conf.load('compiler_cxx')
   check_version(conf)
   check_machine(conf)
