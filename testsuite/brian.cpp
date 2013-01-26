@@ -22,7 +22,7 @@ void A::useNamespace() const {
   NamespaceA::functionInNamespaceA();
 }
 
-int getX() {
+int getX(int) {
   return 1138;
 }
 
