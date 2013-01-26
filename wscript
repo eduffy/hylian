@@ -38,19 +38,6 @@ def check_machine(conf):
   conf.env.DEFINES.append('GCC_MACHINE="%s"' % machine)
   conf.msg('Checking c++ machine', machine)
 
-def check_ld_library_path(conf):
-  libvar = 'LD_LIBRARY_PATH'
-  if sys.platform == 'darwin':
-    libvar = 'DYLD_LIBRARY_PATH'
-  conf.start_msg('Checking $%s' % libvar)
-  libdir = exec_cmd('llvm-config --libdir')
-  llp = os.environ.get(libvar,'').split(':')
-  if libdir in llp:
-     conf.end_msg('yes')
-  else:
-     conf.end_msg('no')
-     conf.fatal("Add the directory `%s' to your $%s variable" % (libdir, libvar))
-
 def configure(conf):
   conf.env.DEFINES = [ ]
   conf.msg('Setting prefix to', os.path.expanduser(conf.options.prefix))
@@ -69,7 +56,6 @@ def configure(conf):
   conf.check_cfg(path='llvm-config', package='', uselib_store='llvm',
     args='--cxxflags --ldflags --libs')
   conf.check(lib='LLVM-3.0',           uselib_store='llvm', uselib='llvm')
-  check_ld_library_path(conf)
   conf.check(lib='clang',              uselib_store='libclang', uselib='llvm')
   conf.check(lib='clangIndex',         uselib_store='clang', uselib='llvm')
   conf.check(lib='clangFrontend',      uselib_store='clang', uselib='llvm')
