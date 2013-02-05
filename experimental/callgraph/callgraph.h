@@ -6,6 +6,7 @@
 #include <clang/AST/DeclCXX.h>
 #include <clang/AST/GlobalDecl.h>
 #include <clang/AST/ASTConsumer.h>
+#include <lemon/list_graph.h>
 
 class HylianASTConsumer : public clang::ASTConsumer
 {
