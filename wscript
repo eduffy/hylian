@@ -89,6 +89,9 @@ def build(bld):
   bld.program(source=glob('experimental/callgraph/*.cpp'),
      target='callgraph', use='llvm libclang clang lemon', install_path=None)
 
+  bld.program(source=glob('experimental/lemon-test/main.cpp'),
+     target='lemon-test', use='lemon', install_path=None)
+
   for gxl in glob('schemas/*.gxl'):
     bgxl = os.path.basename(gxl)
     bld(rule='cp ${SRC} ${TGT}', source=gxl,
