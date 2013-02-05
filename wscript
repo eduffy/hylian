@@ -75,7 +75,7 @@ def configure(conf):
   conf.check(lib='expat', uselib_store='expat')
 
   add_package(conf.options.lemondir)
-  conf.check_cfg(package='lemon', args='--cflags --libs')
+  conf.check_cfg(package='lemon', args='--cflags --libs', uselib_store='lemon')
 
 def build(bld):
 
