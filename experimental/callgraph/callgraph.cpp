@@ -4,27 +4,26 @@
 using  std::cout; using  std::endl;
 #include "callgraph.h"
 
-void processFunction(const clang::Decl *decl) {
+void HylianASTConsumer::processFunction(const clang::Decl *decl) {
   const clang::FunctionDecl *function = 
         clang::dyn_cast<const clang::FunctionDecl>(decl);
-  std::string caller;
-  cout << "Function: ";
-  caller += function->getResultType().getAsString();
-  caller += " "+function->getQualifiedNameAsString();
-  caller+= "(";
+  std::string funDecl;
+  funDecl += function->getResultType().getAsString();
+  funDecl += " "+function->getQualifiedNameAsString();
+  funDecl+= "(";
   bool first = true;
   clang::FunctionDecl::param_const_iterator paramIterate;
   for (paramIterate = function->param_begin();
        paramIterate != function->param_end();
        ++paramIterate) {
-    if (!first) caller += ",";
-    caller += (*paramIterate)->getType().getAsString() + " ";
+    if (!first) funDecl += ",";
+    funDecl += (*paramIterate)->getType().getAsString() + " ";
     if ( (*paramIterate)->getIdentifier() ) {
-      caller += (*paramIterate)->getIdentifier()->getName().str();
+      funDecl += (*paramIterate)->getIdentifier()->getName().str();
     }
     first = false;
   }
-  caller += ")";
+  funDecl += ")";
   if(clang::CXXMethodDecl::classof(decl)) 
   {
     const clang::CXXMethodDecl *method = 
@@ -43,15 +42,18 @@ void processFunction(const clang::Decl *decl) {
     }
     if ( method->getThisType(context).isConstQualified() ) 
     {
-      caller += " const";
+      funDecl += " const";
     }
   }
-  cout << caller << endl;
+  //cout << funDecl << endl;
+  lemon::ListDigraph::Node funcNode = graph.addNode();
+  nodeLabels[funcNode] = funDecl;
 } // end of processFunction
 
 // The following Visitor gives all namespace declarations.
 void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
 {
+   lemon::ListDigraph::NodeMap<std::string> nodeLabels(graph);
    for(clang::DeclGroupRef::iterator 
        declGroupIterate = declGroup.begin(); 
        declGroupIterate != declGroup.end(); 
