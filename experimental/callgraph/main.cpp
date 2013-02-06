@@ -62,11 +62,17 @@ int main(int argc, char *argv[])
    pp.getBuiltinInfo().InitializeBuiltins(pp.getIdentifierTable(), pp.getLangOptions());
 
    compiler.createASTContext();
-   compiler.setASTConsumer(new HylianASTConsumer());
+   HylianASTConsumer * consumer =  new HylianASTConsumer();
+   compiler.setASTConsumer(consumer);
    compiler.createSema(clang::TU_Complete, NULL);
 
    compiler.InitializeSourceManager(inputFilenames[0]);
    ParseAST(pp, &compiler.getASTConsumer(), compiler.getASTContext());
+
+   const lemon::ListDigraph& graph(consumer->getGraph());
+   lemon::DigraphWriter<lemon::ListDigraph> graphWriter(graph);
+   graphWriter.nodeMap("label", consumer->getNodeLabels());
+   graphWriter.run();
    
    return EXIT_SUCCESS;
 }
