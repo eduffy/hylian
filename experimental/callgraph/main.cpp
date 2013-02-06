@@ -69,10 +69,7 @@ int main(int argc, char *argv[])
    compiler.InitializeSourceManager(inputFilenames[0]);
    ParseAST(pp, &compiler.getASTConsumer(), compiler.getASTContext());
 
-   const lemon::ListDigraph& graph(consumer->getGraph());
-   lemon::DigraphWriter<lemon::ListDigraph> graphWriter(graph);
-   graphWriter.nodeMap("Call Graph Nodes:", consumer->getNodeLabels());
-   graphWriter.run();
+   consumer->writeCallgraph();
    
    return EXIT_SUCCESS;
 }

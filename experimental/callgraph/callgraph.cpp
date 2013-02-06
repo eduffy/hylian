@@ -4,6 +4,11 @@
 using  std::cout; using  std::endl;
 #include "callgraph.h"
 
+void HylianASTConsumer::writeCallgraph() {
+   graphWriter.nodeMap("Call Graph Nodes:", nodeLabels);
+   graphWriter.run();
+}
+
 void HylianASTConsumer::processFunction(const clang::Decl *decl) {
   const clang::FunctionDecl *function = 
         clang::dyn_cast<const clang::FunctionDecl>(decl);
