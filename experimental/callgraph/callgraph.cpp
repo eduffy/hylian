@@ -45,7 +45,6 @@ void HylianASTConsumer::processFunction(const clang::Decl *decl) {
       funDecl += " const";
     }
   }
-  //cout << funDecl << endl;
   lemon::ListDigraph::Node funcNode = graph.addNode();
   nodeLabels[funcNode] = funDecl;
 } // end of processFunction

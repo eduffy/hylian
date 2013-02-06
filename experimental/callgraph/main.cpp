@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 
    const lemon::ListDigraph& graph(consumer->getGraph());
    lemon::DigraphWriter<lemon::ListDigraph> graphWriter(graph);
-   graphWriter.nodeMap("label", consumer->getNodeLabels());
+   graphWriter.nodeMap("Call Graph Nodes:", consumer->getNodeLabels());
    graphWriter.run();
    
    return EXIT_SUCCESS;
