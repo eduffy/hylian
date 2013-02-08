@@ -5,7 +5,7 @@ using  std::cout; using  std::endl;
 #include "callgraph.h"
 
 void HylianASTConsumer::writeCallgraph() {
-   graphWriter.nodeMap("Call Graph Nodes:", nodeLabels);
+   graphWriter.nodeMap("label", nodeLabels);
    graphWriter.run();
 }
 
