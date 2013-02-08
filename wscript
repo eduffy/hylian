@@ -47,7 +47,7 @@ def check_llvm_version(conf, reqd):
   intver = map(int, version.split('.'))
   if intver < reqd:
     conf.fatal('no')
-  conf.end_msg('ok')
+  conf.end_msg(version)
 
 def configure(conf):
   conf.env.DEFINES = [ ]
