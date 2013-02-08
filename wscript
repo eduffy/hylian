@@ -5,6 +5,8 @@ from glob import glob
 import os, sys
 from subprocess import Popen
 from subprocess import PIPE
+from waflib.Configure import conf
+
 
 APPNAME = 'hylian'
 VERSION = '1.9.90'
@@ -38,6 +40,15 @@ def check_machine(conf):
   conf.env.DEFINES.append('GCC_MACHINE="%s"' % machine)
   conf.msg('Checking c++ machine', machine)
 
+@conf
+def check_llvm_version(conf, reqd):
+  conf.start_msg('Checking LLVM version >= %s' % '.'.join(map(str, reqd)))
+  version = exec_cmd('llvm-config --version')
+  intver = map(int, version.split('.'))
+  if intver < reqd:
+    conf.fatal('no')
+  conf.end_msg('ok')
+
 def configure(conf):
   conf.env.DEFINES = [ ]
   conf.msg('Setting prefix to', os.path.expanduser(conf.options.prefix))
@@ -54,6 +65,7 @@ def configure(conf):
   # llvm/libclang/clang checks
   conf.check_cfg(path='llvm-config', package='', uselib_store='llvm',
     args='--cflags --ldflags --libs')
+  conf.check_llvm_version([3,0])
   conf.env.append_value('CXXFLAGS_llvm', '-fno-rtti')
   conf.check(lib='LLVM-3.0',           uselib_store='llvm', uselib='llvm')
   conf.check(lib='clang',              uselib_store='libclang', uselib='llvm')
