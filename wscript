@@ -72,7 +72,6 @@ def configure(conf):
   conf.check(lib='LLVM-%s' % conf.env['LLVM_VERSION'][0],
            uselib_store='llvm', uselib='llvm')
   conf.check(lib='clang',              uselib_store='libclang', uselib='llvm')
-  conf.check(lib='clangIndex',         uselib_store='clang', uselib='llvm')
   conf.check(lib='clangFrontend',      uselib_store='clang', uselib='llvm')
   conf.check(lib='clangSerialization', uselib_store='clang', uselib='llvm')
   conf.check(lib='clangLex',           uselib_store='clang', uselib='llvm')
