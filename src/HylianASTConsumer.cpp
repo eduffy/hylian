@@ -89,8 +89,8 @@ bool HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
          case clang::Decl::ObjCIvar:
          case clang::Decl::ObjCAtDefsField:
          case clang::Decl::ObjCProtocol:
-         case clang::Decl::ObjCClass:
-         case clang::Decl::ObjCForwardProtocol:
+         //case clang::Decl::ObjCClass:
+         //case clang::Decl::ObjCForwardProtocol:
          case clang::Decl::ObjCCategory:
          //case clang::Decl::ObjCImpl:
          case clang::Decl::ObjCCategoryImpl:
