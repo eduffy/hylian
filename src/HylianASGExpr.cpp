@@ -333,10 +333,6 @@ void HylianASG::AddBlockExpr(const clang::BlockExpr *expr, clang::Decl *parent)
 {
 }
 
-void HylianASG::AddBlockDeclRefExpr(const clang::BlockDeclRefExpr *expr, clang::Decl *parent)
-{
-}
-
 void HylianASG::AddAsTypeExpr(const clang::AsTypeExpr *expr, clang::Decl *parent)
 {
 }

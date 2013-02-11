@@ -391,9 +391,6 @@ void HylianASG::HandleExpression(const clang::Expr *expr)
    else if(const clang::BlockExpr *p = clang::dyn_cast<const clang::BlockExpr>(expr)) {
       AddBlockExpr(p, NULL);
    }
-   else if(const clang::BlockDeclRefExpr *p = clang::dyn_cast<const clang::BlockDeclRefExpr>(expr)) {
-      AddBlockDeclRefExpr(p, NULL);
-   }
    else if(const clang::AsTypeExpr *p = clang::dyn_cast<const clang::AsTypeExpr>(expr)) {
       AddAsTypeExpr(p, NULL);
    }
