@@ -44,6 +44,7 @@ def check_machine(conf):
 def check_llvm_version(conf, reqd):
   conf.start_msg('Checking LLVM version >= %s' % '.'.join(map(str, reqd)))
   version = exec_cmd('llvm-config --version')
+  conf.env.append_value('LLVM_VERSION', version)
   version = re.match('[0-9\.]+', version).group()  # strip of non-numeric suffix
   intver = map(int, version.split('.'))
   if intver < reqd:
@@ -68,7 +69,8 @@ def configure(conf):
     args='--cflags --ldflags --libs')
   conf.check_llvm_version([3,2])
   conf.env.append_value('CXXFLAGS_llvm', '-fno-rtti')
-  conf.check(lib='LLVM-3.0',           uselib_store='llvm', uselib='llvm')
+  conf.check(lib='LLVM-%s' % conf.env['LLVM_VERSION'][0],
+           uselib_store='llvm', uselib='llvm')
   conf.check(lib='clang',              uselib_store='libclang', uselib='llvm')
   conf.check(lib='clangIndex',         uselib_store='clang', uselib='llvm')
   conf.check(lib='clangFrontend',      uselib_store='clang', uselib='llvm')
