@@ -2,7 +2,7 @@
 # encoding: ISO8859-1
 
 from glob import glob
-import os, sys
+import os, sys, re
 from subprocess import Popen
 from subprocess import PIPE
 from waflib.Configure import conf
@@ -44,6 +44,7 @@ def check_machine(conf):
 def check_llvm_version(conf, reqd):
   conf.start_msg('Checking LLVM version >= %s' % '.'.join(map(str, reqd)))
   version = exec_cmd('llvm-config --version')
+  version = re.match('[0-9\.]+', version).group()  # strip of non-numeric suffix
   intver = map(int, version.split('.'))
   if intver < reqd:
     conf.fatal('no')
