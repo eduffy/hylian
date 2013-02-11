@@ -6,7 +6,6 @@
 #include <llvm/Support/Path.h>
 #include <clang/Basic/Version.h>
 #include <clang/Basic/TargetInfo.h>
-#include <clang/Frontend/DiagnosticOptions.h>
 #include <clang/Frontend/CompilerInstance.h>
 #include <clang/Frontend/TextDiagnosticPrinter.h>
 #include <clang/Lex/Preprocessor.h>
@@ -79,10 +78,11 @@ int main(int argc, char *argv[])
    }, **argsEnd = &args[sizeof(args) / sizeof(void *)];
 
    clang::CompilerInstance compiler;
+   clang::DiagnosticOptions *diagOpts = new clang::DiagnosticOptions();
    clang::TextDiagnosticPrinter *DiagClient =
-      new clang::TextDiagnosticPrinter(llvm::errs(), clang::DiagnosticOptions());
+      new clang::TextDiagnosticPrinter(llvm::errs(), diagOpts);
    llvm::IntrusiveRefCntPtr<clang::DiagnosticIDs> DiagID(new clang::DiagnosticIDs());
-   clang::DiagnosticsEngine Diags(DiagID, DiagClient);
+   clang::DiagnosticsEngine Diags(DiagID, diagOpts);
 
 
    compiler.createDiagnostics(argsEnd - args, args);
