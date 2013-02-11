@@ -102,5 +102,6 @@ bool HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
             break;
       }
    }
+   return true;
 }
 
