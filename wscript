@@ -81,6 +81,7 @@ def configure(conf):
   conf.check(lib='clangBasic',         uselib_store='clang', uselib='llvm')
   conf.check(lib='clangAnalysis',      uselib_store='clang', uselib='llvm')
   conf.check(lib='clangAST',           uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangEdit'    ,      uselib_store='clang', uselib='llvm')
 
   conf.check(header_name='sqlite3.h')
   conf.check(header_name='sqlite3ext.h', mandatory=False)
