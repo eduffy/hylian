@@ -14,7 +14,7 @@ class HylianASTConsumer : public clang::ASTConsumer
 {
 public:
    HylianASTConsumer(std::string const& fn);
-   virtual void HandleTopLevelDecl(clang::DeclGroupRef declGroup);
+   virtual bool HandleTopLevelDecl(clang::DeclGroupRef declGroup);
 
 private:
    void HandleNamespaceDecl(const clang::NamespaceDecl *);

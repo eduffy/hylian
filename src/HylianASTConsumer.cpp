@@ -7,7 +7,7 @@ HylianASTConsumer::HylianASTConsumer(std::string const& fn)
 {
 }
 
-void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
+bool HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
 {
    for(clang::DeclGroupRef::iterator i = declGroup.begin(); i != declGroup.end(); ++i)
    {

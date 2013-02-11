@@ -55,7 +55,7 @@ void HylianASTConsumer::processFunction(const clang::Decl *decl) {
 } // end of processFunction
 
 // The following Visitor gives all namespace declarations.
-void HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
+bool HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
 {
    lemon::ListDigraph::NodeMap<std::string> nodeLabels(graph);
    for(clang::DeclGroupRef::iterator 

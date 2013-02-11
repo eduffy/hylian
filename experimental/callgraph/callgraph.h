@@ -17,7 +17,7 @@ public:
      nodeLabels(graph),
      graphWriter(graph)
    {}
-   virtual void HandleTopLevelDecl(clang::DeclGroupRef declGroup);
+   virtual bool HandleTopLevelDecl(clang::DeclGroupRef declGroup);
    void writeCallgraph();
 
 private:
