@@ -50,13 +50,13 @@ HylianASG::HylianASG(std::string const& fn)
    result = sqlite3_prepare_v2(db, comm.c_str(), comm.size(), &stmt, &tail);
    assert(result == SQLITE_OK);
    result = sqlite3_step(stmt);
-   assert(result == SQLITE_OK);
+   assert(result == SQLITE_DONE);
 
    comm = "CREATE TABLE IntegerLiteral(ID INTEGER PRIMARY KEY, Value BIGINT)";
    result = sqlite3_prepare_v2(db, comm.c_str(), comm.size(), &stmt, &tail);
    assert(result == SQLITE_OK);
    result = sqlite3_step(stmt);
-   assert(result == SQLITE_OK);
+   assert(result == SQLITE_DONE);
 }
 
 HylianASG::~HylianASG()
