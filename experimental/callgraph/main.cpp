@@ -3,7 +3,6 @@
 #include <llvm/Support/CrashRecoveryContext.h>
 #include <clang/Basic/Version.h>
 #include <clang/Basic/TargetInfo.h>
-#include <clang/Frontend/DiagnosticOptions.h>
 #include <clang/Frontend/CompilerInstance.h>
 #include <clang/Lex/Preprocessor.h>
 #include <clang/Lex/HeaderSearch.h>
@@ -59,14 +58,15 @@ int main(int argc, char *argv[])
 
    compiler.createPreprocessor();
    clang::Preprocessor &pp = compiler.getPreprocessor();
-   pp.getBuiltinInfo().InitializeBuiltins(pp.getIdentifierTable(), pp.getLangOptions());
+   pp.getBuiltinInfo().InitializeBuiltins(pp.getIdentifierTable(), pp.getLangOpts());
 
    compiler.createASTContext();
    HylianASTConsumer * consumer =  new HylianASTConsumer();
    compiler.setASTConsumer(consumer);
    compiler.createSema(clang::TU_Complete, NULL);
 
-   compiler.InitializeSourceManager(inputFilenames[0]);
+   clang::FrontendInputFile inp(inputFilenames[0], clang::IK_CXX);
+   compiler.InitializeSourceManager(inp);
    ParseAST(pp, &compiler.getASTConsumer(), compiler.getASTContext());
 
    consumer->writeCallgraph();
