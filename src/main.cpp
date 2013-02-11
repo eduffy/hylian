@@ -113,13 +113,14 @@ int main(int argc, char *argv[])
 
    compiler.createPreprocessor();
    clang::Preprocessor &pp = compiler.getPreprocessor();
-   pp.getBuiltinInfo().InitializeBuiltins(pp.getIdentifierTable(), pp.getLangOptions());
+   pp.getBuiltinInfo().InitializeBuiltins(pp.getIdentifierTable(), pp.getLangOpts());
 
    compiler.createASTContext();
    compiler.setASTConsumer(hylian);
    compiler.createSema(clang::TU_Complete, NULL);
 
-   compiler.InitializeSourceManager(inputFilenames[0]);
+   clang::FrontendInputFile inp(inputFilenames[0], clang::IK_CXX);
+   compiler.InitializeSourceManager(inp);
    ParseAST(pp, &compiler.getASTConsumer(), compiler.getASTContext());
    
    return EXIT_SUCCESS;
