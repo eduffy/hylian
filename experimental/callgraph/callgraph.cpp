@@ -1,7 +1,6 @@
 
 #include <string>
 #include <iostream>
-using  std::cout; using  std::endl;
 #include "callgraph.h"
 
 void HylianASTConsumer::writeCallgraph() {
@@ -36,13 +35,13 @@ void HylianASTConsumer::processFunction(const clang::Decl *decl) {
     clang::ASTContext& context = method->getParentASTContext();
     if ( method->isCopyAssignmentOperator() ) 
     {
-      cout<<"FUNCTION IS overloaded Assignment!\n";
+      std::cout << "FUNCTION IS overloaded Assignment!\n";
     }
     // The next function seems to be implemented incorrectly;
     // i.e., clang marks it false, but doesn't mark it true?
     if ( method->hasInlineBody() ) 
     {
-      cout << "FUNCTION " << function->getQualifiedNameAsString()
+      std::cout << "FUNCTION " << function->getQualifiedNameAsString()
            << " IS not INLINED!\n";
     }
     if ( method->getThisType(context).isConstQualified() ) 
@@ -75,12 +74,12 @@ bool HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
         if ( strcmp(decl->getDeclKindName(), "CXXRecord") == 0 ) {
   const clang::CXXRecordDecl *thisClass = 
         clang::dyn_cast<const clang::CXXRecordDecl>(decl);             
-          cout << "Class: " << thisClass->getNameAsString() << endl;
+          std::cout << "Class: " << thisClass->getNameAsString() << std::endl;
         }
         if ( strcmp(decl->getDeclKindName(), "Namespace") == 0 ) {
   const clang::NamespaceDecl *space = 
         clang::dyn_cast<const clang::NamespaceDecl>(decl);             
-          cout << "Namespace: " << space->getNameAsString() << endl;
+          std::cout << "Namespace: " << space->getNameAsString() << std::endl;
         }
       }
    }
