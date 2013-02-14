@@ -1,75 +1,46 @@
 
 #include <llvm/Config/config.h>
-#include <llvm/Support/CrashRecoveryContext.h>
 #include <clang/Basic/Version.h>
-#include <clang/Basic/TargetInfo.h>
-#include <clang/Frontend/CompilerInstance.h>
-#include <clang/Lex/Preprocessor.h>
-#include <clang/Lex/HeaderSearch.h>
-#include <clang/Parse/ParseAST.h>
+
+#include <llvm/Support/CommandLine.h>
+#include <clang/Frontend/FrontendActions.h>
+#include <clang/Tooling/CommonOptionsParser.h>
+#include <clang/Tooling/Tooling.h>
 #include "callgraph.h"
 
-int main(int argc, char *argv[])
+
+using clang::ASTFrontendAction;
+using clang::ASTConsumer;
+using clang::CompilerInstance;
+
+class CallgraphAction 
+   : public ASTFrontendAction
 {
-   llvm::cl::SetVersionPrinter(NULL);
+public:
+   virtual ASTConsumer *CreateASTConsumer(CompilerInstance &CI,
+                                          llvm::StringRef InFile)
+   {
+      return new HylianASTConsumer;
+   }
+};
 
-   // Using LLVM's command parser throws a lot of backend/architecture 
-   // options that we won't use.  But the command line parser will help
-   // help maintain command-line compatability, so we can build a drop-in 
-   // replacement for g++ and clang++.
-   llvm::cl::list<std::string> inputFilenames(llvm::cl::Positional, llvm::cl::desc("<C++ files>"));
-   llvm::cl::ParseCommandLineOptions(argc, argv, "hylian-c++");
-   
-   llvm::DisablePrettyStackTrace = false;
-   llvm::CrashRecoveryContext::Enable();
+using clang::tooling::newFrontendActionFactory;
+using clang::tooling::CommonOptionsParser;
+using clang::tooling::ClangTool;
 
-   const char *args[] = {
-      inputFilenames[0].c_str(),
-//      "-fspell-checking",
-   }, **argsEnd = &args[sizeof(args) / sizeof(void *)];
-
-   clang::CompilerInstance compiler;
-
-   compiler.createDiagnostics(argc, argv);
-   clang::CompilerInvocation::CreateFromArgs(compiler.getInvocation(), args, argsEnd, compiler.getDiagnostics());
-   compiler.setTarget(clang::TargetInfo::CreateTargetInfo(compiler.getDiagnostics(), compiler.getTargetOpts()));
-
-   compiler.createFileManager();
-   compiler.createSourceManager(compiler.getFileManager());
-
-   // Set up header file search path.
-   // 1. Standard C header files
-   compiler.getHeaderSearchOpts().AddPath("/usr/include",
-      clang::frontend::CXXSystem, false, false, false);
-   compiler.getHeaderSearchOpts().AddPath("/usr/include/bits",
-      clang::frontend::CXXSystem, false, false, false);
-   // 2. clang's internal header files
-   compiler.getHeaderSearchOpts().AddPath(LLVM_LIBDIR"/clang/"CLANG_VERSION_STRING"/include",
-      clang::frontend::CXXSystem, false, false, false);
-   // 3. GCC C++ header files
-   compiler.getHeaderSearchOpts().AddPath("/usr/include/c++/"GCC_VERSION,
-      clang::frontend::CXXSystem, false, false, false);
-   compiler.getHeaderSearchOpts().AddPath("/usr/include/c++/"GCC_VERSION"/tr1",
-      clang::frontend::CXXSystem, false, false, false);
-   compiler.getHeaderSearchOpts().AddPath("/usr/include/c++/"GCC_VERSION"/parallel",
-      clang::frontend::CXXSystem, false, false, false);
-   compiler.getHeaderSearchOpts().AddPath("/usr/include/c++/"GCC_VERSION"/"GCC_MACHINE,
-      clang::frontend::CXXSystem, false, false, false);
-
-   compiler.createPreprocessor();
-   clang::Preprocessor &pp = compiler.getPreprocessor();
-   pp.getBuiltinInfo().InitializeBuiltins(pp.getIdentifierTable(), pp.getLangOpts());
-
-   compiler.createASTContext();
-   HylianASTConsumer * consumer =  new HylianASTConsumer();
-   compiler.setASTConsumer(consumer);
-   compiler.createSema(clang::TU_Complete, NULL);
-
-   clang::FrontendInputFile inp(inputFilenames[0], clang::IK_CXX);
-   compiler.InitializeSourceManager(inp);
-   ParseAST(pp, &compiler.getASTConsumer(), compiler.getASTContext());
-
-   consumer->writeCallgraph();
-   
-   return EXIT_SUCCESS;
+int main(int argc, const char *argv[])
+{
+   const char *addl[] = { "--"
+                        /* FIXME:  There's got to be a better way to get system
+                         *         header files than this. */
+                        , "-I"LLVM_LIBDIR"/clang/"CLANG_VERSION_STRING"/include"
+                        , };
+   llvm::SmallVector<const char *, 16> args(argv, argv + argc);
+   args.append(addl, addl + sizeof(addl) / sizeof(const char *));
+   int nargs = args.size();
+   CommonOptionsParser opts(nargs, (args.data()));
+   ClangTool tool(opts.GetCompilations(),
+                  opts.GetSourcePathList());
+   return tool.run(newFrontendActionFactory<CallgraphAction>());
 }
+
