@@ -38,6 +38,8 @@ std::string CallgraphVisitor::getCompleteFunctionId(const clang::Decl *decl)
       }
       first = false;
    }
+   if(function->isVariadic())
+      funcId += ", ...";
    funcId += ")";
    if(clang::CXXMethodDecl::classof(decl)) 
    {
@@ -46,14 +48,14 @@ std::string CallgraphVisitor::getCompleteFunctionId(const clang::Decl *decl)
       clang::ASTContext &context = method->getParentASTContext();
       if(method->isCopyAssignmentOperator()) 
       {
-         std::cout << "FUNCTION IS overloaded Assignment!\n";
+        // std::cout << "FUNCTION IS overloaded Assignment!\n";
       }
       // The next function seems to be implemented incorrectly;
       // i.e., clang marks it false, but doesn't mark it true?
       if(method->hasInlineBody()) 
       {
-         std::cout << "FUNCTION " << function->getQualifiedNameAsString()
-                   << " IS not INLINED!\n";
+       //  std::cout << "FUNCTION " << function->getQualifiedNameAsString()
+       //            << " IS not INLINED!\n";
       }
       if(method->isStatic())
          funcId = "static " + funcId;
@@ -71,18 +73,23 @@ bool CallgraphVisitor::VisitCallExpr(clang::CallExpr *decl)
 {
    clang::FunctionDecl *func = decl->getDirectCallee();
    if(func) {
+      connections[current->getLocation().getRawEncoding()]
+                   .insert(func->getLocation().getRawEncoding());
+#if 0
       std::cout << getCompleteFunctionId(current)
                 << " [" << current->getLocation().getRawEncoding() << "]"
                 << "  -->  "
                 << getCompleteFunctionId(func)
                 << " [" << func->getLocation().getRawEncoding() << "]"
                 << std::endl;
+#endif
    }
    return true;
 }
 
 bool CallgraphVisitor::VisitFunctionDecl(clang::FunctionDecl *decl)
 {
+   functionNames[decl->getLocation().getRawEncoding()] = getCompleteFunctionId(decl);
    /* FIXME: this assumes no nested functions, and that all expressions
     *        occur within a function scope.  Both of these are true about
     *        99% of the time.

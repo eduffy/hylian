@@ -2,6 +2,10 @@
 #ifndef CALLGRAPH_H
 #define CALLGRAPH_H
 
+#include <map>
+#include <set>
+#include <string>
+
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/RecursiveASTVisitor.h>
 #include <lemon/list_graph.h>
@@ -21,6 +25,8 @@ public:
 
 private:
    clang::FunctionDecl *current;
+   std::map<unsigned, std::set<unsigned> > connections;
+   std::map<unsigned, std::string> functionNames;
 
    lemon::ListDigraph graph;
    lemon::ListDigraph::NodeMap<std::string> nodeLabels;
