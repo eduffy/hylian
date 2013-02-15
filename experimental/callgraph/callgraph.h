@@ -1,37 +1,35 @@
 
-#ifndef HYLIAN_CONSUMER_H
-#define HYLIAN_CONSUMER_H
+#ifndef CALLGRAPH_H
+#define CALLGRAPH_H
 
-#include <clang/AST/Decl.h>
-#include <clang/AST/DeclCXX.h>
-#include <clang/AST/GlobalDecl.h>
-#include <clang/AST/ASTConsumer.h>
+#include <clang/AST/ASTContext.h>
+#include <clang/AST/RecursiveASTVisitor.h>
 #include <lemon/list_graph.h>
 #include <lemon/lgf_writer.h>
 
-class HylianASTConsumer : public clang::ASTConsumer
+class CallgraphVisitor
+   : public clang::RecursiveASTVisitor<CallgraphVisitor>
 {
 public:
-   HylianASTConsumer() : 
-     graph(), 
-     nodeLabels(graph),
-     graphWriter(graph)
-   {}
-   virtual bool HandleTopLevelDecl(clang::DeclGroupRef declGroup);
+   CallgraphVisitor(clang::ASTContext *context);
+   virtual ~CallgraphVisitor() { }
+
    void writeCallgraph();
 
+   bool VisitCallExpr(clang::CallExpr *decl);
+   bool VisitFunctionDecl(clang::FunctionDecl *decl);
+
 private:
+   clang::FunctionDecl *current;
+
    lemon::ListDigraph graph;
    lemon::ListDigraph::NodeMap<std::string> nodeLabels;
    lemon::DigraphWriter<lemon::ListDigraph> graphWriter;
 
-   void HandleNamespaceDecl(const clang::NamespaceDecl *);
-   void HandleFunctionDecl(const clang::FunctionDecl *);
-   void HandleCXXMethodDecl(const clang::CXXMethodDecl *);
-   void processFunction(const clang::Decl *);
+   std::string getCompleteFunctionId(const clang::Decl *);
    const lemon::ListDigraph& getGraph() const { return graph; }
    const lemon::ListDigraph::NodeMap<std::string>& 
-     getNodeLabels() const { return nodeLabels; }
+   getNodeLabels() const { return nodeLabels; }
 };
 
-#endif  /* HYLIAN_CONSUMER_H */
+#endif  /* CALLGRAPH_H */

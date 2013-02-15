@@ -3,34 +3,42 @@
 #include <iostream>
 #include "callgraph.h"
 
-void HylianASTConsumer::writeCallgraph()
+CallgraphVisitor::CallgraphVisitor(clang::ASTContext *context)
+   : graph()
+   , nodeLabels(graph)
+   , graphWriter(graph)
+{
+   // empty
+}
+
+void CallgraphVisitor::writeCallgraph()
 {
    graphWriter.nodeMap("label", nodeLabels);
    graphWriter.run();
 }
 
-void HylianASTConsumer::processFunction(const clang::Decl *decl)
+std::string CallgraphVisitor::getCompleteFunctionId(const clang::Decl *decl)
 {
    const clang::FunctionDecl *function = 
       clang::dyn_cast<const clang::FunctionDecl>(decl);
-   std::string funDecl;
-   funDecl += function->getResultType().getAsString();
-   funDecl += " "+function->getQualifiedNameAsString();
-   funDecl+= "(";
+   std::string funcId;
+   funcId += function->getResultType().getAsString();
+   funcId += " "+function->getQualifiedNameAsString();
+   funcId+= "(";
    bool first = true;
    clang::FunctionDecl::param_const_iterator paramIterate;
    for (paramIterate = function->param_begin();
         paramIterate != function->param_end();
         ++paramIterate)
    {
-      if (!first) funDecl += ",";
-      funDecl += (*paramIterate)->getType().getAsString() + " ";
+      if (!first) funcId += ",";
+      funcId += (*paramIterate)->getType().getAsString() + " ";
       if((*paramIterate)->getIdentifier()) {
-         funDecl += (*paramIterate)->getIdentifier()->getName().str();
+         funcId += (*paramIterate)->getIdentifier()->getName().str();
       }
       first = false;
    }
-   funDecl += ")";
+   funcId += ")";
    if(clang::CXXMethodDecl::classof(decl)) 
    {
       const clang::CXXMethodDecl *method = 
@@ -49,43 +57,35 @@ void HylianASTConsumer::processFunction(const clang::Decl *decl)
       }
       if(method->getThisType(context).isConstQualified()) 
       {
-         funDecl += " const";
+         funcId += " const";
       }
    }
    lemon::ListDigraph::Node funcNode = graph.addNode();
-   nodeLabels[funcNode] = funDecl;
+   nodeLabels[funcNode] = funcId;
+   return funcId;
 } // end of processFunction
 
-// The following Visitor gives all namespace declarations.
-bool HylianASTConsumer::HandleTopLevelDecl(clang::DeclGroupRef declGroup)
+bool CallgraphVisitor::VisitCallExpr(clang::CallExpr *decl)
 {
-   lemon::ListDigraph::NodeMap<std::string> nodeLabels(graph);
-   for(clang::DeclGroupRef::iterator 
-       declGroupIterate = declGroup.begin(); 
-       declGroupIterate != declGroup.end(); 
-       ++declGroupIterate)
-   {
-      const clang::Decl *decl = 
-            clang::dyn_cast<clang::Decl>(*declGroupIterate);
-      if(clang::FunctionDecl::classof(decl)) {
-        // This is a function in the global anonymous namespace:
-        processFunction(decl);
-      }
-      else {
-        // A Namespace, CXXRecord, Typedef, LinkageSpec, Enum, or ...
-        //if ( decl->isNamespace() ) {
-        if(strcmp(decl->getDeclKindName(), "CXXRecord") == 0) {
-           const clang::CXXRecordDecl *thisClass = 
-              clang::dyn_cast<const clang::CXXRecordDecl>(decl);             
-           std::cout << "Class: " << thisClass->getNameAsString() << std::endl;
-        }
-        if(strcmp(decl->getDeclKindName(), "Namespace") == 0) {
-           const clang::NamespaceDecl *space = 
-              clang::dyn_cast<const clang::NamespaceDecl>(decl);             
-           std::cout << "Namespace: " << space->getNameAsString() << std::endl;
-        }
-      }
+   clang::FunctionDecl *func = decl->getDirectCallee();
+   if(func) {
+      std::cout << getCompleteFunctionId(current)
+                << " [" << current->getLocation().getRawEncoding() << "]"
+                << "  -->  "
+                << getCompleteFunctionId(func)
+                << " [" << func->getLocation().getRawEncoding() << "]"
+                << std::endl;
    }
+   return true;
+}
+
+bool CallgraphVisitor::VisitFunctionDecl(clang::FunctionDecl *decl)
+{
+   /* FIXME: this assumes no nested functions, and that all expressions
+    *        occur within a function scope.  Both of these are true about
+    *        99% of the time.
+    */
+   current = decl;
    return true;
 }
 
