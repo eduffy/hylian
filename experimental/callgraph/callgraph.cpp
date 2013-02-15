@@ -55,10 +55,8 @@ std::string CallgraphVisitor::getCompleteFunctionId(const clang::Decl *decl)
          std::cout << "FUNCTION " << function->getQualifiedNameAsString()
                    << " IS not INLINED!\n";
       }
-      if(method->getThisType(context).isConstQualified()) 
-      {
+      if(method->isConst())
          funcId += " const";
-      }
    }
    lemon::ListDigraph::Node funcNode = graph.addNode();
    nodeLabels[funcNode] = funcId;
