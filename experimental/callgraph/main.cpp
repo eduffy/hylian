@@ -26,6 +26,7 @@ struct CallgraphConsumer
    virtual void HandleTranslationUnit(clang::ASTContext &context)
    {
       visitor->TraverseDecl(context.getTranslationUnitDecl());
+      visitor->writeCallgraph();
    }
 
    CallgraphVisitor *visitor;

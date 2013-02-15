@@ -13,8 +13,24 @@ CallgraphVisitor::CallgraphVisitor(clang::ASTContext *context)
 
 void CallgraphVisitor::writeCallgraph()
 {
-   graphWriter.nodeMap("label", nodeLabels);
-   graphWriter.run();
+   std::map<unsigned, std::set<unsigned> >::const_iterator edge;
+   for(edge = connections.begin();
+       edge != connections.end();
+       ++edge)
+   {
+      std::set<unsigned>::const_iterator dest;
+      for(dest = edge->second.begin();
+          dest != edge->second.end();
+          ++dest)
+      {
+         std::cout << functionNames[edge->first]
+                   << "  --> "
+                   << functionNames[*dest]
+                   << std::endl;
+      }
+   }
+//   graphWriter.nodeMap("label", nodeLabels);
+//   graphWriter.run();
 }
 
 std::string CallgraphVisitor::getCompleteFunctionId(const clang::Decl *decl)
