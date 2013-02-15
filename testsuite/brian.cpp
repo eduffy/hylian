@@ -35,6 +35,6 @@ int main(int argc, char *argv[])
    A a;
    int i = a.getInt();
    int x = a.getFloat();
-   int e = A::isEven(10);
+   bool e = A::isEven(10) || A::isEven(11);
    return EXIT_SUCCESS;
 }
