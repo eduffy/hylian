@@ -55,6 +55,10 @@ std::string CallgraphVisitor::getCompleteFunctionId(const clang::Decl *decl)
          std::cout << "FUNCTION " << function->getQualifiedNameAsString()
                    << " IS not INLINED!\n";
       }
+      if(method->isStatic())
+         funcId = "static " + funcId;
+      if(method->isVolatile())
+         funcId += " volatile";
       if(method->isConst())
          funcId += " const";
    }
