@@ -98,7 +98,7 @@ def build(bld):
      target='libclangc-test', use='llvm libclang', install_path=None)
 
   bld.program(source=glob('experimental/callgraph/*.cpp'),
-     target='callgraph', install_path=None)
+     target='callgraph', use='llvm libclang clang', install_path=None)
 
 
   for gxl in glob('schemas/*.gxl'):
