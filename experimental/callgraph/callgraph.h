@@ -8,8 +8,8 @@
 
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/RecursiveASTVisitor.h>
-#include <lemon/list_graph.h>
-#include <lemon/lgf_writer.h>
+//#include <lemon/list_graph.h>
+//#include <lemon/lgf_writer.h>
 
 class CallgraphVisitor
    : public clang::RecursiveASTVisitor<CallgraphVisitor>
@@ -22,20 +22,22 @@ public:
 
    bool VisitCallExpr(clang::CallExpr *decl);
    bool VisitFunctionDecl(clang::FunctionDecl *decl);
+   bool VisitCXXConstructExpr(clang::CXXConstructExpr *decl);
 
 private:
-   clang::FunctionDecl *current;
+   clang::FunctionDecl *current, *mainDecl;
    std::map<unsigned, std::set<unsigned> > connections;
    std::map<unsigned, std::string> functionNames;
 
-   lemon::ListDigraph graph;
-   lemon::ListDigraph::NodeMap<std::string> nodeLabels;
-   lemon::DigraphWriter<lemon::ListDigraph> graphWriter;
+//   lemon::ListDigraph graph;
+//   lemon::ListDigraph::NodeMap<std::string> nodeLabels;
+//   lemon::DigraphWriter<lemon::ListDigraph> graphWriter;
 
+   void doWriteCallgraph(unsigned , std::set<unsigned> &);
    std::string getCompleteFunctionId(const clang::Decl *);
-   const lemon::ListDigraph& getGraph() const { return graph; }
-   const lemon::ListDigraph::NodeMap<std::string>& 
-   getNodeLabels() const { return nodeLabels; }
+//   const lemon::ListDigraph& getGraph() const { return graph; }
+//   const lemon::ListDigraph::NodeMap<std::string>& 
+//   getNodeLabels() const { return nodeLabels; }
 };
 
 #endif  /* CALLGRAPH_H */

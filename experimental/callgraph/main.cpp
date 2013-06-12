@@ -11,16 +11,26 @@
 #include <clang/Tooling/Tooling.h>
 #include "callgraph.h"
 
-struct CallgraphConsumer
-   : public clang::ASTConsumer
+struct CallgraphAction
+   : public clang::ASTFrontendAction
+   , public clang::ASTConsumer
 {
-   CallgraphConsumer(clang::ASTContext *context)
-      : visitor(new CallgraphVisitor(context))
+   CallgraphAction()
+   : clang::ASTFrontendAction()
+   , clang::ASTConsumer()
+      , visitor(NULL)
    { }
 
-   ~CallgraphConsumer()
+   virtual ~CallgraphAction()
    {
       delete visitor;
+   }
+
+   virtual clang::ASTConsumer *CreateASTConsumer(clang::CompilerInstance &ci,
+                                                 llvm::StringRef filename)
+   {
+      visitor = new CallgraphVisitor(&ci.getASTContext());
+      return this;
    }
 
    virtual void HandleTranslationUnit(clang::ASTContext &context)
@@ -30,16 +40,6 @@ struct CallgraphConsumer
    }
 
    CallgraphVisitor *visitor;
-};
-
-struct CallgraphAction
-   : public clang::ASTFrontendAction
-{
-   virtual clang::ASTConsumer *CreateASTConsumer(clang::CompilerInstance &ci,
-                                                 llvm::StringRef filename)
-   {
-      return new CallgraphConsumer(&ci.getASTContext());
-   }
 };
 
 using clang::tooling::newFrontendActionFactory;

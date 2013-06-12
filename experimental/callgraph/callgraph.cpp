@@ -4,31 +4,59 @@
 #include "callgraph.h"
 
 CallgraphVisitor::CallgraphVisitor(clang::ASTContext *context)
-   : graph()
-   , nodeLabels(graph)
-   , graphWriter(graph)
+   : current(NULL)
+   , mainDecl(NULL)
+//   : graph()
+//   , nodeLabels(graph)
+//   , graphWriter(graph)
+   
 {
    // empty
 }
 
+void CallgraphVisitor::doWriteCallgraph(unsigned f, std::set<unsigned> &seen)
+{
+   if(seen.count(f) > 0)
+      return;
+
+   seen.insert(f);
+
+   std::map<unsigned, std::set<unsigned> >::const_iterator fp = connections.find(f);
+   if(fp == connections.end())
+      return;
+
+   std::set<unsigned>::const_iterator dest;
+   for(dest = fp->second.begin();
+       dest != fp->second.end();
+       ++dest)
+   {
+      std::cout << "  f"    << f
+                << "  -> f" << *dest
+                << ";"      << std::endl;
+      doWriteCallgraph(*dest, seen);
+   }
+}
+
 void CallgraphVisitor::writeCallgraph()
 {
-   std::map<unsigned, std::set<unsigned> >::const_iterator edge;
-   for(edge = connections.begin();
-       edge != connections.end();
-       ++edge)
+   std::set<unsigned> seen;
+   std::set<unsigned>::const_iterator fp;
+//   std::map<unsigned, std::set<unsigned> >::const_iterator edge;
+//   std::map<unsigned, std::string>::const_iterator name;
+
+   assert(mainDecl != NULL);
+   std::cout << "digraph G {" << std::endl;
+   doWriteCallgraph(mainDecl->getLocation().getRawEncoding(), seen);
+
+   for(fp = seen.begin();
+       fp != seen.end();
+       ++fp)
    {
-      std::set<unsigned>::const_iterator dest;
-      for(dest = edge->second.begin();
-          dest != edge->second.end();
-          ++dest)
-      {
-         std::cout << functionNames[edge->first]
-                   << "  --> "
-                   << functionNames[*dest]
-                   << std::endl;
-      }
+      std::cout << "  f" << *fp
+                << "[label=\"" << functionNames[*fp]
+                << "\"];" << std::endl;
    }
+   std::cout << "}" << std::endl;
 //   graphWriter.nodeMap("label", nodeLabels);
 //   graphWriter.run();
 }
@@ -80,8 +108,8 @@ std::string CallgraphVisitor::getCompleteFunctionId(const clang::Decl *decl)
       if(method->isConst())
          funcId += " const";
    }
-   lemon::ListDigraph::Node funcNode = graph.addNode();
-   nodeLabels[funcNode] = funcId;
+//   lemon::ListDigraph::Node funcNode = graph.addNode();
+//   nodeLabels[funcNode] = funcId;
    return funcId;
 } // end of processFunction
 
@@ -111,6 +139,18 @@ bool CallgraphVisitor::VisitFunctionDecl(clang::FunctionDecl *decl)
     *        99% of the time.
     */
    current = decl;
+   if(decl->isMain()) {
+      mainDecl = decl;
+   }
    return true;
 }
 
+bool CallgraphVisitor::VisitCXXConstructExpr(clang::CXXConstructExpr *decl)
+{
+   clang::CXXConstructorDecl *func = decl->getConstructor();
+   if(func) {
+      connections[current->getLocation().getRawEncoding()]
+                   .insert(func->getLocation().getRawEncoding());
+   }
+   return true;
+}
