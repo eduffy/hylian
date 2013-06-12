@@ -113,6 +113,9 @@ std::string CallgraphVisitor::getCompleteFunctionId(const clang::Decl *decl)
    return funcId;
 } // end of processFunction
 
+/* TODO: Verify that this checks for implicit calls, like
+ * object destructors, operators, etc...
+ */
 bool CallgraphVisitor::VisitCallExpr(clang::CallExpr *decl)
 {
    clang::FunctionDecl *func = decl->getDirectCallee();
