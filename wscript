@@ -15,9 +15,6 @@ def exec_cmd(cmd):
   return Popen(cmd.split(), stdout=PIPE).communicate()[0].strip()
 
 def options(ctx):
-  ctx.add_option('--with-lemon', action='store', default=None, dest='lemondir',
-    help='path to lemon graph library')
-
   ctx.load('compiler_c')
   ctx.load('compiler_cxx')
   ctx.load('tex')
@@ -90,9 +87,6 @@ def configure(conf):
   conf.check(header_name='expat.h')
   conf.check(lib='expat', uselib_store='expat')
 
-  add_package(conf.options.lemondir)
-  conf.check_cfg(package='lemon', args='--cflags --libs', uselib_store='lemon')
-
 def build(bld):
 
   bld.program(source=glob('src/*.cpp'),
@@ -102,10 +96,8 @@ def build(bld):
      target='libclangc-test', use='llvm libclang', install_path=None)
 
   bld.program(source=glob('experimental/callgraph/*.cpp'),
-     target='callgraph', use='llvm libclang clang lemon', install_path=None)
+     target='callgraph', install_path=None)
 
-  bld.program(source=glob('experimental/lemon-test/main.cpp'),
-     target='lemon-test', use='lemon', install_path=None)
 
   for gxl in glob('schemas/*.gxl'):
     bgxl = os.path.basename(gxl)
