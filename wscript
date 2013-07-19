@@ -89,6 +89,9 @@ def configure(conf):
   conf.check(header_name='expat.h')
   conf.check(lib='expat', uselib_store='expat')
 
+  conf.check(header_name='zlib.h')
+  conf.check(lib='z', uselib_store='zlib')
+
 def build(bld):
 
   bld.program(source=glob('src/*.cpp'),
@@ -99,6 +102,9 @@ def build(bld):
 
   bld.program(source=glob('experimental/callgraph/*.cpp'),
      target='callgraph', use='llvm libclang clang', install_path=None)
+
+  bld.program(source=glob('experimental/gxlcallgraph/*.cpp'),
+     target='gxlcallgraph', use='expat zlib', install_path=None)
 
 
   for gxl in glob('schemas/*.gxl'):
