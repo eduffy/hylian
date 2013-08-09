@@ -24,6 +24,9 @@ public:
    Node *findHeadNodeOfType(std::string const&, Node*) const;
    Node *findTailNodeOfType(std::string const&, Node*) const;
    std::vector<Node*> findTailNodesOfType(std::string const&, Node*) const;
+   std::vector<Node*> findHeadNodesOfAnyType(Node *) const;
+
+   std::vector<Edge*> getAllEdgesOfType(std::string const&) const;
 
 private:
    std::map<std::string, Node*>       nodes;

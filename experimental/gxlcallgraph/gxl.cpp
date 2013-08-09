@@ -199,6 +199,35 @@ gxl::Graph::findTailNodesOfType(std::string const& type, Node *head) const
    return result;
 }
 
+std::vector<gxl::Node*>
+gxl::Graph::findHeadNodesOfAnyType(Node *tail) const
+{
+   std::vector<gxl::Node*> result;
+   std::pair<std::multimap<std::string, Edge*>::const_iterator,
+             std::multimap<std::string, Edge*>::const_iterator> range;
+   std::multimap<std::string, Edge*>::const_iterator p;
+   range = edgeTails.equal_range(tail->getId());
+   for(p = range.first; p != range.second; ++p) {
+      result.push_back(nodes.at(p->second->getHead()));
+   }
+   
+   return result;
+}
+
+std::vector<gxl::Edge*>
+gxl::Graph::getAllEdgesOfType(std::string const& type) const
+{
+   std::vector<Edge*> result;
+   std::map<std::string, Edge*>::const_iterator p;
+
+   for(p = edgeHeads.begin(); p != edgeHeads.end(); ++p) {
+      if(p->second->getType() == type)
+         result.push_back(p->second);
+   }
+   return result;
+}
+
+
 gxl::Node::Node(const char **attrs)
 {
    for(int i = 0; attrs[i] != NULL; i += 2)
