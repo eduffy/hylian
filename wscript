@@ -106,6 +106,9 @@ def build(bld):
   bld.program(source=glob('experimental/gxlcallgraph/*.cpp'),
      target='gxlcallgraph', use='expat zlib', install_path=None)
 
+  bld.program(source=glob('experimental/mccabe/*.cpp'),
+     target='mccabe', use='llvm libclang clang', install_path=None)
+
 
   for gxl in glob('schemas/*.gxl'):
     bgxl = os.path.basename(gxl)
