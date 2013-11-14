@@ -56,8 +56,8 @@ int main(int argc, const char *argv[])
    args.append(addl, addl + sizeof(addl) / sizeof(const char *));
    int nargs = args.size();
    CommonOptionsParser opts(nargs, args.data());
-   ClangTool tool(opts.GetCompilations(),
-                  opts.GetSourcePathList());
+   ClangTool tool(opts.getCompilations(),
+                  opts.getSourcePathList());
    return tool.run(newFrontendActionFactory<McCabeAction>());
 }
 

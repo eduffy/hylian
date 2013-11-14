@@ -64,21 +64,21 @@ def configure(conf):
   # llvm/libclang/clang checks
   conf.check_cfg(path='llvm-config', package='', uselib_store='llvm',
     args='--cflags --ldflags --libs')
-  conf.check_llvm_version([3,2])
+  conf.check_llvm_version([3,3])
   conf.env.append_value('CXXFLAGS_llvm', '-fno-rtti')
   conf.check(lib='LLVM-%s' % conf.env['LLVM_VERSION'][0],
            uselib_store='llvm', uselib='llvm')
   conf.check(lib='clang',              uselib_store='libclang', uselib='llvm')
   conf.check(lib='clangFrontend',      uselib_store='clang', uselib='llvm')
   conf.check(lib='clangSerialization', uselib_store='clang', uselib='llvm')
-  conf.check(lib='clangLex',           uselib_store='clang', uselib='llvm')
   conf.check(lib='clangDriver',        uselib_store='clang', uselib='llvm')
   conf.check(lib='clangParse',         uselib_store='clang', uselib='llvm')
   conf.check(lib='clangSema',          uselib_store='clang', uselib='llvm')
   conf.check(lib='clangAnalysis',      uselib_store='clang', uselib='llvm')
   conf.check(lib='clangAST',           uselib_store='clang', uselib='llvm')
-  conf.check(lib='clangBasic',         uselib_store='clang', uselib='llvm')
   conf.check(lib='clangEdit'    ,      uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangLex',           uselib_store='clang', uselib='llvm')
+  conf.check(lib='clangBasic',         uselib_store='clang', uselib='llvm')
   conf.check(lib='clangTooling',       uselib_store='clang', uselib='llvm')
 
 
@@ -94,6 +94,7 @@ def configure(conf):
 
 def build(bld):
 
+  """
   bld.program(source=glob('src/*.cpp'),
      target='bin/hylian-c++', use='llvm libclang clang sqlite3')
 
@@ -105,6 +106,7 @@ def build(bld):
 
   bld.program(source=glob('experimental/gxlcallgraph/*.cpp'),
      target='gxlcallgraph', use='expat zlib', install_path=None)
+  """
 
   bld.program(source=glob('experimental/mccabe/*.cpp'),
      target='mccabe', use='llvm libclang clang', install_path=None)
