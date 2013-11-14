@@ -93,7 +93,6 @@ def configure(conf):
   conf.check(lib='z', uselib_store='zlib')
 
 def build(bld):
-
   """
   bld.program(source=glob('src/*.cpp'),
      target='bin/hylian-c++', use='llvm libclang clang sqlite3')
@@ -106,15 +105,17 @@ def build(bld):
 
   bld.program(source=glob('experimental/gxlcallgraph/*.cpp'),
      target='gxlcallgraph', use='expat zlib', install_path=None)
-  """
 
   bld.program(source=glob('experimental/mccabe/*.cpp'),
      target='mccabe', use='llvm libclang clang', install_path=None)
+  """
+  bld.program(source=glob('experimental/lcom2/*.cpp'),
+     target='lcom2', use='llvm libclang clang', install_path=None)
 
-
+  """
   for gxl in glob('schemas/*.gxl'):
     bgxl = os.path.basename(gxl)
     bld(rule='cp ${SRC} ${TGT}', source=gxl,
         target=os.path.join('share/hylian', bgxl), install_path=None)
     bld.install_files('${PREFIX}/share/hylian', os.path.join('build/share/hylian',bgxl))
-
+  """
