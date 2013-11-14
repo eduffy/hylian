@@ -1,4 +1,5 @@
-
+#include <cstdio>
+#include <cstdlib>
 #include <llvm/Config/config.h>
 #include <clang/Basic/Version.h>
 
