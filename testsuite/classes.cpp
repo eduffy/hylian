@@ -11,6 +11,10 @@ public:
   }
   int getInt() const { return integer; };
   float getFloat() const { return integer; }
+  float half() const {
+    double two = 2.0;
+    return getInt() / two;
+  }
 private:
   int integer;
   int floatingPoint;
