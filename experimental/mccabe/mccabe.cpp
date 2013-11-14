@@ -1,6 +1,7 @@
 
 #include <string>
 #include <iostream>
+#include <cstdio>
 #include "mccabe.h"
 
 McCabeVisitor::McCabeVisitor(clang::ASTContext *context)
