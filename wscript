@@ -109,8 +109,8 @@ def build(bld):
   bld.program(source=glob('experimental/mccabe/*.cpp'),
      target='mccabe', use='llvm libclang clang', install_path=None)
   """
-  bld.program(source=glob('experimental/lcom2/*.cpp'),
-     target='lcom2', use='llvm libclang clang', install_path=None)
+  bld.program(source=glob('experimental/cpp2json/*.cpp'),
+     target='cpp2json', use='llvm libclang clang', install_path=None)
 
   """
   for gxl in glob('schemas/*.gxl'):
