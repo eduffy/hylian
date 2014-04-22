@@ -68,6 +68,7 @@ int main(int argc, const char *argv[])
                         /* FIXME:  There's got to be a better way to get system
                          *         header files than this. */
                         , "-I"LLVM_LIBDIR"/clang/"CLANG_VERSION_STRING"/include"
+                        , "-x", "c++"
                         , };
    llvm::SmallVector<const char *, 16> args(argv, argv + argc);
    args.append(addl, addl + sizeof(addl) / sizeof(const char *));
