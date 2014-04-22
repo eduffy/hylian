@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include <llvm/Config/config.h>
 #include <clang/Basic/Version.h>
 
@@ -11,34 +12,50 @@
 #include <clang/Tooling/Tooling.h>
 #include "cpp2json.h"
 
-struct CppToJsonAction
-   : public clang::ASTFrontendAction
-   , public clang::ASTConsumer
+struct CppToJsonConsumer
+   : public clang::ASTConsumer
 {
-   CppToJsonAction()
-      : clang::ASTFrontendAction()
-      , clang::ASTConsumer()
-      , visitor(NULL)
+   CppToJsonConsumer(clang::CompilerInstance &ci)
+      : clang::ASTConsumer()
+      , visitor(new CppToJsonVisitor(&ci.getASTContext()))
    { }
 
-   virtual ~CppToJsonAction()
+   virtual ~CppToJsonConsumer()
    {
       delete visitor;
-   }
-
-   virtual clang::ASTConsumer *CreateASTConsumer(clang::CompilerInstance &ci,
-                                                 llvm::StringRef filename)
-   {
-      visitor = new CppToJsonVisitor(&ci.getASTContext());
-      return this;
    }
 
    virtual void HandleTranslationUnit(clang::ASTContext &context)
    {
       visitor->TraverseDecl(context.getTranslationUnitDecl());
+      std::cout << visitor->getJSON() << std::endl;
    }
 
    CppToJsonVisitor *visitor;
+};
+
+struct CppToJsonAction
+   : public clang::ASTFrontendAction
+{
+   CppToJsonAction()
+      : clang::ASTFrontendAction()
+      , consumer(NULL)
+   { }
+
+   virtual ~CppToJsonAction()
+   {
+      // segfaults if you delete this
+      // delete consumer;
+   }
+
+   virtual clang::ASTConsumer *CreateASTConsumer(clang::CompilerInstance &ci,
+                                                 llvm::StringRef filename)
+   {
+      consumer = new CppToJsonConsumer(ci);
+      return consumer;
+   }
+
+   CppToJsonConsumer *consumer;
 };
 
 using clang::tooling::newFrontendActionFactory;
@@ -58,6 +75,7 @@ int main(int argc, const char *argv[])
    CommonOptionsParser opts(nargs, args.data());
    ClangTool tool(opts.getCompilations(),
                   opts.getSourcePathList());
-   return tool.run(newFrontendActionFactory<CppToJsonAction>());
+   int rescode = tool.run(newFrontendActionFactory<CppToJsonAction>());
+   return rescode;
 }
 
