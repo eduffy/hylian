@@ -66,6 +66,8 @@ def configure(conf):
     args='--cflags --ldflags --libs')
   conf.check_llvm_version([3,3])
   conf.env.append_value('CXXFLAGS_llvm', '-fno-rtti')
+  conf.env.append_value('CXXFLAGS_llvm', '-g')
+  conf.env.append_value('CXXFLAGS_llvm', '-ggdb')
   conf.check(lib='LLVM-%s' % conf.env['LLVM_VERSION'][0],
            uselib_store='llvm', uselib='llvm')
   conf.check(lib='clang',              uselib_store='libclang', uselib='llvm')
