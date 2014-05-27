@@ -99,7 +99,7 @@ bool CppToJsonVisitor::TraverseTranslationUnitDecl(clang::TranslationUnitDecl *d
       int stackSize = buildStack.size();
       TraverseDecl(*di);
       if(stackSize + 1 != buildStack.size()) {
-         std::cerr << "Unknown declaration type " << ((clang::Decl*)*di)->getDeclKindName() << "Decl" << std::endl;
+         /* std::cerr << "Unknown declaration type " << ((clang::Decl*)*di)->getDeclKindName() << "Decl" << std::endl; */
          continue;
       }
       decls->append(buildStack.top());
@@ -226,6 +226,7 @@ bool CppToJsonVisitor::TraverseFunctionDecl(clang::FunctionDecl *decl)
 
    result->insert("Kind",       "FunctionDecl");
    result->insert("returnType", decl->getResultType().getAsString());
+   result->insert("name",       decl->getNameInfo().getName().getAsString());
    result->insert("body",       StmtToJson(decl->getBody()));
    result->insert("params",     params);
    buildStack.push(result);
