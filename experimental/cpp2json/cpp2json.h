@@ -106,6 +106,7 @@ CAO_LIST()
 //buildStack.pop();}
       return json.str();
    }
+   JsonASTNode *getAST() { return buildStack.top(); }
 
 private:
    std::string getQualifiedName(const clang::Decl *);

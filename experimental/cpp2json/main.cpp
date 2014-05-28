@@ -26,13 +26,12 @@ struct CppToJsonConsumer
       delete visitor;
    }
 
-   virtual void HandleTranslationUnit(clang::ASTContext &context)
-   {
-      visitor->TraverseDecl(context.getTranslationUnitDecl());
-      std::cout << visitor->getJSON() << std::endl;
-   }
+   virtual void HandleTranslationUnit(clang::ASTContext &context);
+   CppToJsonVisitor *getVisitor() { return visitor; }
+   void setAction(struct CppToJsonAction *a) { action = a; }
 
    CppToJsonVisitor *visitor;
+   struct CppToJsonAction *action;
 };
 
 struct CppToJsonAction
@@ -53,16 +52,36 @@ struct CppToJsonAction
                                                  llvm::StringRef filename)
    {
       consumer = new CppToJsonConsumer(ci);
+      consumer->setAction(this);
       return consumer;
    }
+   CppToJsonConsumer *getConsumer() { return consumer; }
+   void setAST(JsonASTNode *a) { AST = a; }
+   JsonASTNode *getAST() { return AST; }
 
    CppToJsonConsumer *consumer;
+   JsonASTNode *AST;
 };
+
+class CppToJsonFrontendActionFactory
+   : public clang::tooling::FrontendActionFactory
+{
+public:
+   clang::FrontendAction *create() { return (action = new CppToJsonAction); }
+   CppToJsonAction *getAction() { return action; }
+private:
+   CppToJsonAction *action;
+};
+
+void CppToJsonConsumer::HandleTranslationUnit(clang::ASTContext &context)
+{
+   visitor->TraverseDecl(context.getTranslationUnitDecl());
+   action->setAST(visitor->getAST());
+}
 
 using clang::tooling::newFrontendActionFactory;
 using clang::tooling::CommonOptionsParser;
 using clang::tooling::ClangTool;
-
 
 int main(int argc, const char *argv[])
 {
@@ -78,7 +97,16 @@ int main(int argc, const char *argv[])
    CommonOptionsParser opts(nargs, args.data());
    ClangTool tool(opts.getCompilations(),
                   opts.getSourcePathList());
-   int rescode = tool.run(newFrontendActionFactory<CppToJsonAction>());
+
+   clang::TextDiagnosticBuffer diag;
+   CppToJsonFrontendActionFactory factory;
+   tool.setDiagnosticConsumer(&diag);
+   int rescode = tool.run(&factory);
+
+   JsonASTObject result;
+   result.insert("AST", factory.getAction()->getAST());
+   result.Print(std::cout);
+
    return 0;
 }
 
