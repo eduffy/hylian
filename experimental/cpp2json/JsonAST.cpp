@@ -6,6 +6,11 @@ std::ostream &JsonASTString::Print(std::ostream &os) const
    return os << "\"" << value << "\"";
 }
 
+std::ostream &JsonASTInt::Print(std::ostream &os) const
+{
+   return os << value;
+}
+
 void JsonASTList::append(JsonASTNode *value)
 {
    values.push_back(value);
@@ -44,6 +49,11 @@ void JsonASTObject::insert(std::string const& key, JsonASTNode *value)
 void JsonASTObject::insert(std::string const& key, std::string const& value)
 {
    insert(key, new JsonASTString(value));
+}
+
+void JsonASTObject::insert(std::string const& key, int value)
+{
+   insert(key, new JsonASTInt(value));
 }
 
 void JsonASTObject::insert(const char *key, JsonASTNode *value)

@@ -29,6 +29,16 @@ private:
    std::string value;
 };
 
+class JsonASTInt
+   : public JsonASTNode
+{
+public:
+   JsonASTInt(int v) : value(v) { }
+   std::ostream &Print(std::ostream &os) const;
+private:
+   int value;
+};
+
 class JsonASTList
    : public JsonASTNode
 {
@@ -47,6 +57,7 @@ public:
    JsonASTObject(clang::Stmt *obj = NULL);
    void insert(std::string const& key, JsonASTNode *value);
    void insert(std::string const& key, std::string const& value);
+   void insert(std::string const& key, int value);
    void insert(const char *key, JsonASTNode *value);
    std::ostream &Print(std::ostream &os) const;
 private:
