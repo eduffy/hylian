@@ -2,6 +2,7 @@
 #include <iostream>
 #include <llvm/Config/config.h>
 #include <clang/Basic/Version.h>
+#include <clang/Basic/SourceManager.h>
 
 #include <clang/Frontend/FrontendActions.h>
 #include <clang/Frontend/CompilerInstance.h>
@@ -51,6 +52,8 @@ struct CppToJsonAction
    virtual clang::ASTConsumer *CreateASTConsumer(clang::CompilerInstance &ci,
                                                  llvm::StringRef filename)
    {
+      sourceManager = &ci.getSourceManager();
+      sourceManager->Retain();
       consumer = new CppToJsonConsumer(ci);
       consumer->setAction(this);
       return consumer;
@@ -58,8 +61,10 @@ struct CppToJsonAction
    CppToJsonConsumer *getConsumer() { return consumer; }
    void setAST(JsonASTNode *a) { AST = a; }
    JsonASTNode *getAST() { return AST; }
+   clang::SourceManager &getSourceManager() { return *sourceManager; }
 
    CppToJsonConsumer *consumer;
+   clang::SourceManager *sourceManager;
    JsonASTNode *AST;
 };
 
@@ -106,11 +111,26 @@ int main(int argc, const char *argv[])
    JsonASTObject result;
    JsonASTList   warnings, errors;
    clang::TextDiagnosticBuffer::const_iterator di;
+   clang::SourceManager &SM = factory.getAction()->getSourceManager();
 
-   for(di = diag.warn_begin(); di != diag.warn_end(); ++di)
-      warnings.append(di->second);
-   for(di = diag.err_begin(); di != diag.err_end(); ++di)
-      errors.append(di->second);
+   for(di = diag.warn_begin(); di != diag.warn_end(); ++di) {
+      JsonASTObject *w = new JsonASTObject;
+      clang::PresumedLoc pl = SM.getPresumedLoc(di->first);
+
+      w->insert("message", di->second);
+      w->insert("line",    pl.getLine());
+      w->insert("column",  pl.getColumn());
+      warnings.append(w);
+   }
+   for(di = diag.err_begin(); di != diag.err_end(); ++di) {
+      JsonASTObject *e = new JsonASTObject;
+      clang::PresumedLoc pl = SM.getPresumedLoc(di->first);
+
+      e->insert("message", di->second);
+      e->insert("line",    pl.getLine());
+      e->insert("column",  pl.getColumn());
+      errors.append(e);
+   }
 
    result.insert("AST",      factory.getAction()->getAST());
    result.insert("Warnings", &warnings);
