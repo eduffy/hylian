@@ -34,6 +34,7 @@ class JsonASTList
 {
 public:
    void append(JsonASTNode *value);
+   void append(std::string const& value);
    std::ostream &Print(std::ostream &os) const;
 private:
    std::list<JsonASTNode *> values;

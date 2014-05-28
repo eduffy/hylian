@@ -11,6 +11,11 @@ void JsonASTList::append(JsonASTNode *value)
    values.push_back(value);
 }
 
+void JsonASTList::append(std::string const& value)
+{
+   values.push_back(new JsonASTString(value));
+}
+
 std::ostream &JsonASTList::Print(std::ostream &os) const
 {
    os << "[";
