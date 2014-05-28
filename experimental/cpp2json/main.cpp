@@ -104,7 +104,18 @@ int main(int argc, const char *argv[])
    int rescode = tool.run(&factory);
 
    JsonASTObject result;
-   result.insert("AST", factory.getAction()->getAST());
+   JsonASTList   warnings, errors;
+   clang::TextDiagnosticBuffer::const_iterator di;
+
+   for(di = diag.warn_begin(); di != diag.warn_end(); ++di)
+      warnings.append(di->second);
+   for(di = diag.err_begin(); di != diag.err_end(); ++di)
+      errors.append(di->second);
+
+   result.insert("AST",      factory.getAction()->getAST());
+   result.insert("Warnings", &warnings);
+   result.insert("Errors",   &errors);
+
    result.Print(std::cout);
 
    return 0;
