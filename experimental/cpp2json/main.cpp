@@ -1,4 +1,5 @@
 
+#include <fstream>
 #include <iostream>
 #include <llvm/Config/config.h>
 #include <clang/Basic/Version.h>
@@ -87,6 +88,9 @@ void CppToJsonConsumer::HandleTranslationUnit(clang::ASTContext &context)
 using clang::tooling::newFrontendActionFactory;
 using clang::tooling::CommonOptionsParser;
 using clang::tooling::ClangTool;
+namespace cl = llvm::cl;
+
+cl::opt<std::string> OutputFilename("o", cl::desc("Specify output filename"), cl::value_desc("filename"));
 
 int main(int argc, const char *argv[])
 {
@@ -136,7 +140,9 @@ int main(int argc, const char *argv[])
    result.insert("Warnings", &warnings);
    result.insert("Errors",   &errors);
 
-   result.Print(std::cout);
+   std::ofstream output(OutputFilename.c_str());
+   result.Print(output);
+   output.close();
 
    return 0;
 }
