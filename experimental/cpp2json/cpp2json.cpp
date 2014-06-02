@@ -190,6 +190,11 @@ bool CppToJsonVisitor::TraverseReturnStmt(clang::ReturnStmt *stmt)
    return GenericTraverseStmt(stmt, "retValue", NULL);
 }
 
+bool CppToJsonVisitor::TraverseContinueStmt(clang::ContinueStmt *stmt)
+{
+   return GenericTraverseStmt(stmt, NULL);
+}
+
 bool CppToJsonVisitor::TraverseBreakStmt(clang::BreakStmt *stmt)
 {
    return GenericTraverseStmt(stmt, NULL);
