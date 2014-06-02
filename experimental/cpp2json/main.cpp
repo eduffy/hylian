@@ -140,9 +140,14 @@ int main(int argc, const char *argv[])
    result.insert("Warnings", &warnings);
    result.insert("Errors",   &errors);
 
-   std::ofstream output(OutputFilename.c_str());
-   result.Print(output);
-   output.close();
+   if(OutputFilename == "" || OutputFilename == "-") {
+      result.Print(std::cout);
+   }
+   else {
+      std::ofstream output(OutputFilename.c_str());
+      result.Print(output);
+      output.close();
+   }
 
    return 0;
 }
