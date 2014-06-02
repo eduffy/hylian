@@ -70,7 +70,7 @@ bool TraverseDeclStmt(clang::DeclStmt *stmt);
 bool TraverseNullStmt(clang::NullStmt *stmt);
 bool TraverseReturnStmt(clang::ReturnStmt *stmt);
 bool TraverseBreakStmt(clang::BreakStmt *stmt);
-bool TraverseCompoundStmt(clang::CompoundStmt *stmt);
+bool TraverseContinueStmt(clang::ContinueStmt *stmt);
 bool TraverseIfStmt(clang::IfStmt *stmt);
 bool TraverseForStmt(clang::ForStmt *stmt);
    bool TraverseCaseStmt(clang::CaseStmt *stmt);
