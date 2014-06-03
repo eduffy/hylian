@@ -175,6 +175,11 @@ bool CppToJsonVisitor::TraverseCaseStmt(clang::CaseStmt *stmt)
    return GenericTraverseStmt(stmt, "lhs", "rhs", "subStmt", NULL);
 }
 
+bool CppToJsonVisitor::TraverseDefaultStmt(clang::DefaultStmt *stmt)
+{
+   return GenericTraverseStmt(stmt, "subStmt", NULL);
+}
+
 bool CppToJsonVisitor::TraverseWhileStmt(clang::WhileStmt *stmt)
 {
    return GenericTraverseStmt(stmt, "var", "cond", "body", NULL);

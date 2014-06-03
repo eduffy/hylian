@@ -74,6 +74,7 @@ bool TraverseContinueStmt(clang::ContinueStmt *stmt);
 bool TraverseIfStmt(clang::IfStmt *stmt);
 bool TraverseForStmt(clang::ForStmt *stmt);
    bool TraverseCaseStmt(clang::CaseStmt *stmt);
+bool TraverseDefaultStmt(clang::DefaultStmt *stmt);
    bool TraverseSwitchStmt(clang::SwitchStmt *stmt);
    bool TraverseWhileStmt(clang::WhileStmt *stmt);
    bool TraverseDoStmt(clang::DoStmt *stmt);
