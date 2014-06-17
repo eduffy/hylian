@@ -286,3 +286,12 @@ BINOP_LIST()
 CAO_LIST()
 #undef OPERATOR
 
+bool CppToJsonVisitor::TraverseConditionalOperator(clang::ConditionalOperator *expr)
+{
+   JsonASTObject *result = new JsonASTObject(expr);
+   result->insert("condition", StmtToJson(expr->getCond()));
+   result->insert("then",  StmtToJson(expr->getLHS()));
+   result->insert("else",  StmtToJson(expr->getRHS()));
+   buildStack.push(result);
+   return true;
+}

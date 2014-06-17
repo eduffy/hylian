@@ -100,6 +100,8 @@ BINOP_LIST()
 CAO_LIST()
 #undef OPERATOR
 
+  bool TraverseConditionalOperator(clang::ConditionalOperator *expr);
+
    std::string getJSON() 
    {
       std::stringstream json;
