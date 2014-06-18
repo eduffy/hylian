@@ -192,7 +192,16 @@ bool CppToJsonVisitor::TraverseDoStmt(clang::DoStmt *stmt)
 
 bool CppToJsonVisitor::TraverseReturnStmt(clang::ReturnStmt *stmt)
 {
-   return GenericTraverseStmt(stmt, "retValue", NULL);
+//   return GenericTraverseStmt(stmt, "retValue", NULL);
+   JsonASTObject *result = new JsonASTObject(stmt);
+   if(stmt->getRetValue()) {
+      result->insert("retValue", StmtToJson(stmt->getRetValue()));
+   }
+   else {
+      result->insert("retValue", NULL);
+   }
+   buildStack.push(result);
+   return true;
 }
 
 bool CppToJsonVisitor::TraverseContinueStmt(clang::ContinueStmt *stmt)
@@ -244,6 +253,7 @@ bool CppToJsonVisitor::TraverseFunctionDecl(clang::FunctionDecl *decl)
    result->insert("name",       decl->getNameInfo().getName().getAsString());
    result->insert("body",       StmtToJson(decl->getBody()));
    result->insert("params",     params);
+   result->insert("clang-id",   decl->getGlobalID());
    buildStack.push(result);
  
    return true;
