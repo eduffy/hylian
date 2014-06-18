@@ -305,3 +305,24 @@ bool CppToJsonVisitor::TraverseConditionalOperator(clang::ConditionalOperator *e
    buildStack.push(result);
    return true;
 }
+
+bool CppToJsonVisitor::TraverseCallExpr(clang::CallExpr *expr)
+{
+   JsonASTObject *result = new JsonASTObject(expr);
+   JsonASTList   *args   = new JsonASTList;
+   if(expr->getDirectCallee()) {
+     result->insert("callee", expr->getDirectCallee()->getNameInfo().getName().getAsString());
+   }
+   else {
+     result->insert("callee", "what is this? function pointer?");
+   }
+
+   clang::CallExpr::arg_iterator p;
+   for(p = expr->arg_begin(); p != expr->arg_end(); ++p) {
+      args->append(StmtToJson(*p));
+   }
+   result->insert("args", args);
+
+   buildStack.push(result);
+   return true;
+}

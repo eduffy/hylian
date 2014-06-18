@@ -101,6 +101,7 @@ CAO_LIST()
 #undef OPERATOR
 
   bool TraverseConditionalOperator(clang::ConditionalOperator *expr);
+  bool TraverseCallExpr(clang::CallExpr *expr);
 
    std::string getJSON() 
    {
