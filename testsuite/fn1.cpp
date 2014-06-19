@@ -16,6 +16,14 @@ int factorial(int n) {
   else return multiply(n, factorial(n-1));
 }
 
+int max(int a, int b) {
+  return a > b ? a : b;
+}
+
+int max(int a, int b, int c) {
+  return max(a, max(b, c));
+}
+
 int main() {
   int n = factorial(5);
   int m;
@@ -23,4 +31,5 @@ int main() {
     m = increment(n);
   }
   else m = decrement(n);
+  int z = max(5, 2, 3);
 }
