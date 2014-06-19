@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 
+#include <clang/AST/Mangle.h>
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/RecursiveASTVisitor.h>
 
@@ -114,7 +115,11 @@ CAO_LIST()
    }
    JsonASTNode *getAST() { return buildStack.top(); }
 
+   void setMangleContext(clang::MangleContext *mc)
+   { mangleContext = mc; }
+
 private:
+   clang::MangleContext *mangleContext;
    std::string getQualifiedName(const clang::Decl *);
 
    std::stack<JsonASTNode *> buildStack;

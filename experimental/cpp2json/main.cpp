@@ -11,6 +11,7 @@
 #include <llvm/Support/CommandLine.h>
 #include <clang/AST/ASTConsumer.h>
 #include <clang/AST/ASTContext.h>
+#include <clang/AST/Mangle.h>
 #include <clang/Tooling/CommonOptionsParser.h>
 #include <clang/Tooling/Tooling.h>
 #include "cpp2json.h"
@@ -55,6 +56,8 @@ struct CppToJsonAction
    {
       sourceManager = &ci.getSourceManager();
       sourceManager->Retain();
+      diagnostics = &sourceManager->getDiagnostics();
+      diagnostics->Retain();
       consumer = new CppToJsonConsumer(ci);
       consumer->setAction(this);
       return consumer;
@@ -63,9 +66,11 @@ struct CppToJsonAction
    void setAST(JsonASTNode *a) { AST = a; }
    JsonASTNode *getAST() { return AST; }
    clang::SourceManager &getSourceManager() { return *sourceManager; }
+   clang::DiagnosticsEngine &getDiagnosticsEngine() { return *diagnostics; }
 
    CppToJsonConsumer *consumer;
    clang::SourceManager *sourceManager;
+   clang::DiagnosticsEngine *diagnostics;
    JsonASTNode *AST;
 };
 
@@ -81,6 +86,8 @@ private:
 
 void CppToJsonConsumer::HandleTranslationUnit(clang::ASTContext &context)
 {
+   clang::MangleContext *mangleContext = clang::ItaniumMangleContext::create(context, action->getDiagnosticsEngine());
+   visitor->setMangleContext(mangleContext);
    visitor->TraverseDecl(context.getTranslationUnitDecl());
    action->setAST(visitor->getAST());
 }

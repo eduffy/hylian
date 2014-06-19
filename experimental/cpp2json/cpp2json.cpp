@@ -239,6 +239,10 @@ bool CppToJsonVisitor::TraverseFunctionDecl(clang::FunctionDecl *decl)
 {
    JsonASTObject *result = new JsonASTObject;
    JsonASTList   *params = new JsonASTList;
+   std::string    mangledName;
+
+   llvm::raw_string_ostream os(mangledName);
+   mangleContext->mangleCXXName(decl, os);
 
    clang::FunctionDecl::param_const_iterator p;
    for(p = decl->param_begin(); p != decl->param_end(); p++) {
@@ -253,7 +257,7 @@ bool CppToJsonVisitor::TraverseFunctionDecl(clang::FunctionDecl *decl)
    result->insert("name",       decl->getNameInfo().getName().getAsString());
    result->insert("body",       StmtToJson(decl->getBody()));
    result->insert("params",     params);
-   result->insert("clang-id",   decl->getGlobalID());
+   result->insert("mangled",    os.str());
    buildStack.push(result);
  
    return true;
@@ -310,8 +314,16 @@ bool CppToJsonVisitor::TraverseCallExpr(clang::CallExpr *expr)
 {
    JsonASTObject *result = new JsonASTObject(expr);
    JsonASTList   *args   = new JsonASTList;
+
+
    if(expr->getDirectCallee()) {
-     result->insert("callee", expr->getDirectCallee()->getNameInfo().getName().getAsString());
+     clang::FunctionDecl *fd = expr->getDirectCallee();
+     std::string    mangledName;
+     llvm::raw_string_ostream os(mangledName);
+
+     mangleContext->mangleCXXName(fd, os);
+     result->insert("callee", fd->getNameInfo().getName().getAsString());
+     result->insert("callee-mangled", os.str());
    }
    else {
      result->insert("callee", "what is this? function pointer?");
