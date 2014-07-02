@@ -67,6 +67,8 @@ JsonASTObject *GenericTraverseDecl(clang::Decl *decl);
 bool TraverseTranslationUnitDecl(clang::TranslationUnitDecl *decl);
 bool TraverseTypedefDecl(clang::TypedefDecl *decl);
 bool TraverseIntegerLiteral(clang::IntegerLiteral *stmt);
+bool TraverseCharacterLiteral(clang::CharacterLiteral *stmt);
+bool TraverseCXXBoolLiteralExpr(clang::CXXBoolLiteralExpr *expr);
 bool TraverseDeclStmt(clang::DeclStmt *stmt);
 bool TraverseNullStmt(clang::NullStmt *stmt);
 bool TraverseReturnStmt(clang::ReturnStmt *stmt);

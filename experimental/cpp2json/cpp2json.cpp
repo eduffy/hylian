@@ -128,6 +128,29 @@ bool CppToJsonVisitor::TraverseIntegerLiteral(clang::IntegerLiteral *lit)
    return true;
 }
 
+bool CppToJsonVisitor::TraverseCharacterLiteral(clang::CharacterLiteral *lit)
+{
+   const char *KINDS[] = { "ASCII", "Wide", "UTF-16", "UTF-32" };
+   char tmp[2] = { 0, 0 };
+   JsonASTObject *result = new JsonASTObject(lit);
+   result->insert("encoding", KINDS[lit->getKind()]);
+   result->insert("value", lit->getValue());
+   if(lit->getKind() == clang::CharacterLiteral::Ascii) {
+     tmp[0] = lit->getValue();
+     result->insert("char", std::string(tmp));
+   }
+   buildStack.push(result);
+   return true;
+}
+
+bool CppToJsonVisitor::TraverseCXXBoolLiteralExpr(clang::CXXBoolLiteralExpr *lit)
+{
+   JsonASTObject *result = new JsonASTObject(lit);
+   result->insert("value", lit->getValue() ? "true" : "false");
+   buildStack.push(result);
+   return true;
+}
+
 bool CppToJsonVisitor::TraverseDeclStmt(clang::DeclStmt *stmt)
 {
    JsonASTList *decls = new JsonASTList;
